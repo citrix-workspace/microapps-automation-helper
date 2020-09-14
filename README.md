@@ -1,24 +1,24 @@
-# citrix-iws
+# Microapps Automation Helper
 
-> citrix-iws is a library which provides common functions to test integration between Microapps Admin and Citrix Worskspace
+> Microapps automation helper is a library which provides common functions to test integration between Microapps Admin and Citrix Worskspace
 
 ## Getting Started
 
 ### Installation
 
-To use citrix-iws in your project, run:
+To use microapps-automation-helper in your project, run:
 
 ```bash
-npm i citrix-iws
-# or "yarn add citrix-iws"
+npm i microapps-automation-helper
+# or "yarn add microapps-automation-helper"
 ```
 
 **Example** - How to use.
 
 Import package and call login to Workspace
 
-```js
-import { CitrixCloud, Workspace, MicroappsAdmin } from "citrix-iws";
+```ts
+import { CitrixCloud, Workspace, MicroappsAdmin } from "microapps-automation-helper";
 const workspace = new Workspace();
 
 (async () => {
