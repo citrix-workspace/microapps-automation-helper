@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "> citrix-iws is a library which provides common functions to test integration between Microapps Admin and Citrix Worskspace",
   "main": "index.js",
+  "types": "main.d.ts",
   "dependencies": {
     "axios": "^0.20.0",
     "form-data": "^3.0.0",
