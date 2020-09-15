@@ -357,6 +357,7 @@ export declare type GetCitrixCloudTokens = {
     citrixCloudClientSecret: string;
 };
 
+
 import { API } from './api';
 /** Class representing a Citrix Cloud. */
 export declare class CitrixCloud extends API {
@@ -405,7 +406,7 @@ export declare class MicroappsAdmin extends API {
      * @param {string} - Username
      * @param {string} - Password
      */
-    login({ page, url, username, password, mfa, secretKey }: Login): Promise<void>;
+    login({ page, url, username, password, mfa, secretKey }: MicroappsAdminLogin): Promise<void>;
     /**
      * Get Integration Id
      * @param {Object} authInstance - Authorized instance for API calls
@@ -567,7 +568,7 @@ export declare class MicroappsAdmin extends API {
      */
     getLastTimeSync({ authInstance, microappsAdminUrl, integrationName }: GetLastSyncTime): Promise<any>;
 }
-export declare type Login = {
+export declare type MicroappsAdminLogin = {
     page: Page;
     url: string;
     username: string;
