@@ -21,7 +21,7 @@ export class MicroappsAdmin extends API {
      * @param {string} - Password
      */
 
-    async login({ page, url, username, password, mfa = null, secretKey }: Login) {
+    async login({ page, url, username, password, mfa = null, secretKey }: MicroappsAdminLogin) {
         await page.goto(url, { waitUntil: 'domcontentloaded' });
         await page.waitForSelector('#username');
         await page.type('#username', username);
@@ -832,7 +832,7 @@ export class MicroappsAdmin extends API {
 }
 
 
-export type Login = {
+export type MicroappsAdminLogin = {
     page: Page;
     url: string;
     username: string;
