@@ -8,7 +8,7 @@
     "axios": "^0.20.0",
     "form-data": "^3.0.0",
     "otplib": "^12.0.1",
-    "playwright-core": "^1.4.0",
+    "playwright": "^1.4.0",
     "typescript": "^4.0.2"
   },
   "devDependencies": {},

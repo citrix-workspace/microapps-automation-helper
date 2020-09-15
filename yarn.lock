@@ -257,10 +257,10 @@ pend@~1.2.0:
   resolved "https://registry.yarnpkg.com/pend/-/pend-1.2.0.tgz#7a57eb550a6783f9115331fcf4663d5c8e007a50"
   integrity sha1-elfrVQpng/kRUzH89GY9XI4AelA=
 
-playwright-core@^1.4.0:
+playwright@^1.4.0:
   version "1.4.0"
-  resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.4.0.tgz#ab66be6eed45f40823b082e8a84375559415784a"
-  integrity sha512-mbfel8GrpsWsZHcDP8HdJxhkV7iNP8MTmloB7Q2GP9xX4JhRX5fTZHwRa/5n0MZVVv4XV1qVOlbgBLpaMdO0KQ==
+  resolved "https://registry.yarnpkg.com/playwright/-/playwright-1.4.0.tgz#216e153ce8935290cdf08ff73d075cfaac31b1fc"
+  integrity sha512-x8aK5zZXNW+73QiEtyK4fK1rY0MMUpEsieTExlkNrBNF7DD6Qc+85oyp6sCg0iPoYkr4IZctFJdkMcECOTZ28w==
   dependencies:
     debug "^4.1.1"
     extract-zip "^2.0.1"
