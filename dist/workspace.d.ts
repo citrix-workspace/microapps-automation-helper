@@ -1,4 +1,4 @@
-import { Page } from 'playwright-core';
+import { Page } from 'playwright';
 /** Class representing a Workspace. */
 export declare class Workspace {
     constructor();
@@ -49,7 +49,7 @@ export declare class Workspace {
      * @param {string} feedCardId - Id of the FeedCard
      * @param {string} buttonName - Text on the Button
      */
-    getFeedCardButton({ page, feedCardId, buttonName }: GetFeedCardButton): Promise<import("playwright-core").ElementHandle<SVGElement | HTMLElement>[]>;
+    getFeedCardButton({ page, feedCardId, buttonName }: GetFeedCardButton): Promise<import("playwright").ElementHandle<SVGElement | HTMLElement>[]>;
     /**
      * Wait for success or error pop-up message
      *

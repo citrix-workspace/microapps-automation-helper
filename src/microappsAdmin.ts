@@ -1,4 +1,4 @@
-import { Page } from 'playwright-core';
+import { Page } from 'playwright';
 import FormData from 'form-data';
 import fs from 'fs';
 import path from 'path';

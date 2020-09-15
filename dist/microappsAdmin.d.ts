@@ -1,4 +1,4 @@
-import { Page } from 'playwright-core';
+import { Page } from 'playwright';
 import { API } from './api';
 /** Class representing a Microapps Admin. */
 export declare class MicroappsAdmin extends API {

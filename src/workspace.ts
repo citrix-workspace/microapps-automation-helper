@@ -1,4 +1,4 @@
-import { Page } from 'playwright-core';
+import { Page } from 'playwright';
 
 /** Class representing a Workspace. */
 export class Workspace {
