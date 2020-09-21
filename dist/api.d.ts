@@ -108,12 +108,12 @@ export declare class API {
      */
     finalizeConfig({ authInstance, microappsAdminUrl, integrationId }: FinalizeConfig): Promise<any>;
     /**
-     * Get all MicroApps in Microapps Admin
-     *
-     * @param {object} authInstance - Axios instance
-     * @param {string} microappsAdminUrl - Microapps Admin Url
-
-     */
+       * Get all MicroApps in Microapps Admin
+       *
+       * @param {object} authInstance - Axios instance
+       * @param {string} microappsAdminUrl - Microapps Admin Url
+  
+       */
     getApps({ authInstance, microappsAdminUrl }: GetApps): Promise<any>;
     /**
      * Get Notifications of MicroApp in Microapps Admin
@@ -215,6 +215,14 @@ export declare class API {
      * @param {string} integrationType - Type of Integration
      */
     getIntegrationLog({ authInstance, microappsAdminUrl, integrationId, integrationType }: GetIntegrationLog): Promise<any>;
+    /**
+     * Update integration with secrets
+     * @param {Object} authInstance - Authorized instance for API calls
+     * @param {string} microappsAdminUrl - Microapps admin url
+     * @param {string} integrationId - Id of Integration
+     * @param {string} data - Secrest which should be add to the integration
+     */
+    addSecrets({ authInstance, microappsAdminUrl, integrationId, data }: AddSecrets): Promise<any>;
 }
 export declare type AddApp = {
     authInstance: any;
@@ -355,4 +363,10 @@ export declare type GetCitrixCloudTokens = {
     citrixCloudCustomerId: string;
     citrixCloudClientId: string;
     citrixCloudClientSecret: string;
+};
+export declare type AddSecrets = {
+    authInstance: any;
+    microappsAdminUrl: string;
+    integrationId: string;
+    data: any;
 };
