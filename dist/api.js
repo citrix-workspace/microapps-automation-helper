@@ -23,7 +23,7 @@ class API {
             return await axios_1.default({
                 timeout: 180000,
                 url: `https://trust.${cwaAPI}.net/${citrixCloudCustomerId}/tokens/clients`,
-                method: 'POST',
+                method: "POST",
                 data: {
                     clientId: citrixCloudClientId,
                     clientSecret: citrixCloudClientSecret,
@@ -44,7 +44,7 @@ class API {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/service`,
-                method: 'GET',
+                method: "GET",
             });
         }
         catch (error) {
@@ -61,7 +61,7 @@ class API {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/bundleCatalogue`,
-                method: 'GET',
+                method: "GET",
             });
         }
         catch (error) {
@@ -79,7 +79,7 @@ class API {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/bundleCatalogue/import/${catalogueId}`,
-                method: 'POST',
+                method: "POST",
             });
         }
         catch (error) {
@@ -98,7 +98,7 @@ class API {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/service/${integrationId}`,
-                method: 'PUT',
+                method: "PUT",
                 data: integrationConfiguration,
             });
         }
@@ -116,7 +116,7 @@ class API {
     async getIntegration({ authInstance, microappsAdminUrl, integrationId }) {
         return await authInstance({
             url: `${microappsAdminUrl}/api/service/${integrationId}`,
-            method: 'GET',
+            method: "GET",
         });
     }
     /**
@@ -130,7 +130,7 @@ class API {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/auth/serviceAction/logout/${integrationId}`,
-                method: 'GET',
+                method: "GET",
             });
         }
         catch (error) {
@@ -149,12 +149,12 @@ class API {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/external-services/${serviceKey}/validate-configuration`,
-                method: 'POST',
+                method: "POST",
                 data: {
                     configurationParameters: configuration,
                     onPremProxyConfiguration: {
                         useOnPremProxy: false,
-                        resourceLocation: '',
+                        resourceLocation: "",
                     },
                 },
             });
@@ -174,7 +174,7 @@ class API {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/app`,
-                method: 'POST',
+                method: "POST",
                 data,
             });
         }
@@ -193,7 +193,7 @@ class API {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/process/${processId}`,
-                method: 'GET',
+                method: "GET",
             });
         }
         catch (error) {
@@ -211,7 +211,7 @@ class API {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/service/${integrationId}/entities`,
-                method: 'GET',
+                method: "GET",
             });
         }
         catch (error) {
@@ -230,7 +230,7 @@ class API {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/service/${integrationId}/entities`,
-                method: 'PUT',
+                method: "PUT",
                 data: entityData,
             });
         }
@@ -249,7 +249,7 @@ class API {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/service/${integrationId}/finalize-config`,
-                method: 'POST',
+                method: "POST",
             });
         }
         catch (error) {
@@ -257,17 +257,17 @@ class API {
         }
     }
     /**
-     * Get all MicroApps in Microapps Admin
-     *
-     * @param {object} authInstance - Axios instance
-     * @param {string} microappsAdminUrl - Microapps Admin Url
-
-     */
+       * Get all MicroApps in Microapps Admin
+       *
+       * @param {object} authInstance - Axios instance
+       * @param {string} microappsAdminUrl - Microapps Admin Url
+  
+       */
     async getApps({ authInstance, microappsAdminUrl }) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/app`,
-                method: 'GET',
+                method: "GET",
             });
         }
         catch (error) {
@@ -285,7 +285,7 @@ class API {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/notifications/app/${appId}`,
-                method: 'GET',
+                method: "GET",
             });
         }
         catch (error) {
@@ -302,7 +302,7 @@ class API {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/notification/${notificationId}/run`,
-                method: 'POST',
+                method: "POST",
             });
         }
         catch (error) {
@@ -320,7 +320,7 @@ class API {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/service/${integrationId}/run/${synchronizationType}`,
-                method: 'POST',
+                method: "POST",
             });
         }
         catch (error) {
@@ -337,7 +337,7 @@ class API {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/app/integrity-check`,
-                method: 'GET',
+                method: "GET",
             });
         }
         catch (error) {
@@ -355,7 +355,7 @@ class API {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/service/${integrationId}`,
-                method: 'DELETE',
+                method: "DELETE",
             });
         }
         catch (error) {
@@ -373,28 +373,28 @@ class API {
     async getDomain({ authInstance, cwaAPI, citrixCloudCustomerId, workspaceIdentityProvider }) {
         try {
             switch (workspaceIdentityProvider) {
-                case 'ad':
+                case "ad":
                     return await authInstance({
                         url: `https://cws.${cwaAPI}.net/${citrixCloudCustomerId}/domainconfigurations`,
-                        method: 'GET',
+                        method: "GET",
                         params: {
                             Provider: workspaceIdentityProvider.toUpperCase(),
                         },
                     });
-                case 'netscaler':
+                case "netscaler":
                     return await authInstance({
                         url: `https://cws.${cwaAPI}.net/${citrixCloudCustomerId}/domainconfigurations`,
-                        method: 'GET',
+                        method: "GET",
                         params: {
-                            Provider: 'AD',
+                            Provider: "AD",
                         },
                     });
-                case 'aad':
+                case "aad":
                     return await authInstance({
                         url: `https://cws.${cwaAPI}.net/${citrixCloudCustomerId}/AuthDomains`,
-                        method: 'GET',
+                        method: "GET",
                     });
-                case 'okta':
+                case "okta":
                     break;
                 default:
                     console.log(`getDomain is currently not implemented for this idp: ${workspaceIdentityProvider}`);
@@ -421,18 +421,18 @@ class API {
         try {
             return await authInstance({
                 url: `https://cws.${cwaAPI}.net/${citrixCloudCustomerId}/users/query`,
-                method: 'POST',
+                method: "POST",
                 data: {
-                    adminUser: '',
+                    adminUser: "",
                     domain: domainName,
                     forest: forestName,
                     idpType: idpType,
-                    key: '',
+                    key: "",
                     offerings: [
                         {
                             compatibleIdentities: [
                                 {
-                                    compatibleIdentity: 'OID:/*',
+                                    compatibleIdentity: "OID:/*",
                                     reasons: [],
                                 },
                             ],
@@ -440,7 +440,7 @@ class API {
                         },
                     ],
                     query: query,
-                    supportsAzureAdGroups: idpType === 'AZUREAD',
+                    supportsAzureAdGroups: idpType === "AZUREAD",
                 },
             });
         }
@@ -463,20 +463,20 @@ class API {
     async updateSubscribers({ authInstance, microappsAdminUrl, assign, userDetail, appId, domainName, forestName, workspaceIdentityProvider, }) {
         const { accountName, displayName, universalClaims, identityInformation, isGroup } = userDetail[0];
         const getOID = universalClaims.filter((value) => {
-            return value.startsWith('OID');
+            return value.startsWith("OID");
         });
         const oid = getOID[0];
         let ipForUpdate;
         switch (workspaceIdentityProvider) {
-            case 'ad':
-            case 'netscaler':
-                ipForUpdate = 'AD';
+            case "ad":
+            case "netscaler":
+                ipForUpdate = "AD";
                 break;
-            case 'aad':
-                ipForUpdate = 'AzureAD';
+            case "aad":
+                ipForUpdate = "AzureAD";
                 break;
-            case 'okta':
-                ipForUpdate = 'Okta';
+            case "okta":
+                ipForUpdate = "Okta";
                 break;
             default:
                 ipForUpdate = null;
@@ -486,7 +486,7 @@ class API {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/security/app-user/selected-groups/${appId}`,
-                method: 'PUT',
+                method: "PUT",
                 data: [
                     {
                         oid: oid,
@@ -502,7 +502,7 @@ class API {
                         domain: domainName,
                         userPrincipalName: identityInformation.email,
                         universalClaims: universalClaims,
-                        assign: assign === 'Add' ? true : false,
+                        assign: assign === "Add" ? true : false,
                     },
                 ],
             });
@@ -522,7 +522,7 @@ class API {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/security/app-user/selected-groups/${appId}`,
-                method: 'GET',
+                method: "GET",
             });
         }
         catch (error) {
@@ -543,10 +543,10 @@ class API {
         let response;
         try {
             response = await authInstance({
-                method: 'GET',
+                method: "GET",
                 url: `${microappsAdminUrl}/api/service/${integrationId}/export`,
                 params,
-                responseType: 'stream',
+                responseType: "stream",
             });
         }
         catch (error) {
@@ -565,7 +565,26 @@ class API {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/event-log?entityRef=${integrationId}&type=${integrationType}&subType=JOB&offset=0&limit=20`,
-                method: 'GET',
+                method: "GET",
+            });
+        }
+        catch (error) {
+            throw error.stack;
+        }
+    }
+    /**
+     * Update integration with secrets
+     * @param {Object} authInstance - Authorized instance for API calls
+     * @param {string} microappsAdminUrl - Microapps admin url
+     * @param {string} integrationId - Id of Integration
+     * @param {string} data - Secrest which should be add to the integration
+     */
+    async addSecrets({ authInstance, microappsAdminUrl, integrationId, data }) {
+        try {
+            return await authInstance({
+                url: `${microappsAdminUrl}/api/service/${integrationId}/secrets`,
+                method: "POST",
+                data,
             });
         }
         catch (error) {
