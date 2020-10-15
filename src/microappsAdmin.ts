@@ -851,7 +851,7 @@ export type OauthLogout = {
     authInstance: any;
     microappsAdminUrl: string;
     integrationName: string;
-    repeatCount: number;
+    repeatCount?: number;
 };
 
 export type WaitForSync = {
