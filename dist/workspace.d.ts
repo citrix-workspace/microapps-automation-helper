@@ -1,4 +1,4 @@
-import { Page } from 'playwright';
+import { Page, BrowserContext } from "playwright";
 /** Class representing a Workspace. */
 export declare class Workspace {
     constructor();
@@ -41,7 +41,7 @@ export declare class Workspace {
      * @param {number} repeatMax - Max number of tries to find the FeedCard
      * @param {number} waitTime - Time in miliseconds to wait after each try
      */
-    waitForFeedCardId({ page, repeatMax, waitTime, recordId, notificationId, }: WaitForFeedCardId): Promise<any>;
+    waitForFeedCardId({ page, repeatMax, waitTime, recordId, notificationId }: WaitForFeedCardId): Promise<any>;
     /**
      * Returns button on FeedCard
      *
@@ -57,6 +57,16 @@ export declare class Workspace {
      * @param {string} text - Text that should be in success message
      */
     waitForPopUp({ page, text }: WaitForPopUp): Promise<void>;
+    getOneTimeToken({ workspaceUrl, builderDomain, csrfToken, sessionId, ctxsAuthId, authDomain, }: GetOneTimeToken): Promise<any>;
+    getTokens({ builderDomain, authDomain, oneTimeToken }: GetTokens): Promise<{
+        citrixToken: any;
+        jSessionId: string;
+    }>;
+    getDsauthTokens({ page, context, workspaceUrl, workspaceUsername, workspacePassword, workspaceIdentityProvider, builderDomain, authDomain, }: GetDsauthTokens): Promise<{
+        citrixToken: any;
+        jSessionId: string;
+    }>;
+    createDsAuthInstance({ citrixToken, jSessionId }: CreateDsAuthInstance): Promise<import("axios").AxiosInstance>;
 }
 export declare type Login = {
     page: Page;
@@ -94,4 +104,31 @@ export declare type GetFeedCardButton = {
 export declare type WaitForPopUp = {
     page: Page;
     text: string;
+};
+export declare type GetOneTimeToken = {
+    workspaceUrl: string;
+    builderDomain: string;
+    csrfToken: string;
+    sessionId: string;
+    ctxsAuthId: string;
+    authDomain: string;
+};
+export declare type GetTokens = {
+    builderDomain: string;
+    authDomain: string;
+    oneTimeToken: string;
+};
+export declare type GetDsauthTokens = {
+    page: Page;
+    workspaceUrl: string;
+    workspaceUsername: string;
+    workspacePassword: string;
+    workspaceIdentityProvider: string;
+    context: BrowserContext;
+    builderDomain: string;
+    authDomain: string;
+};
+export declare type CreateDsAuthInstance = {
+    citrixToken: string;
+    jSessionId: string;
 };

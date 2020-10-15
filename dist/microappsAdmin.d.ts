@@ -188,7 +188,7 @@ export declare type OauthLogout = {
     authInstance: any;
     microappsAdminUrl: string;
     integrationName: string;
-    repeatCount: number;
+    repeatCount?: number;
 };
 export declare type WaitForSync = {
     getIntegration: () => any;
