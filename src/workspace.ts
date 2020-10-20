@@ -321,8 +321,18 @@ export class Workspace {
     authDomain,
   }: GetUserData) {
     const response = await dSauthInstance({
-      url: `${microappsAdminUrl}/app/api/app/${appId}/component/${componentId}/data?offset=0&limit=${dataLimit}&orderDirection=ASC&initiator_type=${initiatorType}&initiator_id=${pageId}&initiator_appId=${appId}&initiator_data=${initiatorData}&authDomain=${authDomain}`,
+      url: `${microappsAdminUrl}/app/api/app/${appId}/component/${componentId}/data`,
       method: "GET",
+      queryParameters: {
+        offset: 0,
+        limit: dataLimit,
+        orderDirection: "ASC",
+        initiator_type: initiatorType,
+        initiator_id: pageId,
+        initiator_appId: appId,
+        initiator_data: initiatorData,
+        authDomain,
+      },
     });
     return response.data.data;
   }
