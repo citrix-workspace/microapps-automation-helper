@@ -1,15 +1,15 @@
 {
   "name": "microapps-automation-helper",
   "version": "1.0.9",
-  "description": "> citrix-iws is a library which provides common functions to test integration between Microapps Admin and Citrix Worskspace",
+  "description": "> library which provides common functions to test integration between Microapps Admin and Citrix Worskspace",
   "main": "index.js",
   "types": "main.d.ts",
   "dependencies": {
     "axios": "^0.20.0",
     "form-data": "^3.0.0",
     "otplib": "^12.0.1",
-    "playwright": "^1.4.0",
-    "typescript": "^4.0.2"
+    "playwright": "^1.5.2",
+    "typescript": "^4.0.5"
   },
   "devDependencies": {},
   "scripts": {
