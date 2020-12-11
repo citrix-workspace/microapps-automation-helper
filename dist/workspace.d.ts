@@ -10,7 +10,7 @@ export declare class Workspace {
      * @param {string} workspacePassword - Workspace Password
      * @param {string} workspaceIdentityProvider - Identity provider (ad | netscaler | aad)
      */
-    login({ page, workspaceUrl, workspaceUsername, workspacePassword, workspaceIdentityProvider }: Login): Promise<void>;
+    login({ page, workspaceUrl, workspaceUsername, workspacePassword, workspaceIdentityProvider, }: Login): Promise<void>;
     /**
      * Skip Tour
      * @param {Object} page - Methods to interact with a single tab or extension background page in Browser
@@ -41,7 +41,7 @@ export declare class Workspace {
      * @param {number} repeatMax - Max number of tries to find the FeedCard
      * @param {number} waitTime - Time in miliseconds to wait after each try
      */
-    waitForFeedCardId({ page, repeatMax, waitTime, recordId, notificationId }: WaitForFeedCardId): Promise<any>;
+    waitForFeedCardId({ page, repeatMax, waitTime, recordId, notificationId, }: WaitForFeedCardId): Promise<any>;
     /**
      * Returns button on FeedCard
      *
@@ -66,7 +66,8 @@ export declare class Workspace {
         citrixToken: any;
         jSessionId: string;
     }>;
-    createDsAuthInstance({ citrixToken, jSessionId }: CreateDsAuthInstance): Promise<import("axios").AxiosInstance>;
+    createDsAuthInstance({ citrixToken, jSessionId, }: CreateDsAuthInstance): Promise<import("axios").AxiosInstance>;
+    getUserData({ dSauthInstance, microappsAdminUrl, appId, componentId, dataLimit, initiatorType, initiatorData, pageId, authDomain, }: GetUserData): Promise<any>;
 }
 export declare type Login = {
     page: Page;
@@ -131,4 +132,15 @@ export declare type GetDsauthTokens = {
 export declare type CreateDsAuthInstance = {
     citrixToken: string;
     jSessionId: string;
+};
+export declare type GetUserData = {
+    dSauthInstance: any;
+    microappsAdminUrl: string;
+    appId: string;
+    componentId: string;
+    dataLimit: string;
+    initiatorType: string;
+    initiatorData: string;
+    pageId: string;
+    authDomain: string;
 };

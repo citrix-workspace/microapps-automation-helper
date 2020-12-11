@@ -1,5 +1,5 @@
-import { Page } from 'playwright';
-import { API } from './api';
+import { Page } from "playwright";
+import { API } from "./api";
 /** Class representing a Microapps Admin. */
 export declare class MicroappsAdmin extends API {
     constructor();
@@ -9,14 +9,14 @@ export declare class MicroappsAdmin extends API {
      * @param {string} - Username
      * @param {string} - Password
      */
-    login({ page, url, username, password, mfa, secretKey }: MicroappsAdminLogin): Promise<void>;
+    login({ page, url, username, password, mfa, secretKey, }: MicroappsAdminLogin): Promise<void>;
     /**
      * Get Integration Id
      * @param {Object} authInstance - Authorized instance for API calls
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} integrationName - Name of integration
      */
-    getIntegrationId({ authInstance, microappsAdminUrl, integrationName }: GetIntegrationId): Promise<any>;
+    getIntegrationId({ authInstance, microappsAdminUrl, integrationName, }: GetIntegrationId): Promise<any>;
     /**
      * Delete credentiaslds from credentials wallet for specific inregration
      * @param {Object} authInstance - Authorized instance for API calls
@@ -24,7 +24,7 @@ export declare class MicroappsAdmin extends API {
      * @param {string} integrationName - Name of integration
      * @param {number} repeatCount - Set count for retries
      */
-    oauthLogout({ authInstance, microappsAdminUrl, integrationName, repeatCount }: OauthLogout): Promise<void>;
+    oauthLogout({ authInstance, microappsAdminUrl, integrationName, repeatCount, }: OauthLogout): Promise<void>;
     /**
      * Wait for syncronization and check the result of sync
      * @param {Function} getIntegration - Fetch status of integration
@@ -54,7 +54,7 @@ export declare class MicroappsAdmin extends API {
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} processId - Id of process
      */
-    waitForProcessStatus({ authInstance, status, microappsAdminUrl, processId }: WaitForProcessStatus): Promise<any>;
+    waitForProcessStatus({ authInstance, status, microappsAdminUrl, processId, }: WaitForProcessStatus): Promise<any>;
     /**
      * Create Java Integration
      * @param {Object} authInstance - Authorized instance for API calls
@@ -69,21 +69,21 @@ export declare class MicroappsAdmin extends API {
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} integrationName - Name of integration
      */
-    getIntegrationType({ authInstance, microappsAdminUrl, integrationName }: GetIntegrationType): Promise<any>;
+    getIntegrationType({ authInstance, microappsAdminUrl, integrationName, }: GetIntegrationType): Promise<any>;
     /**
      * Get status of Integration
      * @param {Object} authInstance - Authorized instance for API calls
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} integrationName - Name of integration
      */
-    getStatusIntegration({ authInstance, microappsAdminUrl, integrationName }: GetStatusIntegration): Promise<any>;
+    getStatusIntegration({ authInstance, microappsAdminUrl, integrationName, }: GetStatusIntegration): Promise<any>;
     /**
      * Import integration
      * @param {Object} authInstance - Authorized instance for API calls
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} pathToFile - path to file.mapp which should be imported
      */
-    importIntegration({ authInstance, microappsAdminUrl, pathToFile }: ImportIntegration): Promise<any>;
+    importIntegration({ authInstance, microappsAdminUrl, pathToFile, }: ImportIntegration): Promise<any>;
     /**
      * Rename integration
      * @param {Object} authInstance - Authorized instance for API calls
@@ -100,7 +100,7 @@ export declare class MicroappsAdmin extends API {
      * @param {string} appId - Id of target App
      * @param {string} pathToFile - path where file should be saved
      */
-    exportApp({ authInstance, microappsAdminUrl, appId, pathToFile }: ExportApp): Promise<void>;
+    exportApp({ authInstance, microappsAdminUrl, appId, pathToFile, }: ExportApp): Promise<void>;
     /**
      * Get Id of Microapp
      * @param {Object} authInstance - Authorized instance for API calls
@@ -108,7 +108,7 @@ export declare class MicroappsAdmin extends API {
      * @param {string} integrationId - Name of integration
      * @param {string} appName - Name Application
      */
-    getMicroAppId({ authInstance, microappsAdminUrl, integrationId, appName }: GetMicroAppId): Promise<any>;
+    getMicroAppId({ authInstance, microappsAdminUrl, integrationId, appName, }: GetMicroAppId): Promise<any>;
     /**
      * Get Id of Notification
      * @param {Object} authInstance - Authorized instance for API calls
@@ -116,7 +116,7 @@ export declare class MicroappsAdmin extends API {
      * @param {string} appId - Name of App
      * @param {string} notificationName - Name of Notification
      */
-    getNotificationId({ authInstance, microappsAdminUrl, appId, notificationName }: GetNotificationId): Promise<any>;
+    getNotificationId({ authInstance, microappsAdminUrl, appId, notificationName, }: GetNotificationId): Promise<any>;
     /**
      * Run a Event
      * @param {Object} authInstance - Authorized instance for API calls
@@ -125,10 +125,10 @@ export declare class MicroappsAdmin extends API {
      * @param {string} appName - Name of App
      *  @param {string} notificationName - Name of Notification
      */
-    runEvent({ authInstance, microappsAdminUrl, integrationName, appName, notificationName }: RunEvent): Promise<void>;
-    checkAppMissconfigurations({ authInstance, microappsAdminUrl, appId }: CheckAppMissconfigurations): Promise<void>;
+    runEvent({ authInstance, microappsAdminUrl, integrationName, appName, notificationName, }: RunEvent): Promise<void>;
+    checkAppMissconfigurations({ authInstance, microappsAdminUrl, appId, }: CheckAppMissconfigurations): Promise<void>;
     addSubscriber({ authInstance, appId, user, config }: AddSubscriber): Promise<void>;
-    addSubscribers({ authInstance, integrationName, microapps, microappsAdminUrl, config }: AddSubscribers): Promise<{
+    addSubscribers({ authInstance, integrationName, microapps, microappsAdminUrl, config, }: AddSubscribers): Promise<{
         microapp: string;
     }[]>;
     /**
@@ -137,7 +137,7 @@ export declare class MicroappsAdmin extends API {
      * @param {Page} page - Methods to interact with a single tab or extension background page in Browser
      * @param {string} filePath - Path to the exported Integration file that will be imported
      */
-    importIntegrationUI({ page, microappsAdminUrl, filePath }: ImportIntegrationUI): Promise<void>;
+    importIntegrationUI({ page, microappsAdminUrl, filePath, }: ImportIntegrationUI): Promise<void>;
     /**
      * Imports MicroApp to @param integrationName Integration from an exported MicroApp file
      *
@@ -146,7 +146,7 @@ export declare class MicroappsAdmin extends API {
      * @param {string} filePath - Path to the exported MicroApp file that will be imported
      * @param {string} integrationName - Name of Integration in which the MicroApp will be imported
      */
-    importMicroAppUI({ page, microappsAdminUrl, filePath, integrationName }: ImportMicroAppUI): Promise<void>;
+    importMicroAppUI({ page, microappsAdminUrl, filePath, integrationName, }: ImportMicroAppUI): Promise<void>;
     /**
      * Exports @param integrationName integation
      *
@@ -161,7 +161,7 @@ export declare class MicroappsAdmin extends API {
      * @param {string} integrationName - Name of Integration in which the MicroApp will be imported
      * @param {string} appName - Name of MicroApp that will be exported
      */
-    exportMicroAppsUI({ page, integrationName, appName }: ExportMicroAppUI): Promise<void>;
+    exportMicroAppsUI({ page, integrationName, appName, }: ExportMicroAppUI): Promise<void>;
     /**
      * Returns last duration of Synchronization
      *
@@ -169,7 +169,17 @@ export declare class MicroappsAdmin extends API {
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} integrationName - Name of Integration
      */
-    getLastTimeSync({ authInstance, microappsAdminUrl, integrationName }: GetLastSyncTime): Promise<any>;
+    getLastTimeSync({ authInstance, microappsAdminUrl, integrationName, }: GetLastSyncTime): Promise<any>;
+    /**
+     * Returns Id of component
+     *
+     * @param {Object} authInstance - Authorized instance for API calls
+     * @param {string} microappsAdminUrl - Microapps admin url
+     * @param {string} integrationName - Name of Integration
+     * @param {string} appName - Name of Microapp
+     * @param {string} componentLabel - Label of Component
+     */
+    getComponentId({ authInstance, microappsAdminUrl, integrationName, appName, pageName, componentLabel, }: GetComponentId): Promise<any>;
 }
 export declare type MicroappsAdminLogin = {
     page: Page;
@@ -318,4 +328,12 @@ export declare type GetLastSyncTime = {
     authInstance: any;
     microappsAdminUrl: string;
     integrationName: string;
+};
+export declare type GetComponentId = {
+    authInstance: any;
+    microappsAdminUrl: string;
+    integrationName: string;
+    appName: string;
+    pageName: string;
+    componentLabel: string;
 };
