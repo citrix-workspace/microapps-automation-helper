@@ -22,17 +22,17 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} - Username
      * @param {string} - Password
      */
-    async login({ page, url, username, password, mfa = null, secretKey }) {
-        await page.goto(url, { waitUntil: 'domcontentloaded' });
-        await page.waitForSelector('#username');
-        await page.type('#username', username);
-        await page.waitForSelector('#password');
-        await page.type('#password', password);
-        await page.waitForSelector('#submit');
-        await page.click('#submit');
+    async login({ page, url, username, password, mfa = null, secretKey, }) {
+        await page.goto(url, { waitUntil: "domcontentloaded" });
+        await page.waitForSelector("#username");
+        await page.type("#username", username);
+        await page.waitForSelector("#password");
+        await page.type("#password", password);
+        await page.waitForSelector("#submit");
+        await page.click("#submit");
         if (mfa) {
             const authCode = await citrixCloud.getAuthenticatorCode({ secretKey });
-            await page.waitForSelector('input[inputmode]');
+            await page.waitForSelector("input[inputmode]");
             for (let i = 0; i < 6; i++) {
                 await page.type(`input[inputmode][name="${i}"]`, authCode[i]);
             }
@@ -56,8 +56,11 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} integrationName - Name of integration
      */
-    async getIntegrationId({ authInstance, microappsAdminUrl, integrationName }) {
-        const integrations = await this.getIntegrations({ authInstance, microappsAdminUrl });
+    async getIntegrationId({ authInstance, microappsAdminUrl, integrationName, }) {
+        const integrations = await this.getIntegrations({
+            authInstance,
+            microappsAdminUrl,
+        });
         const integration = integrations.data.find((e) => e.title === integrationName);
         return integration.id;
     }
@@ -68,10 +71,18 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} integrationName - Name of integration
      * @param {number} repeatCount - Set count for retries
      */
-    async oauthLogout({ authInstance, microappsAdminUrl, integrationName, repeatCount = 1 }) {
-        const integrationId = await this.getIntegrationId({ authInstance, microappsAdminUrl, integrationName });
+    async oauthLogout({ authInstance, microappsAdminUrl, integrationName, repeatCount = 1, }) {
+        const integrationId = await this.getIntegrationId({
+            authInstance,
+            microappsAdminUrl,
+            integrationName,
+        });
         for (let i = 0; i < repeatCount; i++) {
-            await this.integrationLogout({ authInstance, microappsAdminUrl, integrationId });
+            await this.integrationLogout({
+                authInstance,
+                microappsAdminUrl,
+                integrationId,
+            });
         }
     }
     /**
@@ -117,7 +128,11 @@ class MicroappsAdmin extends api_1.API {
             microappsAdminUrl,
             integrationName,
         });
-        const integration = await this.getIntegration({ authInstance, microappsAdminUrl, integrationId });
+        const integration = await this.getIntegration({
+            authInstance,
+            microappsAdminUrl,
+            integrationId,
+        });
         const jobRuns = integration.data.jobRuns;
         const getJobRunDetail = jobRuns.find((job) => {
             return job.synchronizationTypeId === synchronizationType;
@@ -130,13 +145,21 @@ class MicroappsAdmin extends api_1.API {
                 synchronizationType,
             });
             await this.waitForSync({
-                getIntegration: () => this.getIntegration({ authInstance, microappsAdminUrl, integrationId }),
+                getIntegration: () => this.getIntegration({
+                    authInstance,
+                    microappsAdminUrl,
+                    integrationId,
+                }),
                 synchronizationType,
             });
         }
         else if (getJobRunDetail.running === true) {
             await this.waitForSync({
-                getIntegration: () => this.getIntegration({ authInstance, microappsAdminUrl, integrationId }),
+                getIntegration: () => this.getIntegration({
+                    authInstance,
+                    microappsAdminUrl,
+                    integrationId,
+                }),
                 synchronizationType,
             });
         }
@@ -148,7 +171,11 @@ class MicroappsAdmin extends api_1.API {
                 synchronizationType,
             });
             await this.waitForSync({
-                getIntegration: () => this.getIntegration({ authInstance, microappsAdminUrl, integrationId }),
+                getIntegration: () => this.getIntegration({
+                    authInstance,
+                    microappsAdminUrl,
+                    integrationId,
+                }),
                 synchronizationType,
             });
         }
@@ -161,11 +188,18 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} integrationConfiguration - Additional integration configuration
      */
     async createHTTPIntegration({ authInstance, microappsAdminUrl, integrationName, integrationConfiguration, }) {
-        const bundleCatalogue = await this.getBundleCatalogue({ authInstance, microappsAdminUrl });
+        const bundleCatalogue = await this.getBundleCatalogue({
+            authInstance,
+            microappsAdminUrl,
+        });
         const bundleCatalogueData = bundleCatalogue.data;
-        const catalogueDetail = bundleCatalogueData.find((e) => e.title === integrationName && e.type === 'HTTP');
+        const catalogueDetail = bundleCatalogueData.find((e) => e.title === integrationName && e.type === "HTTP");
         const catalogueId = catalogueDetail.uniqueId;
-        const createdConnector = await this.updateBundleCatalogue({ authInstance, microappsAdminUrl, catalogueId });
+        const createdConnector = await this.updateBundleCatalogue({
+            authInstance,
+            microappsAdminUrl,
+            catalogueId,
+        });
         const integrationId = createdConnector.data.id;
         await this.updateintegrationConfiguration({
             authInstance,
@@ -182,10 +216,14 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} processId - Id of process
      */
-    async waitForProcessStatus({ authInstance, status, microappsAdminUrl, processId }) {
+    async waitForProcessStatus({ authInstance, status, microappsAdminUrl, processId, }) {
         let processStatus;
         for (let i = 0; i < 35; i++) {
-            processStatus = await this.getProcessStatus({ authInstance, microappsAdminUrl, processId });
+            processStatus = await this.getProcessStatus({
+                authInstance,
+                microappsAdminUrl,
+                processId,
+            });
             if (processStatus.data.message !== undefined) {
                 console.log(processStatus.data.message);
             }
@@ -206,9 +244,10 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} integrationName - Name of integration
      * @param {string} integrationConfiguration - Additional integration configuration
      */
-    async createJavaIntegration({ authInstance, microappsAdminUrl, integrationConfiguration, withEntities = true, serviceType = null, serviceKey, name = '', }) {
+    async createJavaIntegration({ authInstance, microappsAdminUrl, integrationConfiguration, withEntities = true, serviceType = null, serviceKey, name = "", }) {
         let processId;
-        const configurationParameters = integrationConfiguration.serviceData.configuration.configurationParameters;
+        const configurationParameters = integrationConfiguration.serviceData.configuration
+            .configurationParameters;
         const responseValidation = await this.validateConfiguration({
             authInstance,
             microappsAdminUrl,
@@ -216,15 +255,19 @@ class MicroappsAdmin extends api_1.API {
             configuration: configurationParameters,
         });
         const responseValidationBody = JSON.stringify(responseValidation.data);
-        if (!responseValidationBody.includes('ok')) {
-            throw new Error('Configuration is not valid!');
+        if (!responseValidationBody.includes("ok")) {
+            throw new Error("Configuration is not valid!");
         }
-        const app = await this.addApp({ authInstance, microappsAdminUrl, data: integrationConfiguration });
+        const app = await this.addApp({
+            authInstance,
+            microappsAdminUrl,
+            data: integrationConfiguration,
+        });
         processId = app.data.processId;
         const processStatus = await this.waitForProcessStatus({
             authInstance,
             getProcessStatus: () => this.getProcessStatus({ authInstance, microappsAdminUrl, processId }),
-            status: 'DONE',
+            status: "DONE",
             microappsAdminUrl,
             processId,
         });
@@ -232,8 +275,12 @@ class MicroappsAdmin extends api_1.API {
         let entities;
         let entityFilters;
         // Some connectors have different flow for getting entities
-        if (serviceType === 'Service Now' || serviceType === 'Salesforce') {
-            const services = await this.getIntegration({ authInstance, microappsAdminUrl, integrationId });
+        if (serviceType === "Service Now" || serviceType === "Salesforce") {
+            const services = await this.getIntegration({
+                authInstance,
+                microappsAdminUrl,
+                integrationId,
+            });
             entities = services.data.configuration.entities;
             entityFilters = services.data.configuration.entityFilters;
         }
@@ -247,11 +294,15 @@ class MicroappsAdmin extends api_1.API {
             await this.waitForProcessStatus({
                 authInstance,
                 getProcessStatus: () => this.getProcessStatus({ authInstance, microappsAdminUrl, processId }),
-                status: 'DONE',
+                status: "DONE",
                 microappsAdminUrl,
                 processId,
             });
-            const processDetail = await this.getProcessStatus({ authInstance, microappsAdminUrl, processId });
+            const processDetail = await this.getProcessStatus({
+                authInstance,
+                microappsAdminUrl,
+                processId,
+            });
             entities = processDetail.data.detail.data.entities;
             entityFilters = processDetail.data.detail.data.entityFilters;
         }
@@ -263,16 +314,25 @@ class MicroappsAdmin extends api_1.API {
             entityFilters: entityFilters,
         };
         if (withEntities) {
-            const entity = await this.createEntity({ authInstance, microappsAdminUrl, integrationId, entityData });
+            const entity = await this.createEntity({
+                authInstance,
+                microappsAdminUrl,
+                integrationId,
+                entityData,
+            });
             processId = entity.data.processId;
             await this.waitForProcessStatus({
                 authInstance,
                 getProcessStatus: () => this.getProcessStatus({ authInstance, microappsAdminUrl, processId }),
-                status: 'DONE',
+                status: "DONE",
                 microappsAdminUrl,
                 processId,
             });
-            await this.finalizeConfig({ authInstance, microappsAdminUrl, integrationId });
+            await this.finalizeConfig({
+                authInstance,
+                microappsAdminUrl,
+                integrationId,
+            });
         }
     }
     /**
@@ -281,8 +341,11 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} integrationName - Name of integration
      */
-    async getIntegrationType({ authInstance, microappsAdminUrl, integrationName }) {
-        const integrations = await this.getIntegrations({ authInstance, microappsAdminUrl });
+    async getIntegrationType({ authInstance, microappsAdminUrl, integrationName, }) {
+        const integrations = await this.getIntegrations({
+            authInstance,
+            microappsAdminUrl,
+        });
         const integrationsData = integrations.data;
         const findIntegrationType = integrationsData.find((integration) => {
             return integration.title === integrationName;
@@ -296,9 +359,13 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} integrationName - Name of integration
      */
-    async getStatusIntegration({ authInstance, microappsAdminUrl, integrationName }) {
+    async getStatusIntegration({ authInstance, microappsAdminUrl, integrationName, }) {
         try {
-            const serviceId = await this.getIntegrationId({ authInstance, microappsAdminUrl, integrationName });
+            const serviceId = await this.getIntegrationId({
+                authInstance,
+                microappsAdminUrl,
+                integrationName,
+            });
             return serviceId;
         }
         catch (e) {
@@ -311,16 +378,16 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} pathToFile - path to file.mapp which should be imported
      */
-    async importIntegration({ authInstance, microappsAdminUrl, pathToFile }) {
+    async importIntegration({ authInstance, microappsAdminUrl, pathToFile, }) {
         const form = new form_data_1.default();
         let response;
-        form.append('file', fs_1.default.createReadStream(path_1.default.resolve(__dirname, pathToFile)));
+        form.append("file", fs_1.default.createReadStream(path_1.default.resolve(__dirname, pathToFile)));
         try {
             response = await authInstance({
                 url: `${microappsAdminUrl}/api/service/import`,
-                method: 'POST',
+                method: "POST",
                 headers: {
-                    'content-type': `multipart/form-data; boundary=${form._boundary}`,
+                    "content-type": `multipart/form-data; boundary=${form._boundary}`,
                 },
                 data: form,
             });
@@ -340,19 +407,30 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} integrationConfiguration - Configuration for integration
      */
     async renameIntegration({ authInstance, microappsAdminUrl, integrationName, newIntegrationName, integrationConfiguration, }) {
-        const integrationType = await this.getIntegrationType({ authInstance, microappsAdminUrl, integrationName });
+        const integrationType = await this.getIntegrationType({
+            authInstance,
+            microappsAdminUrl,
+            integrationName,
+        });
         const data = {
             serviceType: integrationType,
             title: newIntegrationName,
         };
-        const integrationId = await this.getStatusIntegration({ authInstance, microappsAdminUrl, integrationName });
+        const integrationId = await this.getStatusIntegration({
+            authInstance,
+            microappsAdminUrl,
+            integrationName,
+        });
         await this.updateintegrationConfiguration({
             authInstance,
             microappsAdminUrl,
             integrationId,
             integrationConfiguration,
         });
-        const integrations = await this.getIntegrations({ authInstance, microappsAdminUrl });
+        const integrations = await this.getIntegrations({
+            authInstance,
+            microappsAdminUrl,
+        });
         const integrationsData = integrations.data;
         const IntegrationDetail = integrationsData.filter((e) => {
             return e.title === integrationName && e.id === newIntegrationName;
@@ -366,13 +444,13 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} appId - Id of target App
      * @param {string} pathToFile - path where file should be saved
      */
-    async exportApp({ authInstance, microappsAdminUrl, appId, pathToFile }) {
+    async exportApp({ authInstance, microappsAdminUrl, appId, pathToFile, }) {
         let response;
         try {
             response = await authInstance({
-                method: 'GET',
+                method: "GET",
                 url: `${microappsAdminUrl}/api/app/${appId}/export`,
-                responseType: 'stream',
+                responseType: "stream",
             });
         }
         catch (error) {
@@ -387,7 +465,7 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} integrationId - Name of integration
      * @param {string} appName - Name Application
      */
-    async getMicroAppId({ authInstance, microappsAdminUrl, integrationId, appName }) {
+    async getMicroAppId({ authInstance, microappsAdminUrl, integrationId, appName, }) {
         let apps;
         try {
             apps = await this.getApps({ authInstance, microappsAdminUrl });
@@ -407,7 +485,7 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} appId - Name of App
      * @param {string} notificationName - Name of Notification
      */
-    async getNotificationId({ authInstance, microappsAdminUrl, appId, notificationName }) {
+    async getNotificationId({ authInstance, microappsAdminUrl, appId, notificationName, }) {
         const notifications = await this.getNotifications({
             authInstance,
             microappsAdminUrl,
@@ -428,19 +506,36 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} appName - Name of App
      *  @param {string} notificationName - Name of Notification
      */
-    async runEvent({ authInstance, microappsAdminUrl, integrationName, appName, notificationName }) {
+    async runEvent({ authInstance, microappsAdminUrl, integrationName, appName, notificationName, }) {
         let notifications;
-        const integrationId = await this.getIntegrationId({ authInstance, microappsAdminUrl, integrationName });
-        const appId = await this.getMicroAppId({ authInstance, microappsAdminUrl, integrationId, appName });
+        const integrationId = await this.getIntegrationId({
+            authInstance,
+            microappsAdminUrl,
+            integrationName,
+        });
+        const appId = await this.getMicroAppId({
+            authInstance,
+            microappsAdminUrl,
+            integrationId,
+            appName,
+        });
         const notificationId = await this.getNotificationId({
             authInstance,
             appId,
             microappsAdminUrl,
             notificationName,
         });
-        await this.runNotificationEvent({ authInstance, microappsAdminUrl, notificationId });
+        await this.runNotificationEvent({
+            authInstance,
+            microappsAdminUrl,
+            notificationId,
+        });
         for (let i = 0; i < 10; i++) {
-            notifications = await this.getNotifications({ authInstance, microappsAdminUrl, appId });
+            notifications = await this.getNotifications({
+                authInstance,
+                microappsAdminUrl,
+                appId,
+            });
             const running = notifications.data[0].running;
             if ((await running) === false) {
                 break;
@@ -448,22 +543,25 @@ class MicroappsAdmin extends api_1.API {
             await new Promise((resolve) => setTimeout(resolve, 5000));
         }
         const lastRunStatus = notifications.data[0].lastRunStatus;
-        if ((await lastRunStatus) !== 'SUCCESS') {
-            throw new Error('Event run failed!');
+        if ((await lastRunStatus) !== "SUCCESS") {
+            throw new Error("Event run failed!");
         }
     }
-    async checkAppMissconfigurations({ authInstance, microappsAdminUrl, appId }) {
-        const response = await this.integrityCheck({ authInstance, microappsAdminUrl });
+    async checkAppMissconfigurations({ authInstance, microappsAdminUrl, appId, }) {
+        const response = await this.integrityCheck({
+            authInstance,
+            microappsAdminUrl,
+        });
         const responseBody = response.data;
         const missconfigurations = responseBody.filter((e) => e.appId === appId);
         if (!Array.isArray(missconfigurations) || !missconfigurations.length) {
             console.log(`appId: ${appId} has no missconfigurations`);
         }
-        console.log('missconfigurations: ', missconfigurations);
+        console.log("missconfigurations: ", missconfigurations);
     }
     //TO-DO add config as parametr
     async addSubscriber({ authInstance, appId, user, config }) {
-        const { microappsAdminUrl, citrixCloudCustomerId, cwaAPI, workspaceIdentityProvider } = config;
+        const { microappsAdminUrl, citrixCloudCustomerId, cwaAPI, workspaceIdentityProvider, } = config;
         // Get Domains
         const domains = await this.getDomain({
             authInstance,
@@ -471,30 +569,30 @@ class MicroappsAdmin extends api_1.API {
             citrixCloudCustomerId,
             workspaceIdentityProvider,
         });
-        const actionSubscribe = 'Add';
+        const actionSubscribe = "Add";
         let domainName;
         let forestName;
         let idpType;
         switch (workspaceIdentityProvider) {
-            case 'ad':
-            case 'netscaler':
+            case "ad":
+            case "netscaler":
                 domainName = domains.data.domains[0].domainName;
                 forestName = domains.data.domains[0].forestName;
-                idpType = 'AD';
+                idpType = "AD";
                 break;
-            case 'aad':
+            case "aad":
                 const domainsData = domains.data;
                 const domainDetail = domainsData.filter((domain) => {
-                    return domain.idpType === 'AzureAd';
+                    return domain.idpType === "AzureAd";
                 });
-                domainName = 'todo';
+                domainName = "todo";
                 forestName = domainDetail[0].idpProperties.tid;
-                idpType = 'AZUREAD';
+                idpType = "AZUREAD";
                 break;
-            case 'okta':
+            case "okta":
                 domainName = null;
                 forestName = null;
-                idpType = 'OKTA';
+                idpType = "OKTA";
                 break;
             default:
                 console.log(`Adding subscribers is currently not implemented for this idp: ${workspaceIdentityProvider}`);
@@ -536,9 +634,13 @@ class MicroappsAdmin extends api_1.API {
             appId,
         });
     }
-    async addSubscribers({ authInstance, integrationName, microapps, microappsAdminUrl, config }) {
-        const integrationId = await this.getIntegrationId({ authInstance, microappsAdminUrl, integrationName });
-        const subscribe = async ({ microapps, microapp, authInstance, integrationId }) => {
+    async addSubscribers({ authInstance, integrationName, microapps, microappsAdminUrl, config, }) {
+        const integrationId = await this.getIntegrationId({
+            authInstance,
+            microappsAdminUrl,
+            integrationName,
+        });
+        const subscribe = async ({ microapps, microapp, authInstance, integrationId, }) => {
             console.log(`[${integrationName}] - Adding subscribers for: ${microapp}`);
             const subscribers = microapps[microapp].subscribers;
             const microappId = await this.getMicroAppId({
@@ -552,7 +654,7 @@ class MicroappsAdmin extends api_1.API {
                     authInstance,
                     appId: microappId,
                     user: subscriber,
-                    config
+                    config,
                 });
             }
             return { microapp };
@@ -569,16 +671,17 @@ class MicroappsAdmin extends api_1.API {
      * @param {Page} page - Methods to interact with a single tab or extension background page in Browser
      * @param {string} filePath - Path to the exported Integration file that will be imported
      */
-    async importIntegrationUI({ page, microappsAdminUrl, filePath }) {
+    async importIntegrationUI({ page, microappsAdminUrl, filePath, }) {
         await page.waitForSelector('[data-testid="add-integration-button"]');
         await page.click('[data-testid="add-integration-button"]');
         await page.waitForSelector('[data-testid="new-integration-upload"]');
         await page.click('[data-testid="new-integration-upload"]');
-        const uploadFile = await page.$('input[type=file]');
+        const uploadFile = await page.$("input[type=file]");
         await uploadFile.setInputFiles(path_1.default.resolve(__dirname, filePath));
         await page.waitForSelector('[data-testid="upload-submit-button"]');
         await page.click('[data-testid="upload-submit-button"]');
-        await page.waitForResponse((response) => response.url() === `${microappsAdminUrl}/api/service/import` && response.status() === 200);
+        await page.waitForResponse((response) => response.url() === `${microappsAdminUrl}/api/service/import` &&
+            response.status() === 200);
     }
     /**
      * Imports MicroApp to @param integrationName Integration from an exported MicroApp file
@@ -588,16 +691,17 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} filePath - Path to the exported MicroApp file that will be imported
      * @param {string} integrationName - Name of Integration in which the MicroApp will be imported
      */
-    async importMicroAppUI({ page, microappsAdminUrl, filePath, integrationName }) {
+    async importMicroAppUI({ page, microappsAdminUrl, filePath, integrationName, }) {
         await page.waitForSelector(`//div[@data-testid="integration-name-${integrationName}"] //button[@data-testid="toggle-integration-options-dropdown"]`);
         await page.click(`//div[@data-testid="integration-name-${integrationName}"] //button[@data-testid="toggle-integration-options-dropdown"]`);
         await page.waitForSelector(`//div[@data-testid="integration-name-${integrationName}"] //button[@data-testid="open-import-app"]`);
         await page.click(`//div[@data-testid="integration-name-${integrationName}"] //button[@data-testid="open-import-app"]`);
-        const uploadFile = await page.$('input[type=file]');
+        const uploadFile = await page.$("input[type=file]");
         await uploadFile.setInputFiles(path_1.default.resolve(__dirname, filePath));
         await page.waitForSelector('[data-testid="upload-submit-button"]');
         await page.click('[data-testid="upload-submit-button"]');
-        await page.waitForResponse((response) => response.url() === `${microappsAdminUrl}/api/app` && response.status() === 200);
+        await page.waitForResponse((response) => response.url() === `${microappsAdminUrl}/api/app` &&
+            response.status() === 200);
     }
     /**
      * Exports @param integrationName integation
@@ -612,9 +716,9 @@ class MicroappsAdmin extends api_1.API {
         await page.click(`//div[@data-testid="integration-name-${integrationName}"] //button[@data-testid="open-export-integration"]`);
         await page.waitForSelector(`//legend[(text()= 'Include Microapps')]`);
         await page.click(`//button[@data-testid="export-integration-commit-button"]`);
-        const download = await page.waitForEvent('download');
+        const download = await page.waitForEvent("download");
         if ((await download.path()) === null) {
-            throw new Error('No file was downloaded');
+            throw new Error("No file was downloaded");
         }
     }
     /**
@@ -624,14 +728,14 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} integrationName - Name of Integration in which the MicroApp will be imported
      * @param {string} appName - Name of MicroApp that will be exported
      */
-    async exportMicroAppsUI({ page, integrationName, appName }) {
+    async exportMicroAppsUI({ page, integrationName, appName, }) {
         await page.waitForSelector(`//div[@data-testid="integration-name-${integrationName}"] //tr[descendant::a[contains(text(), "${appName}")]] //button[starts-with(@class, "PlainButton")]`);
         await page.click(`//div[@data-testid="integration-name-${integrationName}"] //tr[descendant::a[contains(text(), "${appName}")]] //button[starts-with(@class, "PlainButton")]`);
         await page.waitForSelector(`//div[@data-testid="integration-name-${integrationName}"] //tr[descendant::a[contains(text(), "${appName}")]] //button[@data-testid="do-app-export"]`);
         await page.click(`//div[@data-testid="integration-name-${integrationName}"] //tr[descendant::a[contains(text(), "${appName}")]] //button[@data-testid="do-app-export"]`);
-        const download = await page.waitForEvent('download');
+        const download = await page.waitForEvent("download");
         if ((await download.path()) === null) {
-            throw new Error('No file was downloaded');
+            throw new Error("No file was downloaded");
         }
     }
     /**
@@ -641,16 +745,62 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} integrationName - Name of Integration
      */
-    async getLastTimeSync({ authInstance, microappsAdminUrl, integrationName }) {
+    async getLastTimeSync({ authInstance, microappsAdminUrl, integrationName, }) {
         const regex = new RegExp(/\d*:\d*:\d*.\d*/);
-        const integrationId = await this.getIntegrationId({ authInstance, microappsAdminUrl, integrationName });
-        const integrationType = await this.getIntegrationType({ authInstance, microappsAdminUrl, integrationName });
-        const logs = await this.getIntegrationLog({ authInstance, microappsAdminUrl, integrationId, integrationType });
+        const integrationId = await this.getIntegrationId({
+            authInstance,
+            microappsAdminUrl,
+            integrationName,
+        });
+        const integrationType = await this.getIntegrationType({
+            authInstance,
+            microappsAdminUrl,
+            integrationName,
+        });
+        const logs = await this.getIntegrationLog({
+            authInstance,
+            microappsAdminUrl,
+            integrationId,
+            integrationType,
+        });
         for (const line of logs.data.data) {
-            if (line.message.includes('Service synchronization finished in')) {
+            if (line.message.includes("Service synchronization finished in")) {
                 return line.message.match(regex)[0];
             }
         }
+    }
+    /**
+     * Returns Id of component
+     *
+     * @param {Object} authInstance - Authorized instance for API calls
+     * @param {string} microappsAdminUrl - Microapps admin url
+     * @param {string} integrationName - Name of Integration
+     * @param {string} appName - Name of Microapp
+     * @param {string} componentLabel - Label of Component
+     */
+    async getComponentId({ authInstance, microappsAdminUrl, integrationName, appName, pageName, componentLabel, }) {
+        const integrationId = await this.getIntegrationId({
+            authInstance,
+            microappsAdminUrl,
+            integrationName,
+        });
+        const appId = await this.getMicroAppId({
+            authInstance,
+            microappsAdminUrl,
+            integrationId,
+            appName,
+        });
+        const selectedAppData = await this.getAppInfo({
+            authInstance,
+            microappsAdminUrl,
+            appId,
+        });
+        const pagesData = selectedAppData.data.app.pages;
+        const getPage = pagesData.filter((app) => app.title === pageName);
+        const components = getPage[0].components;
+        const getComponent = components.filter((component) => component.label === componentLabel);
+        const componentId = getComponent[0].id;
+        return componentId;
     }
 }
 exports.MicroappsAdmin = MicroappsAdmin;

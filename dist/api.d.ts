@@ -108,12 +108,12 @@ export declare class API {
      */
     finalizeConfig({ authInstance, microappsAdminUrl, integrationId }: FinalizeConfig): Promise<any>;
     /**
-       * Get all MicroApps in Microapps Admin
-       *
-       * @param {object} authInstance - Axios instance
-       * @param {string} microappsAdminUrl - Microapps Admin Url
-  
-       */
+     * Get all MicroApps in Microapps Admin
+     *
+     * @param {object} authInstance - Axios instance
+     * @param {string} microappsAdminUrl - Microapps Admin Url
+
+     */
     getApps({ authInstance, microappsAdminUrl }: GetApps): Promise<any>;
     /**
      * Get Notifications of MicroApp in Microapps Admin
@@ -223,6 +223,13 @@ export declare class API {
      * @param {string} data - Secrest which should be add to the integration
      */
     addSecrets({ authInstance, microappsAdminUrl, integrationId, data }: AddSecrets): Promise<any>;
+    /**
+     * Get microapp info - pages, components etc...
+     * @param {Object} authInstance - Authorized instance for API calls
+     * @param {string} microappsAdminUrl - Microapps admin url
+     * @param {string} appId - Id of microapp
+     */
+    getAppInfo({ authInstance, microappsAdminUrl, appId }: GetAppInfo): Promise<any>;
 }
 export declare type AddApp = {
     authInstance: any;
@@ -369,4 +376,9 @@ export declare type AddSecrets = {
     microappsAdminUrl: string;
     integrationId: string;
     data: any;
+};
+export declare type GetAppInfo = {
+    authInstance: any;
+    microappsAdminUrl: string;
+    appId: string;
 };

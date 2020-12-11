@@ -17,7 +17,7 @@ class Workspace {
      * @param {string} workspacePassword - Workspace Password
      * @param {string} workspaceIdentityProvider - Identity provider (ad | netscaler | aad)
      */
-    async login({ page, workspaceUrl, workspaceUsername, workspacePassword, workspaceIdentityProvider }) {
+    async login({ page, workspaceUrl, workspaceUsername, workspacePassword, workspaceIdentityProvider, }) {
         console.log("Login to Workspace", new Date());
         await page.goto(workspaceUrl, { waitUntil: "domcontentloaded" });
         switch (workspaceIdentityProvider) {
@@ -102,7 +102,8 @@ class Workspace {
     async getFeedNotifications({ page }) {
         await page.waitForSelector("select");
         await page.selectOption("select", "CREATED_AT");
-        const notifications = await page.waitForResponse((response) => response.url().match(new RegExp("notification")) && response.status() === 200);
+        const notifications = await page.waitForResponse((response) => response.url().match(new RegExp("notification")) &&
+            response.status() === 200);
         const notificationsBody = await notifications.json();
         return notificationsBody;
     }
@@ -114,7 +115,7 @@ class Workspace {
      * @param {number} repeatMax - Max number of tries to find the FeedCard
      * @param {number} waitTime - Time in miliseconds to wait after each try
      */
-    async waitForFeedCardId({ page, repeatMax = 50, waitTime = 5000, recordId, notificationId = "" }) {
+    async waitForFeedCardId({ page, repeatMax = 50, waitTime = 5000, recordId, notificationId = "", }) {
         let feedCardId;
         for (let i = 0; i < repeatMax; i++) {
             if (i === repeatMax - 1) {
@@ -123,7 +124,8 @@ class Workspace {
             const feedNotification = await this.getFeedNotifications({ page });
             const data = feedNotification.items;
             const feedCardDetail = data.filter((e) => {
-                return e.recordId.includes(recordId) && e.source.notification.id.includes(notificationId);
+                return (e.recordId.includes(recordId) &&
+                    e.source.notification.id.includes(notificationId));
             });
             try {
                 feedCardId = feedCardDetail[0].id;
@@ -192,11 +194,20 @@ class Workspace {
         });
         const citrixToken = response.data.csrf;
         const cookies = response.headers["set-cookie"];
-        const jSessionId = await helpers_1.getCookie({ cookies: cookies, cookieName: "JSESSIONID" });
+        const jSessionId = await helpers_1.getCookie({
+            cookies: cookies,
+            cookieName: "JSESSIONID",
+        });
         return { citrixToken, jSessionId };
     }
     async getDsauthTokens({ page, context, workspaceUrl, workspaceUsername, workspacePassword, workspaceIdentityProvider, builderDomain, authDomain, }) {
-        await this.login({ page, workspaceUrl, workspaceUsername, workspacePassword, workspaceIdentityProvider });
+        await this.login({
+            page,
+            workspaceUrl,
+            workspaceUsername,
+            workspacePassword,
+            workspaceIdentityProvider,
+        });
         const cookies = await context.cookies();
         const csfrTokenCookie = cookies.find((e) => e.name === "CsrfToken");
         const sessionIdCookie = cookies.find((e) => e.name === "ASP.NET_SessionId");
@@ -212,15 +223,36 @@ class Workspace {
             ctxsAuthId,
             authDomain,
         });
-        const { citrixToken, jSessionId } = await this.getTokens({ builderDomain, authDomain, oneTimeToken });
+        const { citrixToken, jSessionId } = await this.getTokens({
+            builderDomain,
+            authDomain,
+            oneTimeToken,
+        });
         return { citrixToken, jSessionId };
     }
-    async createDsAuthInstance({ citrixToken, jSessionId }) {
+    async createDsAuthInstance({ citrixToken, jSessionId, }) {
         const dSauthInstance = axios_1.default.create({});
         dSauthInstance.defaults.headers.common["citrix-csrf-token"] = `${citrixToken}`;
         dSauthInstance.defaults.headers.common["cookie"] = `JSESSIONID=${jSessionId}`;
         dSauthInstance.defaults.timeout = 90000;
         return dSauthInstance;
+    }
+    async getUserData({ dSauthInstance, microappsAdminUrl, appId, componentId, dataLimit, initiatorType, initiatorData, pageId, authDomain, }) {
+        const response = await dSauthInstance({
+            url: `${microappsAdminUrl}/app/api/app/${appId}/component/${componentId}/data`,
+            method: "GET",
+            queryParameters: {
+                offset: 0,
+                limit: dataLimit,
+                orderDirection: "ASC",
+                initiator_type: initiatorType,
+                initiator_id: pageId,
+                initiator_appId: appId,
+                initiator_data: initiatorData,
+                authDomain,
+            },
+        });
+        return response.data.data;
     }
 }
 exports.Workspace = Workspace;
