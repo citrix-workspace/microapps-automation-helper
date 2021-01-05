@@ -1,4 +1,5 @@
 import { API } from './api';
+import type { GetAuthenticatorCode, GetCCBearerToken, CreateAuthInstance } from './types/citrixCloud';
 /** Class representing a Citrix Cloud. */
 export declare class CitrixCloud extends API {
     constructor();
@@ -22,15 +23,3 @@ export declare class CitrixCloud extends API {
      */
     createAuthInstance({ bearerToken }: CreateAuthInstance): Promise<import("axios").AxiosInstance>;
 }
-export declare type GetAuthenticatorCode = {
-    secretKey: string;
-};
-export declare type GetCCBearerToken = {
-    cwaAPI: string;
-    citrixCloudCustomerId: string;
-    citrixCloudClientId: string;
-    citrixCloudClientSecret: string;
-};
-export declare type CreateAuthInstance = {
-    bearerToken: string;
-};

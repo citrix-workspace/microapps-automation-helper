@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.errorHandle = exports.getCookie = void 0;
+exports.paramsCheck = exports.errorHandle = exports.getCookie = void 0;
 exports.getCookie = ({ cookies, cookieName }) => {
     const regexp = new RegExp(`^${cookieName}=([^;]+);`);
     const cookie = cookies.find((cookieString) => cookieString.match(regexp) !== null);
@@ -94,7 +94,7 @@ exports.errorHandle = async ({ error, args }) => {
             }
         }
         errorReport.ErrorReport.status = `The request failed with status: ${error.response.status} - ${error.response.statusText} - ${description}`;
-        errorReport.ErrorReport.message = `The request send message: ${error.response.data}`;
+        errorReport.ErrorReport.message = `The request send message: ${error.response.data.message}`;
     }
     else {
         console.log(error.stack);
@@ -102,4 +102,28 @@ exports.errorHandle = async ({ error, args }) => {
     }
     console.log(errorReport);
     throw new Error('Request failed. Please review the ErrorReport above.');
+};
+exports.paramsCheck = async ({ params, functionType, source }) => {
+    let invalidValues = { InvalidValues: [] };
+    let invalidKey;
+    for (const [key, value] of Object.entries(params)) {
+        if (value === undefined || value === null || value === '') {
+            invalidKey = key;
+            invalidValues.InvalidValues.push(`Value "${key}" is type of "${typeof value}" and has value "${value}".`);
+        }
+    }
+    if (invalidValues.InvalidValues.length > 0) {
+        console.log(invalidValues);
+        switch (functionType) {
+            case 'find': {
+                return `Failed to find '${invalidKey}' in '${source}' list`;
+            }
+            case 'filter': {
+                return `Failed to filter '${invalidKey}' in '${source}' list`;
+            }
+            default: {
+                return `Failed to get property '${invalidKey}' in '${source}'`;
+            }
+        }
+    }
 };
