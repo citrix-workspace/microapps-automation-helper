@@ -160,7 +160,7 @@ export class MicroappsAdmin extends API {
                         })
                     );
                 }
-                if (jobRun.running === false) {
+                if (jobRun?.running === false) {
                     break;
                 }
                 await new Promise((resolve) => setTimeout(resolve, 5000));

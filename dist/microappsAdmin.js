@@ -119,7 +119,7 @@ class MicroappsAdmin extends api_1.API {
                         source: 'jobRuns',
                     }));
                 }
-                if (jobRun.running === false) {
+                if ((jobRun === null || jobRun === void 0 ? void 0 : jobRun.running) === false) {
                     break;
                 }
                 await new Promise((resolve) => setTimeout(resolve, 5000));
