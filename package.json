@@ -1,6 +1,6 @@
 {
   "name": "microapps-automation-helper",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "> library which provides common functions to test integration between Microapps Admin and Citrix Worskspace",
   "main": "index.js",
   "types": "main.d.ts",
