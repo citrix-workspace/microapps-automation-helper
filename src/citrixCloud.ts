@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { authenticator } from 'otplib';
 import { API } from './api';
-
+import type { GetAuthenticatorCode, GetCCBearerToken, CreateAuthInstance } from './types/citrixCloud';
 authenticator.options = { digits: 6 };
 
 /** Class representing a Citrix Cloud. */
@@ -12,7 +12,7 @@ export class CitrixCloud extends API {
 
     /**
      * Generates auth code for login to Citrix Cloud
-     * 
+     *
      * @param {string} secretKey - SecretKey for generating the code
      */
     async getAuthenticatorCode({ secretKey }: GetAuthenticatorCode) {
@@ -53,19 +53,4 @@ export class CitrixCloud extends API {
         authInstance.defaults.timeout = 90000;
         return authInstance;
     }
-}
-
-export type GetAuthenticatorCode = {
-  secretKey: string;
-};
-
-export type GetCCBearerToken = {
-  cwaAPI: string;
-  citrixCloudCustomerId: string;
-  citrixCloudClientId: string;
-  citrixCloudClientSecret: string;
-};
-
-export type CreateAuthInstance = {
-    bearerToken: string;
 }

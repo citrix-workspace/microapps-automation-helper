@@ -1,20 +1,4 @@
-import { AxiosError } from 'axios';
-
-export type GetCookie = {
-    cookies: any;
-    cookieName: string;
-};
-
-export type ErrorHandle = {
-    error: AxiosError;
-    args: Object;
-};
-
-export type ParamsCheck = {
-    params: Object;
-    functionType?: string;
-    source: string;
-}
+import type { GetCookie, ErrorHandle, ParamsCheck } from './types/helpers';
 
 export const getCookie = ({ cookies, cookieName }: GetCookie): string => {
     const regexp = new RegExp(`^${cookieName}=([^;]+);`);
@@ -165,4 +149,3 @@ export const paramsCheck = async ({ params, functionType, source }: ParamsCheck)
         }
     }
 };
-
