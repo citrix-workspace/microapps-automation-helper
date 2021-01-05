@@ -10,6 +10,12 @@ export type ErrorHandle = {
     args: Object;
 };
 
+export type ParamsCheck = {
+    params: Object;
+    functionType?: string;
+    source: string;
+}
+
 export const getCookie = ({ cookies, cookieName }: GetCookie): string => {
     const regexp = new RegExp(`^${cookieName}=([^;]+);`);
     const cookie = cookies.find(
@@ -122,7 +128,7 @@ export const errorHandle = async ({ error, args }: ErrorHandle) => {
         }
 
         errorReport.ErrorReport.status = `The request failed with status: ${error.response.status} - ${error.response.statusText} - ${description}`;
-        errorReport.ErrorReport.message = `The request send message: ${error.response.data}`;
+        errorReport.ErrorReport.message = `The request send message: ${error.response.data.message}`;
     } else {
         console.log(error.stack);
 
@@ -133,3 +139,30 @@ export const errorHandle = async ({ error, args }: ErrorHandle) => {
 
     throw new Error('Request failed. Please review the ErrorReport above.');
 };
+
+export const paramsCheck = async ({ params, functionType, source }: ParamsCheck) => {
+    let invalidValues: any = { InvalidValues: [] };
+    let invalidKey;
+    for (const [key, value] of Object.entries(params)) {
+        if (value === undefined || value === null || value === '') {
+            invalidKey = key;
+            invalidValues.InvalidValues.push(`Value "${key}" is type of "${typeof value}" and has value "${value}".`);
+        }
+    }
+
+    if (invalidValues.InvalidValues.length > 0) {
+        console.log(invalidValues);
+        switch (functionType) {
+            case 'find': {
+                return `Failed to find '${invalidKey}' in '${source}' list`;
+            }
+            case 'filter': {
+                return `Failed to filter '${invalidKey}' in '${source}' list`;
+            }
+            default: {
+                return `Failed to get property '${invalidKey}' in '${source}'`;
+            }
+        }
+    }
+};
+
