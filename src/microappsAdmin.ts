@@ -224,7 +224,7 @@ export class MicroappsAdmin extends API {
             );
         }
 
-        if (getJobRunDetail.running === true) {
+        if (getJobRunDetail?.running === true) {
             await this.waitForSync({
                 getIntegration: () =>
                     this.getIntegration({
