@@ -171,7 +171,7 @@ class MicroappsAdmin extends api_1.API {
                 source: 'jobRuns',
             }));
         }
-        if (getJobRunDetail.running === true) {
+        if ((getJobRunDetail === null || getJobRunDetail === void 0 ? void 0 : getJobRunDetail.running) === true) {
             await this.waitForSync({
                 getIntegration: () => this.getIntegration({
                     authInstance,
