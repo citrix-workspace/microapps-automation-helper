@@ -38,11 +38,12 @@ class Workspace {
                 break;
             case 'aad':
                 await page.waitForSelector('input[name="loginfmt"]');
-                await page.type('input[name="loginfmt"]', workspaceUsername);
+                await page.fill('input[name="loginfmt"]', workspaceUsername);
                 await page.waitForSelector('input[value="Next"]');
                 await page.click('input[value="Next"]');
+                await page.waitForSelector('#loginHeader >> text=Enter password');
                 await page.waitForSelector('input[name="passwd"]');
-                await page.type('input[name="passwd"]', workspacePassword);
+                await page.fill('input[name="passwd"]', workspacePassword);
                 await page.waitForSelector('input[value="Sign in"]');
                 await page.click('input[value="Sign in"]');
                 await page.waitForSelector('input[value="Yes"]');
