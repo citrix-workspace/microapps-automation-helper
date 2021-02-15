@@ -22,7 +22,6 @@ import { CitrixCloud, Workspace, MicroappsAdmin } from "microapps-automation-hel
 const workspace = new Workspace();
 
 (async () => {
-  await workspace.login({ page, url: workspaceUrl, username, password, idp });
+  await workspace.login({ page, workspaceUrl, workspaceUsername, workspacePassword, workspaceIdentityProvider });
   await page.waitForSelector("#notification-home-feed-cards", { visible: true });
 })();
-```
