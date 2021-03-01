@@ -32,7 +32,7 @@ export declare class Workspace {
      * Get Feed Notifications
      * @param {Object} page - Methods to interact with a single tab or extension background page in Browser
      */
-    getFeedNotifications({ page }: GetFeedNotifications): Promise<{}>;
+    getFeedNotifications({ page }: GetFeedNotifications): Promise<import("playwright/types/structs").Serializable>;
     /**
      * Wait for FeedCard to show up in Notifications
      *

@@ -911,5 +911,36 @@ class MicroappsAdmin extends api_1.API {
         }
         return componentId;
     }
+    /**
+     * Waits for all integrations to finish the sync and validate the results
+     * @param {string} synchronizationType - Set type of syncronization full/incremental
+     * @param {number} timeToRepeat = Number of repeats
+     * @param {Object} authInstance - Authorized instance for API calls
+     * @param {string} microappsAdminUrl - Microapps admin url
+     *
+     */
+    async waitForAllSync({ synchronizationType, timeToRepeat = 45, authInstance, microappsAdminUrl, }) {
+        for (let i = 0; i < timeToRepeat; i++) {
+            const integrations = await this.getIntegrations({
+                authInstance,
+                microappsAdminUrl,
+            });
+            const expanded = [...integrations.data];
+            const readyForSync = expanded.filter((e) => e.configMissing === false &&
+                e.configurationPending === false &&
+                e.secretsMissing === false &&
+                e.oauthLoginNeeded === false &&
+                e.updatePending === false);
+            const allJobs = readyForSync.map((e) => e.jobRuns);
+            const flattedJobs = allJobs.flat();
+            const jobsBySyncType = flattedJobs.filter((job) => job.synchronizationTypeId === synchronizationType);
+            const runningJobs = jobsBySyncType.map((e) => e.running);
+            await new Promise((resolve) => setTimeout(resolve, 10000));
+            if (!runningJobs.includes(true)) {
+                console.log(`All integrations finished ${synchronizationType}`);
+                break;
+            }
+        }
+    }
 }
 exports.MicroappsAdmin = MicroappsAdmin;
