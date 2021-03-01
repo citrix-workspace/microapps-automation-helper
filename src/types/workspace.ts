@@ -1,4 +1,5 @@
 import { Page, BrowserContext } from 'playwright';
+import { AxiosInstance } from 'axios';
 
 export type Login = {
     page: Page;
@@ -77,7 +78,7 @@ export type CreateDsAuthInstance = {
 };
 
 export type GetUserData = {
-    dSauthInstance: any;
+    dSauthInstance: AxiosInstance;
     microappsAdminUrl: string;
     appId: string;
     componentId: string;
