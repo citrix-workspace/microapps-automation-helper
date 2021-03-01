@@ -17,14 +17,14 @@ export declare class API {
      * @param {object} authInstance - Axios instance
      * @param {string} microappsAdminUrl - Microapps Admin Url
      */
-    getIntegrations({ authInstance, microappsAdminUrl }: GetIntegrations): Promise<any>;
+    getIntegrations({ authInstance, microappsAdminUrl }: GetIntegrations): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Get Bundle Catalogue in Miroapps Admin
      *
      * @param {object} authInstance - Axios instance
      * @param {string} microappsAdminUrl - Microapps Admin Url
      */
-    getBundleCatalogue({ authInstance, microappsAdminUrl }: GetBundleCatalogue): Promise<any>;
+    getBundleCatalogue({ authInstance, microappsAdminUrl }: GetBundleCatalogue): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Update Bundle Catalogue in Miroapps Admin
      *
@@ -32,7 +32,7 @@ export declare class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      * @param {string} catalogueId - Catalogue Id
      */
-    updateBundleCatalogue({ authInstance, microappsAdminUrl, catalogueId }: UpdateBundleCatalogue): Promise<any>;
+    updateBundleCatalogue({ authInstance, microappsAdminUrl, catalogueId }: UpdateBundleCatalogue): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Update Integration Configuration in Miroapps Admin
      *
@@ -41,7 +41,7 @@ export declare class API {
      * @param {string} integrationId - Integration Id
      * @param {string} integrationConfiguration - integrationConfiguration
      */
-    updateintegrationConfiguration({ authInstance, microappsAdminUrl, integrationId, integrationConfiguration, }: UpdateintegrationConfiguration): Promise<any>;
+    updateintegrationConfiguration({ authInstance, microappsAdminUrl, integrationId, integrationConfiguration, }: UpdateintegrationConfiguration): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Get one specific Integration in Microapps Admin
      *
@@ -49,7 +49,7 @@ export declare class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      * @param {string} integrationId - Integration Id
      */
-    getIntegration({ authInstance, microappsAdminUrl, integrationId }: GetIntegration): Promise<any>;
+    getIntegration({ authInstance, microappsAdminUrl, integrationId }: GetIntegration): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Auth logout in Integration in Microapps Admin
      *
@@ -57,7 +57,7 @@ export declare class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      * @param {string} integrationId - Integration Id
      */
-    integrationLogout({ authInstance, microappsAdminUrl, integrationId }: IntegrationLogout): Promise<any>;
+    integrationLogout({ authInstance, microappsAdminUrl, integrationId }: IntegrationLogout): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Validate configuration of Integration in Microapps Admin
      *
@@ -66,7 +66,7 @@ export declare class API {
      * @param {string} serviceKey - ServiceKey of Integration
      * @param {string} configuration - Configuration parameters of Integration
      */
-    validateConfiguration({ authInstance, microappsAdminUrl, serviceKey, configuration }: ValidateConfiguration): Promise<any>;
+    validateConfiguration({ authInstance, microappsAdminUrl, serviceKey, configuration }: ValidateConfiguration): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Add MicroApp in Integration in Microapps Admin
      *
@@ -74,7 +74,7 @@ export declare class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      * @param {string} data - Data of the MicroApp
      */
-    addApp({ authInstance, microappsAdminUrl, data }: AddApp): Promise<any>;
+    addApp({ authInstance, microappsAdminUrl, data }: AddApp): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Get status of one specific process
      *
@@ -82,7 +82,7 @@ export declare class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      * @param {string} processId - Id of the process
      */
-    getProcessStatus({ authInstance, microappsAdminUrl, processId }: GetProcessStatus): Promise<any>;
+    getProcessStatus({ authInstance, microappsAdminUrl, processId }: GetProcessStatus): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Get all Entities of Integration in Microapps Admin
      *
@@ -90,7 +90,7 @@ export declare class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      * @param {string} integrationId - Integration Id
      */
-    getEntities({ authInstance, microappsAdminUrl, integrationId }: GetEntities): Promise<any>;
+    getEntities({ authInstance, microappsAdminUrl, integrationId }: GetEntities): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Create Entity in Integration in Microapps Admin
      *
@@ -99,7 +99,7 @@ export declare class API {
      * @param {string} integrationId - Integration Id
      * @param {string} entityData - Data of the Entity
      */
-    createEntity({ authInstance, microappsAdminUrl, integrationId, entityData }: CreateEntity): Promise<any>;
+    createEntity({ authInstance, microappsAdminUrl, integrationId, entityData }: CreateEntity): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Finalize configuration of Integration in Microapps Admin
      *
@@ -107,7 +107,7 @@ export declare class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      * @param {string} integrationId - Integration Id
      */
-    finalizeConfig({ authInstance, microappsAdminUrl, integrationId }: FinalizeConfig): Promise<any>;
+    finalizeConfig({ authInstance, microappsAdminUrl, integrationId }: FinalizeConfig): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Get all MicroApps in Microapps Admin
      *
@@ -115,7 +115,7 @@ export declare class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
 
      */
-    getApps({ authInstance, microappsAdminUrl }: GetApps): Promise<any>;
+    getApps({ authInstance, microappsAdminUrl }: GetApps): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Get Notifications of MicroApp in Microapps Admin
      *
@@ -123,14 +123,14 @@ export declare class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      * @param {string} appId - Id of the MicroApp
      */
-    getNotifications({ authInstance, microappsAdminUrl, appId }: GetNotifications): Promise<any>;
+    getNotifications({ authInstance, microappsAdminUrl, appId }: GetNotifications): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Run Event in MicroApp in Microapps Admin
      *
      * @param {object} authInstance - Axios instance
      * @param {string} microappsAdminUrl - Microapps Admin Url
      */
-    runNotificationEvent({ authInstance, microappsAdminUrl, notificationId }: RunNotificationEvent): Promise<any>;
+    runNotificationEvent({ authInstance, microappsAdminUrl, notificationId }: RunNotificationEvent): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Start Synchronization of Integration in Microapps Admin
      *
@@ -138,14 +138,14 @@ export declare class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      * @param {string} integrationId - Integration Id
      */
-    startSynchronization({ authInstance, microappsAdminUrl, integrationId, synchronizationType, }: StartSynchronization): Promise<any>;
+    startSynchronization({ authInstance, microappsAdminUrl, integrationId, synchronizationType, }: StartSynchronization): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Check integrity of all MicroApps in Microapps Admin
      *
      * @param {object} authInstance - Axios instance
      * @param {string} microappsAdminUrl - Microapps Admin Url
      */
-    integrityCheck({ authInstance, microappsAdminUrl }: IntegrityCheck): Promise<any>;
+    integrityCheck({ authInstance, microappsAdminUrl }: IntegrityCheck): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Delete Integration in Microaaps Admin
      *
@@ -153,7 +153,7 @@ export declare class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      * @param {string} integrationId - Integration Id
      */
-    deleteIntegration({ authInstance, microappsAdminUrl, integrationId }: DeleteIntegration): Promise<any>;
+    deleteIntegration({ authInstance, microappsAdminUrl, integrationId }: DeleteIntegration): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Sets Domain in authInstance for specific Workspace Identity Provider
      *
@@ -162,7 +162,7 @@ export declare class API {
      * @param {string} citrixCloudCustomerId - Customer Id
      * @param {string} workspaceIdentityProvider - Identity Provider of Workspace
      */
-    getDomain({ authInstance, cwaAPI, citrixCloudCustomerId, workspaceIdentityProvider }: GetDomain): Promise<any>;
+    getDomain({ authInstance, cwaAPI, citrixCloudCustomerId, workspaceIdentityProvider }: GetDomain): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Get data of specific Users for Subscribing to MicroApp in Microapps Admin
      *
@@ -175,7 +175,7 @@ export declare class API {
      * @param {string} citrixCloudCustomerId - Customer Id
      * @param {string} idpType - Identity Provider of Workspace
      */
-    getUsers({ authInstance, cwaAPI, domainName, forestName, appId, query, citrixCloudCustomerId, idpType, }: GetUsers): Promise<any>;
+    getUsers({ authInstance, cwaAPI, domainName, forestName, appId, query, citrixCloudCustomerId, idpType, }: GetUsers): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Update Subscribers of MicroApp in Microapps Admin
      *
@@ -188,7 +188,7 @@ export declare class API {
      * @param {string} forestName - Forest name
      * @param {string} workspaceIdentityProvider - Identity Provider of Workspace
      */
-    updateSubscribers({ authInstance, microappsAdminUrl, assign, userDetail, appId, domainName, forestName, workspaceIdentityProvider, }: UpdateSubscribers): Promise<any>;
+    updateSubscribers({ authInstance, microappsAdminUrl, assign, userDetail, appId, domainName, forestName, workspaceIdentityProvider, }: UpdateSubscribers): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Get all Subscribers of MicroApp in Microapps Admin
      *
@@ -196,7 +196,7 @@ export declare class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      * @param {string} appId - Id of the MicroApp
      */
-    getSubscribers({ authInstance, microappsAdminUrl, appId }: GetSubscribers): Promise<any>;
+    getSubscribers({ authInstance, microappsAdminUrl, appId }: GetSubscribers): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Import Integration from an exported Integration file
      *
@@ -215,7 +215,7 @@ export declare class API {
      * @param {string} integrationName - Name of Integration
      * @param {string} integrationType - Type of Integration
      */
-    getIntegrationLog({ authInstance, microappsAdminUrl, integrationId, integrationType }: GetIntegrationLog): Promise<any>;
+    getIntegrationLog({ authInstance, microappsAdminUrl, integrationId, integrationType }: GetIntegrationLog): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Update integration with secrets
      * @param {Object} authInstance - Authorized instance for API calls
@@ -223,12 +223,12 @@ export declare class API {
      * @param {string} integrationId - Id of Integration
      * @param {string} data - Secrest which should be add to the integration
      */
-    addSecrets({ authInstance, microappsAdminUrl, integrationId, data }: AddSecrets): Promise<any>;
+    addSecrets({ authInstance, microappsAdminUrl, integrationId, data }: AddSecrets): Promise<import("axios").AxiosResponse<any>>;
     /**
      * Get microapp info - pages, components etc...
      * @param {Object} authInstance - Authorized instance for API calls
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} appId - Id of microapp
      */
-    getAppInfo({ authInstance, microappsAdminUrl, appId }: GetAppInfo): Promise<any>;
+    getAppInfo({ authInstance, microappsAdminUrl, appId }: GetAppInfo): Promise<import("axios").AxiosResponse<any>>;
 }

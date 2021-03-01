@@ -1,4 +1,5 @@
 import { Page } from 'playwright';
+import { AxiosInstance } from 'axios';
 export declare type MicroappsAdminLogin = {
     page: Page;
     url: string;
@@ -8,12 +9,12 @@ export declare type MicroappsAdminLogin = {
     secretKey: string;
 };
 export declare type GetIntegrationId = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationName: string;
 };
 export declare type OauthLogout = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationName: string;
     repeatCount?: number;
@@ -24,26 +25,26 @@ export declare type WaitForSync = {
     integrationName?: string;
 };
 export declare type RunSynchronization = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationName: string;
     synchronizationType: string;
 };
 export declare type CreateHTTPIntegration = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationName: string;
     integrationConfiguration: any;
 };
 export declare type WaitForProcessStatus = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     getProcessStatus: () => any;
     status: string;
     microappsAdminUrl: string;
     processId: string;
 };
 export declare type CreateJavaIntegration = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     data: string;
     integrationConfiguration: any;
@@ -53,54 +54,54 @@ export declare type CreateJavaIntegration = {
     name: string;
 };
 export declare type GetIntegrationType = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationName: string;
 };
 export declare type GetStatusIntegration = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationName: string;
 };
 export declare type ImportIntegration = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     pathToFile: string;
 };
 export declare type RenameIntegration = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationName: string;
     newIntegrationName: string;
     integrationConfiguration: string;
 };
 export declare type ExportApp = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     appId: string;
     pathToFile: string;
 };
 export declare type GetMicroAppId = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationId: string;
     appName: string;
 };
 export declare type GetNotificationId = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     appId: string;
     notificationName: string;
 };
 export declare type RunEvent = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationName: string;
     appName: string;
     notificationName: string;
 };
 export declare type CheckAppMissconfigurations = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     appId: string;
 };
@@ -116,20 +117,20 @@ export declare type ImportMicroAppUI = {
     integrationName: string;
 };
 export declare type AddSubscriber = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     appId: string;
     user: string;
     config: any;
 };
 export declare type AddSubscribers = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     integrationName: string;
     microappsAdminUrl: string;
     microapps?: any;
     config: any;
 };
 export declare type Subscribe = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microapps: any;
     microapp: string;
     integrationId: string;
@@ -144,15 +145,21 @@ export declare type ExportMicroAppUI = {
     integrationName: string;
 };
 export declare type GetLastSyncTime = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationName: string;
 };
 export declare type GetComponentId = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationName: string;
     appName: string;
     pageName: string;
     componentLabel: string;
+};
+export declare type WaitForAllSync = {
+    synchronizationType: string;
+    timeToRepeat?: number;
+    authInstance: AxiosInstance;
+    microappsAdminUrl: string;
 };

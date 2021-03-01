@@ -1,6 +1,6 @@
 import { API } from './api';
 import { AxiosResponse } from 'axios';
-import type { AddSubscriber, AddSubscribers, CheckAppMissconfigurations, CreateHTTPIntegration, CreateJavaIntegration, ExportApp, ExportIntegrationUI, ExportMicroAppUI, GetComponentId, GetIntegrationId, GetIntegrationType, GetLastSyncTime, GetMicroAppId, GetNotificationId, GetStatusIntegration, ImportIntegration, ImportIntegrationUI, ImportMicroAppUI, MicroappsAdminLogin, OauthLogout, RenameIntegration, RunEvent, RunSynchronization, WaitForProcessStatus, WaitForSync } from './types/microappsAdmin';
+import type { AddSubscriber, AddSubscribers, CheckAppMissconfigurations, CreateHTTPIntegration, CreateJavaIntegration, ExportApp, ExportIntegrationUI, ExportMicroAppUI, GetComponentId, GetIntegrationId, GetIntegrationType, GetLastSyncTime, GetMicroAppId, GetNotificationId, GetStatusIntegration, ImportIntegration, ImportIntegrationUI, ImportMicroAppUI, MicroappsAdminLogin, OauthLogout, RenameIntegration, RunEvent, RunSynchronization, WaitForProcessStatus, WaitForSync, WaitForAllSync } from './types/microappsAdmin';
 /** Class representing a Microapps Admin. */
 export declare class MicroappsAdmin extends API {
     constructor();
@@ -55,7 +55,7 @@ export declare class MicroappsAdmin extends API {
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} processId - Id of process
      */
-    waitForProcessStatus({ authInstance, status, microappsAdminUrl, processId }: WaitForProcessStatus): Promise<any>;
+    waitForProcessStatus({ authInstance, status, microappsAdminUrl, processId }: WaitForProcessStatus): Promise<AxiosResponse<any>>;
     /**
      * Create Java Integration
      * @param {Object} authInstance - Authorized instance for API calls
@@ -181,4 +181,13 @@ export declare class MicroappsAdmin extends API {
      * @param {string} componentLabel - Label of Component
      */
     getComponentId({ authInstance, microappsAdminUrl, integrationName, appName, pageName, componentLabel, }: GetComponentId): Promise<any>;
+    /**
+     * Waits for all integrations to finish the sync and validate the results
+     * @param {string} synchronizationType - Set type of syncronization full/incremental
+     * @param {number} timeToRepeat = Number of repeats
+     * @param {Object} authInstance - Authorized instance for API calls
+     * @param {string} microappsAdminUrl - Microapps admin url
+     *
+     */
+    waitForAllSync({ synchronizationType, timeToRepeat, authInstance, microappsAdminUrl, }: WaitForAllSync): Promise<void>;
 }

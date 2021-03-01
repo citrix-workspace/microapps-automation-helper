@@ -1,101 +1,102 @@
+import { AxiosInstance } from 'axios';
 export declare type AddApp = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     data: string;
 };
 export declare type GetBundleCatalogue = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
 };
 export declare type GetIntegration = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationId: string;
 };
 export declare type GetIntegrations = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
 };
 export declare type GetProcessStatus = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     processId: string;
 };
 export declare type IntegrationLogout = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationId: string;
 };
 export declare type UpdateBundleCatalogue = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     catalogueId: string;
 };
 export declare type UpdateintegrationConfiguration = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationId: string;
     integrationConfiguration: any;
 };
 export declare type ValidateConfiguration = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     serviceKey: string;
     configuration: string;
 };
 export declare type GetEntities = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationId: string;
 };
 export declare type CreateEntity = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationId: string;
     entityData: any;
 };
 export declare type FinalizeConfig = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationId: string;
 };
 export declare type GetApps = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
 };
 export declare type GetNotifications = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     appId: string;
 };
 export declare type RunNotificationEvent = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     notificationId: string;
 };
 export declare type StartSynchronization = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationId: string;
     synchronizationType: string;
 };
 export declare type IntegrityCheck = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
 };
 export declare type DeleteIntegration = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationId: string;
 };
 export declare type GetDomain = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     cwaAPI: string;
     citrixCloudCustomerId: string;
     workspaceIdentityProvider: string;
 };
 export declare type GetUsers = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     cwaAPI: string;
     domainName: string;
     forestName: string;
@@ -105,7 +106,7 @@ export declare type GetUsers = {
     idpType: any;
 };
 export declare type UpdateSubscribers = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     assign: string;
     userDetail: any;
@@ -115,19 +116,19 @@ export declare type UpdateSubscribers = {
     workspaceIdentityProvider: string;
 };
 export declare type GetSubscribers = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     appId: string;
 };
 export declare type ExportIntegration = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationId: string;
     filePath: any;
     params: any;
 };
 export declare type GetIntegrationLog = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationId: string;
     integrationType: string;
@@ -139,13 +140,13 @@ export declare type GetCitrixCloudTokens = {
     citrixCloudClientSecret: string;
 };
 export declare type AddSecrets = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationId: string;
     data: any;
 };
 export declare type GetAppInfo = {
-    authInstance: any;
+    authInstance: AxiosInstance;
     microappsAdminUrl: string;
     appId: string;
 };
