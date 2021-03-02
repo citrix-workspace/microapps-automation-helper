@@ -1,5 +1,6 @@
 # Microapps Automation Helper
-
+ [![GitHub license](https://img.shields.io/badge/license-ISC-green.svg)](https://github.com/citrix-workspace/microapps-automation-helper/blob/master/LICENSE) ![npm](https://img.shields.io/npm/v/microapps-automation-helper)
+### [API reference](https://github.com/citrix-workspace/microapps-automation-helper/blob/master/API-REFERENCE.md)
 > Microapps automation helper is a library which provides common functions to test integration between Microapps Admin and Citrix Worskspace
 
 ## Getting Started
