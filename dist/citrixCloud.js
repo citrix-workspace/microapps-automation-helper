@@ -7,6 +7,7 @@ exports.CitrixCloud = void 0;
 const axios_1 = __importDefault(require("axios"));
 const otplib_1 = require("otplib");
 const api_1 = require("./api");
+const helpers_1 = require("./helpers");
 otplib_1.authenticator.options = { digits: 6 };
 /** Class representing a Citrix Cloud. */
 class CitrixCloud extends api_1.API {
@@ -35,7 +36,17 @@ class CitrixCloud extends api_1.API {
             citrixCloudClientId,
             citrixCloudClientSecret,
         });
-        return response.data.token;
+        let token;
+        try {
+            token = response.data.token;
+        }
+        catch (error) {
+            throw new Error(await helpers_1.paramsCheck({
+                params: { token, response },
+                source: 'response',
+            }));
+        }
+        return token;
     }
     /**
      * Create Authorized Instace
