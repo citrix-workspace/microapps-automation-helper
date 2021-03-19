@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { authenticator } from 'otplib';
 import { API } from './api';
+import { paramsCheck } from './helpers';
 import type { GetAuthenticatorCode, GetCCBearerToken, CreateAuthInstance } from './types/citrixCloud';
 authenticator.options = { digits: 6 };
 
@@ -39,7 +40,19 @@ export class CitrixCloud extends API {
             citrixCloudClientId,
             citrixCloudClientSecret,
         });
-        return response.data.token;
+
+        let token: string;
+        try {
+            token = response.data.token;
+        } catch (error) {
+            throw new Error(
+                await paramsCheck({
+                    params: { token, response },
+                    source: 'response',
+                })
+            );
+        }
+        return token;
     }
 
     /**

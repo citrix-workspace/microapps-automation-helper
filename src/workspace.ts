@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getCookie } from './helpers';
+import { getCookie, paramsCheck } from './helpers';
 import type {
     Login,
     CreateDsAuthInstance,
@@ -145,7 +145,7 @@ export class Workspace {
         recordId,
         notificationId = '',
     }: WaitForFeedCardId) {
-        let feedCardId;
+        let feedCardId: Number;
         for (let i = 0; i < repeatMax; i++) {
             if (i === repeatMax - 1) {
                 throw new Error('Have not found expected feedcard id.');
@@ -153,15 +153,23 @@ export class Workspace {
 
             const feedNotification: any = await this.getFeedNotifications({ page });
             const data = feedNotification.items;
-            const feedCardDetail = data.filter(
-                (e: { recordId: string | string[]; source: { notification: { id: string | string[] } } }) => {
-                    return e.recordId.includes(recordId) && e.source.notification.id.includes(notificationId);
-                }
-            );
-
+            let feedCardDetail;
             try {
+                feedCardDetail = data.filter(
+                    (e: { recordId: string | string[]; source: { notification: { id: string | string[] } } }) => {
+                        return e.recordId.includes(recordId) && e.source.notification.id.includes(notificationId);
+                    }
+                );
                 feedCardId = feedCardDetail[0].id;
-            } catch (error) {}
+            } catch (error) {
+                throw new Error(
+                    await paramsCheck({
+                        params: { feedCardDetail, feedCardId, data },
+                        functionType: 'filter',
+                        source: 'data',
+                    })
+                );
+            }
 
             await page.waitForTimeout(waitTime);
 
@@ -224,7 +232,18 @@ export class Workspace {
                 authDomain,
             },
         });
-        return response.data.ott;
+
+        let token: string;
+        try {
+            token = response.data.ott;
+        } catch (error) {
+            throw new Error(await paramsCheck({
+                params: { token, response },
+                source: 'response',
+            }))
+        }
+
+        return token;
     }
 
     async getTokens({ builderDomain, authDomain, oneTimeToken }: GetTokens) {
@@ -240,7 +259,16 @@ export class Workspace {
             },
         });
 
-        const citrixToken = response.data.csrf;
+        let citrixToken: string;
+        try {
+            citrixToken = response.data.csrf;
+        } catch (error) {
+            throw new Error(await paramsCheck({
+                params: { citrixToken, response },
+                source: 'response',
+            }))
+        }
+
         const cookies = response.headers['set-cookie'];
         const jSessionId = await getCookie({
             cookies: cookies,
@@ -267,12 +295,45 @@ export class Workspace {
             workspaceIdentityProvider,
         });
         const cookies = await context.cookies();
-        const csfrTokenCookie = cookies.find((e) => e.name === 'CsrfToken');
-        const sessionIdCookie = cookies.find((e) => e.name === 'ASP.NET_SessionId');
-        const ctxsAuthIdCookie = cookies.find((e) => e.name === 'CtxsAuthId');
-        const csrfToken: any = csfrTokenCookie?.value;
-        const sessionId: any = sessionIdCookie?.value;
-        const ctxsAuthId: any = ctxsAuthIdCookie?.value;
+
+        let csfrTokenCookie, sessionIdCookie, ctxsAuthIdCookie;
+        let csrfToken: any, sessionId: any, ctxsAuthId: any;
+        try {
+            csfrTokenCookie = cookies.find((e) => e.name === 'CsrfToken');
+            csrfToken = csfrTokenCookie?.value;
+        } catch (error) {
+            throw new Error(
+                await paramsCheck({
+                    params: { csfrTokenCookie, csrfToken, cookies },
+                    functionType: 'find',
+                    source: 'cookies',
+                })
+            );
+        }
+        try {
+            sessionIdCookie = cookies.find((e) => e.name === 'ASP.NET_SessionId');
+            sessionId = sessionIdCookie?.value;
+        } catch (error) {
+            throw new Error(
+                await paramsCheck({
+                    params: { sessionIdCookie, sessionId, cookies },
+                    functionType: 'find',
+                    source: 'cookies',
+                })
+            );
+        }
+        try {
+            ctxsAuthIdCookie = cookies.find((e) => e.name === 'CtxsAuthId');
+            ctxsAuthId = ctxsAuthIdCookie?.value;
+        } catch (error) {
+            throw new Error(
+                await paramsCheck({
+                    params: { ctxsAuthIdCookie, ctxsAuthId, cookies },
+                    functionType: 'find',
+                    source: 'cookies',
+                })
+            );
+        }
 
         const oneTimeToken = await this.getOneTimeToken({
             workspaceUrl,
@@ -324,6 +385,18 @@ export class Workspace {
                 authDomain,
             },
         });
-        return response.data.data;
+
+        let token: string;
+        try {
+            token = response.data.token;
+        } catch (error) {
+            throw new Error(
+                await paramsCheck({
+                    params: { token, response },
+                    source: 'response',
+                })
+            );
+        }
+        return token;
     }
 }
