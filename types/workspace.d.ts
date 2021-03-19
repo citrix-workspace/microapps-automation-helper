@@ -32,7 +32,7 @@ export declare class Workspace {
      * Get Feed Notifications
      * @param {Object} page - Methods to interact with a single tab or extension background page in Browser
      */
-    getFeedNotifications({ page }: GetFeedNotifications): Promise<import("playwright/types/structs").Serializable>;
+    getFeedNotifications({ page }: GetFeedNotifications): Promise<{}>;
     /**
      * Wait for FeedCard to show up in Notifications
      *
@@ -41,7 +41,7 @@ export declare class Workspace {
      * @param {number} repeatMax - Max number of tries to find the FeedCard
      * @param {number} waitTime - Time in miliseconds to wait after each try
      */
-    waitForFeedCardId({ page, repeatMax, waitTime, recordId, notificationId, }: WaitForFeedCardId): Promise<any>;
+    waitForFeedCardId({ page, repeatMax, waitTime, recordId, notificationId, }: WaitForFeedCardId): Promise<Number>;
     /**
      * Returns button on FeedCard
      *
@@ -57,15 +57,15 @@ export declare class Workspace {
      * @param {string} text - Text that should be in success message
      */
     waitForPopUp({ page, text }: WaitForPopUp): Promise<void>;
-    getOneTimeToken({ workspaceUrl, builderDomain, csrfToken, sessionId, ctxsAuthId, authDomain, }: GetOneTimeToken): Promise<any>;
+    getOneTimeToken({ workspaceUrl, builderDomain, csrfToken, sessionId, ctxsAuthId, authDomain, }: GetOneTimeToken): Promise<string>;
     getTokens({ builderDomain, authDomain, oneTimeToken }: GetTokens): Promise<{
-        citrixToken: any;
+        citrixToken: string;
         jSessionId: string;
     }>;
     getDsauthTokens({ page, context, workspaceUrl, workspaceUsername, workspacePassword, workspaceIdentityProvider, builderDomain, authDomain, }: GetDsauthTokens): Promise<{
-        citrixToken: any;
+        citrixToken: string;
         jSessionId: string;
     }>;
     createDsAuthInstance({ citrixToken, jSessionId }: CreateDsAuthInstance): Promise<import("axios").AxiosInstance>;
-    getUserData({ dSauthInstance, microappsAdminUrl, appId, componentId, dataLimit, initiatorType, initiatorData, pageId, authDomain, }: GetUserData): Promise<any>;
+    getUserData({ dSauthInstance, microappsAdminUrl, appId, componentId, dataLimit, initiatorType, initiatorData, pageId, authDomain, }: GetUserData): Promise<string>;
 }
