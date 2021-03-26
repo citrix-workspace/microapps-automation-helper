@@ -17,7 +17,7 @@ export declare class MicroappsAdmin extends API {
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} integrationName - Name of integration
      */
-    getIntegrationId({ authInstance, microappsAdminUrl, integrationName }: GetIntegrationId): Promise<any>;
+    getIntegrationId({ authInstance, microappsAdminUrl, integrationName }: GetIntegrationId): Promise<string>;
     /**
      * Delete credentiaslds from credentials wallet for specific inregration
      * @param {Object} authInstance - Authorized instance for API calls
@@ -47,7 +47,7 @@ export declare class MicroappsAdmin extends API {
      * @param {string} integrationName - Name of integration
      * @param {string} integrationConfiguration - Additional integration configuration
      */
-    createHTTPIntegration({ authInstance, microappsAdminUrl, integrationName, integrationConfiguration, }: CreateHTTPIntegration): Promise<any>;
+    createHTTPIntegration({ authInstance, microappsAdminUrl, integrationName, integrationConfiguration, }: CreateHTTPIntegration): Promise<string>;
     /**
      * Wait for  process status
      * @param {Object} authInstance - Authorized instance for API calls
@@ -70,14 +70,14 @@ export declare class MicroappsAdmin extends API {
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} integrationName - Name of integration
      */
-    getIntegrationType({ authInstance, microappsAdminUrl, integrationName }: GetIntegrationType): Promise<any>;
+    getIntegrationType({ authInstance, microappsAdminUrl, integrationName, }: GetIntegrationType): Promise<string>;
     /**
      * Get status of Integration
      * @param {Object} authInstance - Authorized instance for API calls
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} integrationName - Name of integration
      */
-    getStatusIntegration({ authInstance, microappsAdminUrl, integrationName }: GetStatusIntegration): Promise<any>;
+    getStatusIntegration({ authInstance, microappsAdminUrl, integrationName }: GetStatusIntegration): Promise<string>;
     /**
      * Import integration
      * @param {Object} authInstance - Authorized instance for API calls
@@ -109,7 +109,7 @@ export declare class MicroappsAdmin extends API {
      * @param {string} integrationId - Name of integration
      * @param {string} appName - Name Application
      */
-    getMicroAppId({ authInstance, microappsAdminUrl, integrationId, appName }: GetMicroAppId): Promise<any>;
+    getMicroAppId({ authInstance, microappsAdminUrl, integrationId, appName }: GetMicroAppId): Promise<string>;
     /**
      * Get Id of Notification
      * @param {Object} authInstance - Authorized instance for API calls
@@ -117,14 +117,14 @@ export declare class MicroappsAdmin extends API {
      * @param {string} appId - Name of App
      * @param {string} notificationName - Name of Notification
      */
-    getNotificationId({ authInstance, microappsAdminUrl, appId, notificationName }: GetNotificationId): Promise<any>;
+    getNotificationId({ authInstance, microappsAdminUrl, appId, notificationName, }: GetNotificationId): Promise<string>;
     /**
      * Run a Event
      * @param {Object} authInstance - Authorized instance for API calls
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} integrationName - Name of Integration
      * @param {string} appName - Name of App
-     *  @param {string} notificationName - Name of Notification
+     * @param {string} notificationName - Name of Notification
      */
     runEvent({ authInstance, microappsAdminUrl, integrationName, appName, notificationName }: RunEvent): Promise<void>;
     checkAppMissconfigurations({ authInstance, microappsAdminUrl, appId }: CheckAppMissconfigurations): Promise<void>;
@@ -180,7 +180,7 @@ export declare class MicroappsAdmin extends API {
      * @param {string} appName - Name of Microapp
      * @param {string} componentLabel - Label of Component
      */
-    getComponentId({ authInstance, microappsAdminUrl, integrationName, appName, pageName, componentLabel, }: GetComponentId): Promise<any>;
+    getComponentId({ authInstance, microappsAdminUrl, integrationName, appName, pageName, componentLabel, }: GetComponentId): Promise<string>;
     /**
      * Waits for all integrations to finish the sync and validate the results
      * @param {string} synchronizationType - Set type of syncronization full/incremental

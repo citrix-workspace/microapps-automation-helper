@@ -57,8 +57,25 @@ export declare class Workspace {
      * @param {string} text - Text that should be in success message
      */
     waitForPopUp({ page, text }: WaitForPopUp): Promise<void>;
+    /**
+     * Get one time token for DsAuth
+     *
+     * @param {string} workspaceUrl - Workspace url
+     * @param {string} builderDomain - Builder domain
+     * @param {string} csrfToken - Csrf token
+     * @param {string} sessionId - Session Id
+     * @param {string} ctxsAuthId - CtxsAuth Id
+     * @param {string} authDomain - Auth Domain
+     */
     getOneTimeToken({ workspaceUrl, builderDomain, csrfToken, sessionId, ctxsAuthId, authDomain, }: GetOneTimeToken): Promise<string>;
-    getTokens({ builderDomain, authDomain, oneTimeToken }: GetTokens): Promise<{
+    /**
+     * Get citrix csrf token and jSessionId
+     *
+     * @param {string} builderDomain - Builder domain
+     * @param {string} authDomain - Auth Domain
+     * @param {string} oneTimeToken - One time token
+     */
+    getTokens({ builderDomain, authDomain, oneTimeToken, }: GetTokens): Promise<{
         citrixToken: string;
         jSessionId: string;
     }>;

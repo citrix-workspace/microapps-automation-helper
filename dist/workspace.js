@@ -171,6 +171,16 @@ class Workspace {
             throw new Error('Service action failed');
         }
     }
+    /**
+     * Get one time token for DsAuth
+     *
+     * @param {string} workspaceUrl - Workspace url
+     * @param {string} builderDomain - Builder domain
+     * @param {string} csrfToken - Csrf token
+     * @param {string} sessionId - Session Id
+     * @param {string} ctxsAuthId - CtxsAuth Id
+     * @param {string} authDomain - Auth Domain
+     */
     async getOneTimeToken({ workspaceUrl, builderDomain, csrfToken, sessionId, ctxsAuthId, authDomain, }) {
         const response = await axios_1.default({
             url: `${workspaceUrl}/Citrix/StoreWeb/Sso/Proxy`,
@@ -196,7 +206,14 @@ class Workspace {
         }
         return token;
     }
-    async getTokens({ builderDomain, authDomain, oneTimeToken }) {
+    /**
+     * Get citrix csrf token and jSessionId
+     *
+     * @param {string} builderDomain - Builder domain
+     * @param {string} authDomain - Auth Domain
+     * @param {string} oneTimeToken - One time token
+     */
+    async getTokens({ builderDomain, authDomain, oneTimeToken, }) {
         const response = await axios_1.default({
             url: `${builderDomain}/app/api/auth/dsauth`,
             method: 'GET',

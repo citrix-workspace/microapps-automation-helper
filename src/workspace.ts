@@ -51,7 +51,7 @@ export class Workspace {
                 await page.fill('input[name="loginfmt"]', workspaceUsername);
                 await page.waitForSelector('input[value="Next"]');
                 await page.click('input[value="Next"]');
-                await page.waitForSelector('#loginHeader >> text=Enter password')
+                await page.waitForSelector('#loginHeader >> text=Enter password');
                 await page.waitForSelector('input[name="passwd"]');
                 await page.fill('input[name="passwd"]', workspacePassword);
                 await page.waitForSelector('input[value="Sign in"]');
@@ -144,8 +144,13 @@ export class Workspace {
         waitTime = 5000,
         recordId,
         notificationId = '',
+<<<<<<< HEAD
     }: WaitForFeedCardId) {
         let feedCardId: Number;
+=======
+    }: WaitForFeedCardId): Promise<string> {
+        let feedCardId;
+>>>>>>> e45ae8d... Update types
         for (let i = 0; i < repeatMax; i++) {
             if (i === repeatMax - 1) {
                 throw new Error('Have not found expected feedcard id.');
@@ -212,6 +217,16 @@ export class Workspace {
         }
     }
 
+    /**
+     * Get one time token for DsAuth
+     *
+     * @param {string} workspaceUrl - Workspace url
+     * @param {string} builderDomain - Builder domain
+     * @param {string} csrfToken - Csrf token
+     * @param {string} sessionId - Session Id
+     * @param {string} ctxsAuthId - CtxsAuth Id
+     * @param {string} authDomain - Auth Domain
+     */
     async getOneTimeToken({
         workspaceUrl,
         builderDomain,
@@ -219,7 +234,7 @@ export class Workspace {
         sessionId,
         ctxsAuthId,
         authDomain,
-    }: GetOneTimeToken) {
+    }: GetOneTimeToken): Promise<string> {
         const response = await axios({
             url: `${workspaceUrl}/Citrix/StoreWeb/Sso/Proxy`,
             method: 'POST',
@@ -246,7 +261,21 @@ export class Workspace {
         return token;
     }
 
-    async getTokens({ builderDomain, authDomain, oneTimeToken }: GetTokens) {
+    /**
+     * Get citrix csrf token and jSessionId
+     *
+     * @param {string} builderDomain - Builder domain
+     * @param {string} authDomain - Auth Domain
+     * @param {string} oneTimeToken - One time token
+     */
+    async getTokens({
+        builderDomain,
+        authDomain,
+        oneTimeToken,
+    }: GetTokens): Promise<{
+        citrixToken: string;
+        jSessionId: string;
+    }> {
         const response = await axios({
             url: `${builderDomain}/app/api/auth/dsauth`,
             method: 'GET',
@@ -295,6 +324,7 @@ export class Workspace {
             workspaceIdentityProvider,
         });
         const cookies = await context.cookies();
+<<<<<<< HEAD
 
         let csfrTokenCookie, sessionIdCookie, ctxsAuthIdCookie;
         let csrfToken: any, sessionId: any, ctxsAuthId: any;
@@ -334,6 +364,14 @@ export class Workspace {
                 })
             );
         }
+=======
+        const csfrTokenCookie = cookies.find((e) => e.name === 'CsrfToken');
+        const sessionIdCookie = cookies.find((e) => e.name === 'ASP.NET_SessionId');
+        const ctxsAuthIdCookie = cookies.find((e) => e.name === 'CtxsAuthId');
+        const csrfToken: string = csfrTokenCookie?.value;
+        const sessionId: string = sessionIdCookie?.value;
+        const ctxsAuthId: string = ctxsAuthIdCookie?.value;
+>>>>>>> e45ae8d... Update types
 
         const oneTimeToken = await this.getOneTimeToken({
             workspaceUrl,
