@@ -378,7 +378,7 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} integrationName - Name of integration
      */
-    async getIntegrationType({ authInstance, microappsAdminUrl, integrationName }) {
+    async getIntegrationType({ authInstance, microappsAdminUrl, integrationName, }) {
         const integrations = await this.getIntegrations({
             authInstance,
             microappsAdminUrl,
@@ -534,7 +534,7 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} appId - Name of App
      * @param {string} notificationName - Name of Notification
      */
-    async getNotificationId({ authInstance, microappsAdminUrl, appId, notificationName }) {
+    async getNotificationId({ authInstance, microappsAdminUrl, appId, notificationName, }) {
         const notifications = await this.getNotifications({
             authInstance,
             microappsAdminUrl,
@@ -564,7 +564,7 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} integrationName - Name of Integration
      * @param {string} appName - Name of App
-     *  @param {string} notificationName - Name of Notification
+     * @param {string} notificationName - Name of Notification
      */
     async runEvent({ authInstance, microappsAdminUrl, integrationName, appName, notificationName }) {
         let notifications;
@@ -629,7 +629,6 @@ class MicroappsAdmin extends api_1.API {
         }
         console.log('missconfigurations: ', missconfigurations);
     }
-    //TO-DO add config as parametr
     async addSubscriber({ authInstance, appId, user, config }) {
         const { microappsAdminUrl, citrixCloudCustomerId, cwaAPI, workspaceIdentityProvider } = config;
         // Get Domains

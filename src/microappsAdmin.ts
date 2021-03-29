@@ -50,7 +50,6 @@ export class MicroappsAdmin extends API {
      * @param {string} - Username
      * @param {string} - Password
      */
-
     async login({ page, url, username, password, mfa = null, secretKey }: MicroappsAdminLogin) {
         await page.goto(url, { waitUntil: 'domcontentloaded' });
         await page.waitForSelector('#username');
@@ -87,8 +86,7 @@ export class MicroappsAdmin extends API {
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} integrationName - Name of integration
      */
-
-    async getIntegrationId({ authInstance, microappsAdminUrl, integrationName }: GetIntegrationId) {
+    async getIntegrationId({ authInstance, microappsAdminUrl, integrationName }: GetIntegrationId): Promise<string> {
         let integrationId;
         let integration;
 
@@ -268,7 +266,7 @@ export class MicroappsAdmin extends API {
         microappsAdminUrl,
         integrationName,
         integrationConfiguration,
-    }: CreateHTTPIntegration) {
+    }: CreateHTTPIntegration): Promise<string> {
         const bundleCatalogue = await this.getBundleCatalogue({
             authInstance,
             microappsAdminUrl,
@@ -481,7 +479,11 @@ export class MicroappsAdmin extends API {
      * @param {string} integrationName - Name of integration
      */
 
-    async getIntegrationType({ authInstance, microappsAdminUrl, integrationName }: GetIntegrationType) {
+    async getIntegrationType({
+        authInstance,
+        microappsAdminUrl,
+        integrationName,
+    }: GetIntegrationType): Promise<string> {
         const integrations = await this.getIntegrations({
             authInstance,
             microappsAdminUrl,
@@ -647,7 +649,7 @@ export class MicroappsAdmin extends API {
      * @param {string} appName - Name Application
      */
 
-    async getMicroAppId({ authInstance, microappsAdminUrl, integrationId, appName }: GetMicroAppId) {
+    async getMicroAppId({ authInstance, microappsAdminUrl, integrationId, appName }: GetMicroAppId): Promise<string> {
         let apps;
         try {
             apps = await this.getApps({ authInstance, microappsAdminUrl });
@@ -672,7 +674,12 @@ export class MicroappsAdmin extends API {
      * @param {string} notificationName - Name of Notification
      */
 
-    async getNotificationId({ authInstance, microappsAdminUrl, appId, notificationName }: GetNotificationId) {
+    async getNotificationId({
+        authInstance,
+        microappsAdminUrl,
+        appId,
+        notificationName,
+    }: GetNotificationId): Promise<string> {
         const notifications = await this.getNotifications({
             authInstance,
             microappsAdminUrl,
@@ -708,7 +715,7 @@ export class MicroappsAdmin extends API {
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} integrationName - Name of Integration
      * @param {string} appName - Name of App
-     *  @param {string} notificationName - Name of Notification
+     * @param {string} notificationName - Name of Notification
      */
 
     async runEvent({ authInstance, microappsAdminUrl, integrationName, appName, notificationName }: RunEvent) {
@@ -787,7 +794,6 @@ export class MicroappsAdmin extends API {
         console.log('missconfigurations: ', missconfigurations);
     }
 
-    //TO-DO add config as parametr
     async addSubscriber({ authInstance, appId, user, config }: AddSubscriber) {
         const { microappsAdminUrl, citrixCloudCustomerId, cwaAPI, workspaceIdentityProvider } = config;
         // Get Domains
@@ -1129,7 +1135,7 @@ export class MicroappsAdmin extends API {
             );
         }
         let getComponent;
-        let componentId;
+        let componentId: string;
         try {
             getComponent = components.filter((component: { label: string }) => component.label === componentLabel);
             componentId = getComponent[0].id;

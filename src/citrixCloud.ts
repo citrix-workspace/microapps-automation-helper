@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { authenticator } from 'otplib';
 import { API } from './api';
 import { paramsCheck } from './helpers';
