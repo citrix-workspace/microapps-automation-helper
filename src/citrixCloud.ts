@@ -45,6 +45,7 @@ export class CitrixCloud extends API {
         try {
             token = response.data.token;
         } catch (error) {
+            console.log(error.stack);
             throw new Error(
                 await paramsCheck({
                     params: { token, response },

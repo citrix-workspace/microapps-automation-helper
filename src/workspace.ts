@@ -167,6 +167,7 @@ export class Workspace {
                 );
                 feedCardId = feedCardDetail[0].id;
             } catch (error) {
+                console.log(error.stack);
                 throw new Error(
                     await paramsCheck({
                         params: { feedCardDetail, feedCardId, data },
@@ -252,10 +253,13 @@ export class Workspace {
         try {
             token = response.data.ott;
         } catch (error) {
-            throw new Error(await paramsCheck({
-                params: { token, response },
-                source: 'response',
-            }))
+            console.log(error.stack);
+            throw new Error(
+                await paramsCheck({
+                    params: { token, response },
+                    source: 'response',
+                })
+            );
         }
 
         return token;
@@ -292,10 +296,13 @@ export class Workspace {
         try {
             citrixToken = response.data.csrf;
         } catch (error) {
-            throw new Error(await paramsCheck({
-                params: { citrixToken, response },
-                source: 'response',
-            }))
+            console.log(error.stack);
+            throw new Error(
+                await paramsCheck({
+                    params: { citrixToken, response },
+                    source: 'response',
+                })
+            );
         }
 
         const cookies = response.headers['set-cookie'];
@@ -332,6 +339,7 @@ export class Workspace {
             csfrTokenCookie = cookies.find((e) => e.name === 'CsrfToken');
             csrfToken = csfrTokenCookie?.value;
         } catch (error) {
+            console.log(error.stack);
             throw new Error(
                 await paramsCheck({
                     params: { csfrTokenCookie, csrfToken, cookies },
@@ -344,6 +352,7 @@ export class Workspace {
             sessionIdCookie = cookies.find((e) => e.name === 'ASP.NET_SessionId');
             sessionId = sessionIdCookie?.value;
         } catch (error) {
+            console.log(error.stack);
             throw new Error(
                 await paramsCheck({
                     params: { sessionIdCookie, sessionId, cookies },
@@ -356,6 +365,7 @@ export class Workspace {
             ctxsAuthIdCookie = cookies.find((e) => e.name === 'CtxsAuthId');
             ctxsAuthId = ctxsAuthIdCookie?.value;
         } catch (error) {
+            console.log(error.stack);
             throw new Error(
                 await paramsCheck({
                     params: { ctxsAuthIdCookie, ctxsAuthId, cookies },
@@ -428,6 +438,7 @@ export class Workspace {
         try {
             token = response.data.token;
         } catch (error) {
+            console.log(error.stack);
             throw new Error(
                 await paramsCheck({
                     params: { token, response },
