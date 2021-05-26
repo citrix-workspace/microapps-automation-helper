@@ -96,6 +96,7 @@ export class MicroappsAdmin extends API {
             integration = integrations.data.find((e: { title: string }) => e.title === integrationName);
             integrationId = integration.id;
         } catch (error) {
+            console.log(error.stack);
             throw new Error(
                 await paramsCheck({
                     params: { integration, integrationId, integrations },
@@ -151,6 +152,7 @@ export class MicroappsAdmin extends API {
                         (job: { synchronizationTypeId: string }) => job.synchronizationTypeId === synchronizationType
                     );
                 } catch (error) {
+                    console.log(error.stack);
                     throw new Error(
                         await paramsCheck({
                             params: { jobRun, jobRuns },
@@ -214,6 +216,7 @@ export class MicroappsAdmin extends API {
                 return job.synchronizationTypeId === synchronizationType;
             });
         } catch (error) {
+            console.log(error.stack);
             throw new Error(
                 await paramsCheck({
                     params: { integration, jobRuns, getJobRunDetail },
@@ -280,6 +283,7 @@ export class MicroappsAdmin extends API {
             );
             catalogueId = catalogueDetail.uniqueId;
         } catch (error) {
+            console.log(error.stack);
             throw new Error(
                 await paramsCheck({
                     params: { catalogueDetail, catalogueId, bundleCatalogueData },
@@ -359,6 +363,7 @@ export class MicroappsAdmin extends API {
         try {
             configurationParameters = integrationConfiguration.serviceData.configuration.configurationParameters;
         } catch (error) {
+            console.log(error.stack);
             throw new Error(
                 await paramsCheck({
                     params: { configurationParameters, integrationConfiguration },
@@ -500,6 +505,7 @@ export class MicroappsAdmin extends API {
 
             integrationType = findIntegrationType.serviceType;
         } catch (error) {
+            console.log(error.stack);
             throw new Error(
                 await paramsCheck({
                     params: { findIntegrationType, integrationType, integrationsData },
@@ -605,6 +611,7 @@ export class MicroappsAdmin extends API {
                 return e.title === integrationName && e.id === newIntegrationName;
             });
         } catch (error) {
+            console.log(error.stack);
             throw new Error(
                 await paramsCheck({
                     params: { integrationDetail, integrationsData },
@@ -697,6 +704,7 @@ export class MicroappsAdmin extends API {
 
             notificationId = getNotificationId.id;
         } catch (error) {
+            console.log(error.stack);
             throw new Error(
                 await paramsCheck({
                     params: { getNotificationId, notificationId, notificationsData },
@@ -778,6 +786,7 @@ export class MicroappsAdmin extends API {
         try {
             missconfigurations = responseBody.filter((e: { appId: string }) => e.appId === appId);
         } catch (error) {
+            console.log(error.stack);
             throw new Error(
                 await paramsCheck({
                     params: { missconfigurations, responseBody },
@@ -827,6 +836,7 @@ export class MicroappsAdmin extends API {
                     forestName = domainDetail[0].idpProperties.tid;
                     idpType = 'AZUREAD';
                 } catch (error) {
+                    console.log(error.stack);
                     throw new Error(
                         await paramsCheck({
                             params: { domainDetail, domainsData },
@@ -869,6 +879,7 @@ export class MicroappsAdmin extends API {
                     return e.accountName === user;
                 });
             } catch (error) {
+                console.log(error.stack);
                 throw new Error(
                     await paramsCheck({
                         params: { userDetail, userData },
@@ -1126,6 +1137,7 @@ export class MicroappsAdmin extends API {
             getPage = pagesData.filter((app: { title: string }) => app.title === pageName);
             components = getPage[0].components;
         } catch (error) {
+            console.log(error.stack);
             throw new Error(
                 await paramsCheck({
                     params: { getPage, components, pagesData },
@@ -1140,6 +1152,7 @@ export class MicroappsAdmin extends API {
             getComponent = components.filter((component: { label: string }) => component.label === componentLabel);
             componentId = getComponent[0].id;
         } catch (error) {
+            console.log(error.stack);
             throw new Error(
                 await paramsCheck({
                     params: { getComponent, componentId, components },

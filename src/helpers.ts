@@ -114,14 +114,13 @@ export const errorHandle = async ({ error, args }: ErrorHandle) => {
         errorReport.ErrorReport.status = `The request failed with status: ${error.response.status} - ${error.response.statusText} - ${description}`;
         errorReport.ErrorReport.message = `The request send message: ${error.response.data.message}`;
     } else {
-        console.log(error.stack);
-
         errorReport.ErrorReport.possibleReasons.push('Undefined error. Error has been printed.');
     }
 
+    console.log(error.stack);
     console.log(errorReport);
 
-    throw new Error('Request failed. Please review the ErrorReport above.');
+    throw new Error('Request failed. Please review the Error Report above.');
 };
 
 export const paramsCheck = async ({ params, functionType, source }: ParamsCheck) => {

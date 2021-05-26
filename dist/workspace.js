@@ -131,6 +131,7 @@ class Workspace {
                 feedCardId = feedCardDetail[0].id;
             }
             catch (error) {
+                console.log(error.stack);
                 throw new Error(await helpers_1.paramsCheck({
                     params: { feedCardDetail, feedCardId, data },
                     functionType: 'filter',
@@ -199,6 +200,7 @@ class Workspace {
             token = response.data.ott;
         }
         catch (error) {
+            console.log(error.stack);
             throw new Error(await helpers_1.paramsCheck({
                 params: { token, response },
                 source: 'response',
@@ -213,7 +215,7 @@ class Workspace {
      * @param {string} authDomain - Auth Domain
      * @param {string} oneTimeToken - One time token
      */
-    async getTokens({ builderDomain, authDomain, oneTimeToken, }) {
+    async getTokens({ builderDomain, authDomain, oneTimeToken }) {
         const response = await axios_1.default({
             url: `${builderDomain}/app/api/auth/dsauth`,
             method: 'GET',
@@ -230,6 +232,7 @@ class Workspace {
             citrixToken = response.data.csrf;
         }
         catch (error) {
+            console.log(error.stack);
             throw new Error(await helpers_1.paramsCheck({
                 params: { citrixToken, response },
                 source: 'response',
@@ -258,6 +261,7 @@ class Workspace {
             csrfToken = csfrTokenCookie === null || csfrTokenCookie === void 0 ? void 0 : csfrTokenCookie.value;
         }
         catch (error) {
+            console.log(error.stack);
             throw new Error(await helpers_1.paramsCheck({
                 params: { csfrTokenCookie, csrfToken, cookies },
                 functionType: 'find',
@@ -269,6 +273,7 @@ class Workspace {
             sessionId = sessionIdCookie === null || sessionIdCookie === void 0 ? void 0 : sessionIdCookie.value;
         }
         catch (error) {
+            console.log(error.stack);
             throw new Error(await helpers_1.paramsCheck({
                 params: { sessionIdCookie, sessionId, cookies },
                 functionType: 'find',
@@ -280,6 +285,7 @@ class Workspace {
             ctxsAuthId = ctxsAuthIdCookie === null || ctxsAuthIdCookie === void 0 ? void 0 : ctxsAuthIdCookie.value;
         }
         catch (error) {
+            console.log(error.stack);
             throw new Error(await helpers_1.paramsCheck({
                 params: { ctxsAuthIdCookie, ctxsAuthId, cookies },
                 functionType: 'find',
@@ -328,6 +334,7 @@ class Workspace {
             token = response.data.token;
         }
         catch (error) {
+            console.log(error.stack);
             throw new Error(await helpers_1.paramsCheck({
                 params: { token, response },
                 source: 'response',

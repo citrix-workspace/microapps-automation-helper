@@ -41,6 +41,7 @@ class CitrixCloud extends api_1.API {
             token = response.data.token;
         }
         catch (error) {
+            console.log(error.stack);
             throw new Error(await helpers_1.paramsCheck({
                 params: { token, response },
                 source: 'response',
