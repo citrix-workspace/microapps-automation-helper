@@ -144,13 +144,8 @@ export class Workspace {
         waitTime = 5000,
         recordId,
         notificationId = '',
-<<<<<<< HEAD
     }: WaitForFeedCardId) {
         let feedCardId: Number;
-=======
-    }: WaitForFeedCardId): Promise<string> {
-        let feedCardId;
->>>>>>> e45ae8d... Update types
         for (let i = 0; i < repeatMax; i++) {
             if (i === repeatMax - 1) {
                 throw new Error('Have not found expected feedcard id.');
@@ -272,11 +267,7 @@ export class Workspace {
      * @param {string} authDomain - Auth Domain
      * @param {string} oneTimeToken - One time token
      */
-    async getTokens({
-        builderDomain,
-        authDomain,
-        oneTimeToken,
-    }: GetTokens): Promise<{
+    async getTokens({ builderDomain, authDomain, oneTimeToken }: GetTokens): Promise<{
         citrixToken: string;
         jSessionId: string;
     }> {
@@ -331,10 +322,9 @@ export class Workspace {
             workspaceIdentityProvider,
         });
         const cookies = await context.cookies();
-<<<<<<< HEAD
 
         let csfrTokenCookie, sessionIdCookie, ctxsAuthIdCookie;
-        let csrfToken: any, sessionId: any, ctxsAuthId: any;
+        let csrfToken: string, sessionId: string, ctxsAuthId: string;
         try {
             csfrTokenCookie = cookies.find((e) => e.name === 'CsrfToken');
             csrfToken = csfrTokenCookie?.value;
@@ -374,14 +364,6 @@ export class Workspace {
                 })
             );
         }
-=======
-        const csfrTokenCookie = cookies.find((e) => e.name === 'CsrfToken');
-        const sessionIdCookie = cookies.find((e) => e.name === 'ASP.NET_SessionId');
-        const ctxsAuthIdCookie = cookies.find((e) => e.name === 'CtxsAuthId');
-        const csrfToken: string = csfrTokenCookie?.value;
-        const sessionId: string = sessionIdCookie?.value;
-        const ctxsAuthId: string = ctxsAuthIdCookie?.value;
->>>>>>> e45ae8d... Update types
 
         const oneTimeToken = await this.getOneTimeToken({
             workspaceUrl,

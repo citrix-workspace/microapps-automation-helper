@@ -66,6 +66,7 @@ class MicroappsAdmin extends api_1.API {
             integrationId = integration.id;
         }
         catch (error) {
+            console.log(error.stack);
             throw new Error(await helpers_1.paramsCheck({
                 params: { integration, integrationId, integrations },
                 functionType: 'find',
@@ -113,6 +114,7 @@ class MicroappsAdmin extends api_1.API {
                     [jobRun] = jobRuns.filter((job) => job.synchronizationTypeId === synchronizationType);
                 }
                 catch (error) {
+                    console.log(error.stack);
                     throw new Error(await helpers_1.paramsCheck({
                         params: { jobRun, jobRuns },
                         functionType: 'filter',
@@ -165,6 +167,7 @@ class MicroappsAdmin extends api_1.API {
             });
         }
         catch (error) {
+            console.log(error.stack);
             throw new Error(await helpers_1.paramsCheck({
                 params: { integration, jobRuns, getJobRunDetail },
                 functionType: 'find',
@@ -218,6 +221,7 @@ class MicroappsAdmin extends api_1.API {
             catalogueId = catalogueDetail.uniqueId;
         }
         catch (error) {
+            console.log(error.stack);
             throw new Error(await helpers_1.paramsCheck({
                 params: { catalogueDetail, catalogueId, bundleCatalogueData },
                 functionType: 'find',
@@ -280,6 +284,7 @@ class MicroappsAdmin extends api_1.API {
             configurationParameters = integrationConfiguration.serviceData.configuration.configurationParameters;
         }
         catch (error) {
+            console.log(error.stack);
             throw new Error(await helpers_1.paramsCheck({
                 params: { configurationParameters, integrationConfiguration },
                 source: 'integrationConfiguration',
@@ -393,6 +398,7 @@ class MicroappsAdmin extends api_1.API {
             integrationType = findIntegrationType.serviceType;
         }
         catch (error) {
+            console.log(error.stack);
             throw new Error(await helpers_1.paramsCheck({
                 params: { findIntegrationType, integrationType, integrationsData },
                 functionType: 'find',
@@ -478,6 +484,7 @@ class MicroappsAdmin extends api_1.API {
             });
         }
         catch (error) {
+            console.log(error.stack);
             throw new Error(await helpers_1.paramsCheck({
                 params: { integrationDetail, integrationsData },
                 functionType: 'filter',
@@ -550,6 +557,7 @@ class MicroappsAdmin extends api_1.API {
             notificationId = getNotificationId.id;
         }
         catch (error) {
+            console.log(error.stack);
             throw new Error(await helpers_1.paramsCheck({
                 params: { getNotificationId, notificationId, notificationsData },
                 functionType: 'find',
@@ -618,6 +626,7 @@ class MicroappsAdmin extends api_1.API {
             missconfigurations = responseBody.filter((e) => e.appId === appId);
         }
         catch (error) {
+            console.log(error.stack);
             throw new Error(await helpers_1.paramsCheck({
                 params: { missconfigurations, responseBody },
                 functionType: 'filter',
@@ -661,6 +670,7 @@ class MicroappsAdmin extends api_1.API {
                     idpType = 'AZUREAD';
                 }
                 catch (error) {
+                    console.log(error.stack);
                     throw new Error(await helpers_1.paramsCheck({
                         params: { domainDetail, domainsData },
                         functionType: 'filter',
@@ -698,6 +708,7 @@ class MicroappsAdmin extends api_1.API {
                 });
             }
             catch (error) {
+                console.log(error.stack);
                 throw new Error(await helpers_1.paramsCheck({
                     params: { userDetail, userData },
                     functionType: 'filter',
@@ -889,6 +900,7 @@ class MicroappsAdmin extends api_1.API {
             components = getPage[0].components;
         }
         catch (error) {
+            console.log(error.stack);
             throw new Error(await helpers_1.paramsCheck({
                 params: { getPage, components, pagesData },
                 functionType: 'filter',
@@ -902,6 +914,7 @@ class MicroappsAdmin extends api_1.API {
             componentId = getComponent[0].id;
         }
         catch (error) {
+            console.log(error.stack);
             throw new Error(await helpers_1.paramsCheck({
                 params: { getComponent, componentId, components },
                 functionType: 'filter',

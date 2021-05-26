@@ -97,11 +97,11 @@ exports.errorHandle = async ({ error, args }) => {
         errorReport.ErrorReport.message = `The request send message: ${error.response.data.message}`;
     }
     else {
-        console.log(error.stack);
         errorReport.ErrorReport.possibleReasons.push('Undefined error. Error has been printed.');
     }
+    console.log(error.stack);
     console.log(errorReport);
-    throw new Error('Request failed. Please review the ErrorReport above.');
+    throw new Error('Request failed. Please review the Error Report above.');
 };
 exports.paramsCheck = async ({ params, functionType, source }) => {
     let invalidValues = { InvalidValues: [] };

@@ -75,7 +75,7 @@ export declare class Workspace {
      * @param {string} authDomain - Auth Domain
      * @param {string} oneTimeToken - One time token
      */
-    getTokens({ builderDomain, authDomain, oneTimeToken, }: GetTokens): Promise<{
+    getTokens({ builderDomain, authDomain, oneTimeToken }: GetTokens): Promise<{
         citrixToken: string;
         jSessionId: string;
     }>;
