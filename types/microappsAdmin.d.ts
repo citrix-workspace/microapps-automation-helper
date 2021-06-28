@@ -1,6 +1,6 @@
 import { API } from './api';
 import { AxiosResponse } from 'axios';
-import type { AddSubscriber, AddSubscribers, CheckAppMissconfigurations, CreateHTTPIntegration, CreateJavaIntegration, ExportApp, ExportIntegrationUI, ExportMicroAppUI, GetComponentId, GetIntegrationId, GetIntegrationType, GetLastSyncTime, GetMicroAppId, GetNotificationId, GetStatusIntegration, ImportIntegration, ImportIntegrationUI, ImportMicroAppUI, MicroappsAdminLogin, OauthLogout, RenameIntegration, RunEvent, RunSynchronization, WaitForProcessStatus, WaitForSync, WaitForAllSync } from './types/microappsAdmin';
+import type { AddSubscriber, AddSubscribers, CheckAppMissconfigurations, CheckIntegrationMissConfiguration, CreateHTTPIntegration, CreateJavaIntegration, ExportApp, ExportIntegrationUI, ExportMicroAppUI, GetComponentId, GetIntegrationId, GetIntegrationType, GetLastSyncTime, GetMicroAppId, GetNotificationId, GetStatusIntegration, ImportIntegration, ImportIntegrationUI, ImportMicroAppUI, MicroappsAdminLogin, OauthLogout, RenameIntegration, RunEvent, RunSynchronization, WaitForAllSync, WaitForProcessStatus, WaitForSync } from './types/microappsAdmin';
 /** Class representing a Microapps Admin. */
 export declare class MicroappsAdmin extends API {
     constructor();
@@ -190,4 +190,7 @@ export declare class MicroappsAdmin extends API {
      *
      */
     waitForAllSync({ synchronizationType, timeToRepeat, authInstance, microappsAdminUrl, }: WaitForAllSync): Promise<void>;
+    checkIntegrationMissConfiguration({ authInstance, microappsAdminUrl, integrationId, }: CheckIntegrationMissConfiguration): Promise<{
+        missConfigured: string;
+    }[]>;
 }

@@ -189,3 +189,10 @@ export type WaitForAllSync = {
     authInstance: AxiosInstance;
     microappsAdminUrl: string;
 };
+
+
+export type  CheckIntegrationMissConfiguration = {
+    authInstance: AxiosInstance;
+    microappsAdminUrl: string;
+    integrationId: string | number
+}
