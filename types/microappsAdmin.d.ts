@@ -192,5 +192,5 @@ export declare class MicroappsAdmin extends API {
     waitForAllSync({ synchronizationType, timeToRepeat, authInstance, microappsAdminUrl, }: WaitForAllSync): Promise<void>;
     checkIntegrationMissConfiguration({ authInstance, microappsAdminUrl, integrationId, }: CheckIntegrationMissConfiguration): Promise<{
         missConfigured: string;
-    }[]>;
+    }>;
 }

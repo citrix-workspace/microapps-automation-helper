@@ -968,10 +968,10 @@ class MicroappsAdmin extends api_1.API {
         });
         const intregrations = res.find((e) => e.app.serviceId === integrationId);
         if (intregrations) {
-            return [{ missConfigured: 'true' }];
+            return { missConfigured: 'true' };
         }
         else {
-            return [{ missConfigured: 'false' }];
+            return { missConfigured: 'false' };
         }
     }
 }
