@@ -10,6 +10,7 @@ import type {
     AddSubscriber,
     AddSubscribers,
     CheckAppMissconfigurations,
+    CheckIntegrationMissConfiguration,
     CreateHTTPIntegration,
     CreateJavaIntegration,
     ExportApp,
@@ -31,9 +32,9 @@ import type {
     RunEvent,
     RunSynchronization,
     Subscribe,
+    WaitForAllSync,
     WaitForProcessStatus,
     WaitForSync,
-    WaitForAllSync,
 } from './types/microappsAdmin';
 
 const citrixCloud = new CitrixCloud();
@@ -1209,6 +1210,36 @@ export class MicroappsAdmin extends API {
                 console.log(`All integrations finished ${synchronizationType}`);
                 break;
             }
+        }
+    }
+
+    async checkIntegrationMissConfiguration({
+        authInstance,
+        microappsAdminUrl,
+        integrationId,
+    }: CheckIntegrationMissConfiguration) {
+        const response = await this.integrityCheck({ authInstance, microappsAdminUrl });
+        const missconfigured = response.data;
+
+        const responseApps = await this.getApps({ authInstance, microappsAdminUrl });
+        const appsData = responseApps.data;
+
+        const missconfiguredAppsId = missconfigured.map((app: { appId: string }) => app.appId);
+
+        let res = [];
+
+        res = appsData.filter((app: { id: string }) => {
+            return missconfiguredAppsId.find((missConfiguredAppId: string) => {
+                return missConfiguredAppId === app.id;
+            });
+        });
+
+        const intregrations = res.find((e: { app: { serviceId: number } }) => e.app.serviceId === integrationId);
+
+        if (intregrations) {
+            return [{ missConfigured: 'true' }];
+        } else {
+            return [{ missConfigured: 'false' }];
         }
     }
 }

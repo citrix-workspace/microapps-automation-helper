@@ -954,5 +954,25 @@ class MicroappsAdmin extends api_1.API {
             }
         }
     }
+    async checkIntegrationMissConfiguration({ authInstance, microappsAdminUrl, integrationId, }) {
+        const response = await this.integrityCheck({ authInstance, microappsAdminUrl });
+        const missconfigured = response.data;
+        const responseApps = await this.getApps({ authInstance, microappsAdminUrl });
+        const appsData = responseApps.data;
+        const missconfiguredAppsId = missconfigured.map((app) => app.appId);
+        let res = [];
+        res = appsData.filter((app) => {
+            return missconfiguredAppsId.find((missConfiguredAppId) => {
+                return missConfiguredAppId === app.id;
+            });
+        });
+        const intregrations = res.find((e) => e.app.serviceId === integrationId);
+        if (intregrations) {
+            return [{ missConfigured: 'true' }];
+        }
+        else {
+            return [{ missConfigured: 'false' }];
+        }
+    }
 }
 exports.MicroappsAdmin = MicroappsAdmin;
