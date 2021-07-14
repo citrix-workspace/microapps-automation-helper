@@ -27,6 +27,8 @@ export type WaitForSync = {
     getIntegration: () => any;
     synchronizationType: string;
     integrationName?: string;
+    skipCheck?: boolean,
+    maxMinutesToWait: number,
 };
 
 export type RunSynchronization = {
@@ -34,6 +36,7 @@ export type RunSynchronization = {
     microappsAdminUrl: string;
     integrationName: string;
     synchronizationType: string;
+    maxMinutesToWait?: number
 };
 
 export type CreateHTTPIntegration = {
