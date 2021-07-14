@@ -23,12 +23,15 @@ export declare type WaitForSync = {
     getIntegration: () => any;
     synchronizationType: string;
     integrationName?: string;
+    skipCheck?: boolean;
+    maxMinutesToWait: number;
 };
 export declare type RunSynchronization = {
     authInstance: AxiosInstance;
     microappsAdminUrl: string;
     integrationName: string;
     synchronizationType: string;
+    maxMinutesToWait?: number;
 };
 export declare type CreateHTTPIntegration = {
     authInstance: AxiosInstance;

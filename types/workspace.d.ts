@@ -1,4 +1,4 @@
-import type { Login, CreateDsAuthInstance, GoToActions, StartAction, SkipTour, GetDsauthTokens, GetFeedCardButton, GetFeedNotifications, GetOneTimeToken, GetTokens, GetUserData, WaitForFeedCardId, WaitForPopUp } from './types/workspace';
+import type { Login, CreateDsAuthInstance, GoToActions, StartAction, SkipTour, GetDsauthTokens, GetFeedCardButton, GetFeedNotifications, GetOneTimeToken, GetTokens, GetUserData, WaitForFeedCardId, WaitForPopUp, SetFilterOnFeed } from './types/workspace';
 /** Class representing a Workspace. */
 export declare class Workspace {
     constructor();
@@ -28,6 +28,7 @@ export declare class Workspace {
      * @param {string} integrationName - name of Integration the action belongs to
      */
     startAction({ page, actionName, integrationName }: StartAction): Promise<void>;
+    setFilterOnFeed({ page, option }: SetFilterOnFeed): Promise<void>;
     /**
      * Get Feed Notifications
      * @param {Object} page - Methods to interact with a single tab or extension background page in Browser
@@ -41,7 +42,7 @@ export declare class Workspace {
      * @param {number} repeatMax - Max number of tries to find the FeedCard
      * @param {number} waitTime - Time in miliseconds to wait after each try
      */
-    waitForFeedCardId({ page, repeatMax, waitTime, recordId, notificationId, }: WaitForFeedCardId): Promise<Number>;
+    waitForFeedCardId({ page, repeatMax, waitTime, recordId, notificationId, }: WaitForFeedCardId): Promise<any>;
     /**
      * Returns button on FeedCard
      *
