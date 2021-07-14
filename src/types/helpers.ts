@@ -6,7 +6,7 @@ export type GetCookie = {
 };
 
 export type ErrorHandle = {
-  error: AxiosError;
+  error: any;
   args: Object;
 };
 

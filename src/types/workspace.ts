@@ -87,3 +87,9 @@ export type GetUserData = {
     pageId: string;
     authDomain: string;
 };
+
+
+export type SetFilterOnFeed = {
+    page: Page;
+    option?: 'CREATED_AT' | 'RELEVANCE_DESKTOP';   
+};

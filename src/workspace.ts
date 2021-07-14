@@ -14,6 +14,7 @@ import type {
     GetUserData,
     WaitForFeedCardId,
     WaitForPopUp,
+    SetFilterOnFeed,
 } from './types/workspace';
 
 /** Class representing a Workspace. */
@@ -115,18 +116,58 @@ export class Workspace {
         );
     }
 
+    
+    async setFilterOnFeed({ page, option = 'CREATED_AT' }: SetFilterOnFeed) {
+        const menuItemTitle = option === 'CREATED_AT' ? 'Most Recent' : 'Recommended';
+        
+        const elementSelect = await page.$('select');
+        const elementFilter = await page.$('#ws-sortby-label');
+        
+        const elementSelectState = await Promise.all([elementSelect, elementFilter])
+            .then((value) => {            
+                return value[0];
+            })
+            .catch((error) => {
+                throw new Error(`${error}`);
+            });
+
+
+        if (elementSelectState) {
+            await page.waitForSelector('select');
+
+            if (await (await page.$('select'))!.isEnabled()) {
+                await page.selectOption('select', option);
+            } else {
+                console.log('Activity feed dropdown is disabled');
+            }
+        } else {
+            await page.waitForSelector('#ws-sortby-label');
+            await page.click('#ws-sortby-label');
+            await page.waitForSelector(`[role="menuitem"] :text("${menuItemTitle}")`);
+            await page.click(`[role="menuitem"] :text("${menuItemTitle}")`);
+        }
+        
+        await page.waitForSelector('[role="region"][aria-busy="false"]')
+
+    }
+    
+    
+    
     /**
      * Get Feed Notifications
      * @param {Object} page - Methods to interact with a single tab or extension background page in Browser
      */
 
-    async getFeedNotifications({ page }: GetFeedNotifications) {
-        await page.waitForSelector('select');
-        await page.selectOption('select', 'CREATED_AT');
-        const notifications = await page.waitForResponse(
-            (response: any) => response.url().match(new RegExp('notification')) && response.status() === 200
+     async getFeedNotifications({ page }: GetFeedNotifications) {
+        const notificationsResponse = page.waitForResponse(
+            (response) => response.url().match(new RegExp('notification'))! && response.status() === 200
         );
+
+        this.setFilterOnFeed({ page });
+
+        const notifications = await notificationsResponse;
         const notificationsBody = await notifications.json();
+
         return notificationsBody;
     }
 
@@ -138,48 +179,39 @@ export class Workspace {
      * @param {number} repeatMax - Max number of tries to find the FeedCard
      * @param {number} waitTime - Time in miliseconds to wait after each try
      */
-    async waitForFeedCardId({
+     async waitForFeedCardId({
         page,
         repeatMax = 50,
         waitTime = 5000,
         recordId,
         notificationId = '',
     }: WaitForFeedCardId) {
-        let feedCardId: Number;
-        for (let i = 0; i < repeatMax; i++) {
+        let feedCardId;
+        for (let i = 0; i < repeatMax; i += 1) {
             if (i === repeatMax - 1) {
                 throw new Error('Have not found expected feedcard id.');
             }
 
-            const feedNotification: any = await this.getFeedNotifications({ page });
-            const data = feedNotification.items;
-            let feedCardDetail;
-            try {
-                feedCardDetail = data.filter(
-                    (e: { recordId: string | string[]; source: { notification: { id: string | string[] } } }) => {
-                        return e.recordId.includes(recordId) && e.source.notification.id.includes(notificationId);
-                    }
-                );
-                feedCardId = feedCardDetail[0].id;
-            } catch (error) {
-                console.log(error.stack);
-                throw new Error(
-                    await paramsCheck({
-                        params: { feedCardDetail, feedCardId, data },
-                        functionType: 'filter',
-                        source: 'data',
-                    })
-                );
-            }
+            const feedNotification = await this.getFeedNotifications({ page });
+
+            const data = feedNotification['items'];
+
+            const feedCardDetail = data.find(
+                (feedCard: { recordId: string; source: { notification: { id: string } } }) =>
+                    feedCard.recordId &&
+                    feedCard.recordId.includes(recordId) &&
+                    feedCard.source.notification.id.includes(notificationId)
+            );
 
             await page.waitForTimeout(waitTime);
 
-            if (feedCardDetail.length >= 1) {
+            if (feedCardDetail) {
+                feedCardId = feedCardDetail.id;
+                console.log('feedCardId:', feedCardId);
                 break;
             }
         }
 
-        console.log(feedCardId);
         return feedCardId;
     }
 
