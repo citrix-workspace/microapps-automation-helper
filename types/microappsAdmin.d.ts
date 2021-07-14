@@ -31,7 +31,15 @@ export declare class MicroappsAdmin extends API {
      * @param {Function} getIntegration - Fetch status of integration
      * @param {string} synchronizationType - Set type of syncronization full/incremental
      */
-    waitForSync({ getIntegration, synchronizationType, integrationName }: WaitForSync): Promise<any>;
+    waitForSync({ getIntegration, synchronizationType, integrationName, skipCheck, maxMinutesToWait, }: WaitForSync): Promise<{
+        jobState: string;
+        running: boolean;
+        lastRunSuccess: boolean;
+        lastRunException: any;
+        cancelled: boolean;
+        lastRunDurationMillis: number;
+        lastSuccessfulRunStartTimeAsInstant: string;
+    }>;
     /**
      * Run syncronization for specific Integration
      * @param {Object} authInstance - Authorized instance for API calls
@@ -39,7 +47,7 @@ export declare class MicroappsAdmin extends API {
      * @param {string} integrationName - Name of integration
      * @param {string} synchronizationType - Set type of syncronization full/incremental
      */
-    runSynchronization({ authInstance, microappsAdminUrl, integrationName, synchronizationType, }: RunSynchronization): Promise<void>;
+    runSynchronization({ authInstance, microappsAdminUrl, integrationName, synchronizationType, maxMinutesToWait, }: RunSynchronization): Promise<void>;
     /**
      * Create HTTP Integration
      * @param {Object} authInstance - Authorized instance for API calls
@@ -55,7 +63,7 @@ export declare class MicroappsAdmin extends API {
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} processId - Id of process
      */
-    waitForProcessStatus({ authInstance, status, microappsAdminUrl, processId }: WaitForProcessStatus): Promise<AxiosResponse<any>>;
+    waitForProcessStatus({ authInstance, status, microappsAdminUrl, processId }: WaitForProcessStatus): Promise<any>;
     /**
      * Create Java Integration
      * @param {Object} authInstance - Authorized instance for API calls
@@ -129,9 +137,7 @@ export declare class MicroappsAdmin extends API {
     runEvent({ authInstance, microappsAdminUrl, integrationName, appName, notificationName }: RunEvent): Promise<void>;
     checkAppMissconfigurations({ authInstance, microappsAdminUrl, appId }: CheckAppMissconfigurations): Promise<void>;
     addSubscriber({ authInstance, appId, user, config }: AddSubscriber): Promise<void>;
-    addSubscribers({ authInstance, integrationName, microapps, microappsAdminUrl, config }: AddSubscribers): Promise<{
-        microapp: string;
-    }[]>;
+    addSubscribers({ authInstance, integrationName, microapps, microappsAdminUrl, config }: AddSubscribers): Promise<any[]>;
     /**
      * Import Integration from an exported Integration file
      *

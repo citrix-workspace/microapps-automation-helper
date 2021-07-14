@@ -1,10 +1,9 @@
-import { AxiosError } from 'axios';
 export declare type GetCookie = {
     cookies: any;
     cookieName: string;
 };
 export declare type ErrorHandle = {
-    error: AxiosError;
+    error: any;
     args: Object;
 };
 export declare type ParamsCheck = {

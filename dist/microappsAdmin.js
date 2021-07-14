@@ -101,34 +101,46 @@ class MicroappsAdmin extends api_1.API {
      * @param {Function} getIntegration - Fetch status of integration
      * @param {string} synchronizationType - Set type of syncronization full/incremental
      */
-    async waitForSync({ getIntegration, synchronizationType, integrationName = '' }) {
+    async waitForSync({ getIntegration, synchronizationType, integrationName = '', skipCheck = false, maxMinutesToWait = 9, }) {
         let jobRun;
+        let newSyncRunning = false;
+        const maxQueueTime = new Date().setMinutes(new Date().getMinutes() + 5);
+        const maxTime = new Date().setMinutes(new Date().getMinutes() + maxMinutesToWait);
         for (let i = 0;; i++) {
             if (i % 6 === 0) {
                 console.log(`${integrationName && `[${integrationName}] - `}Waiting for synchronization to finish`);
             }
             const integration = await getIntegration();
             if (integration.data.jobRuns.length > 0) {
-                const jobRuns = integration.data.jobRuns;
-                try {
-                    [jobRun] = jobRuns.filter((job) => job.synchronizationTypeId === synchronizationType);
+                [jobRun] = integration.data.jobRuns.filter((job) => job.synchronizationTypeId === synchronizationType);
+                const currentTime = new Date().getTime();
+                if (currentTime > maxTime) {
+                    throw new Error(`Maximum amount of time - ${maxMinutesToWait} minutes - reached!`);
                 }
-                catch (error) {
-                    console.log(error.stack);
-                    throw new Error(await helpers_1.paramsCheck({
-                        params: { jobRun, jobRuns },
-                        functionType: 'filter',
-                        source: 'jobRuns',
-                    }));
+                if ((jobRun === null || jobRun === void 0 ? void 0 : jobRun.jobState) === 'RUNNING') {
+                    newSyncRunning = true;
                 }
-                if ((jobRun === null || jobRun === void 0 ? void 0 : jobRun.running) === false) {
+                if ((jobRun === null || jobRun === void 0 ? void 0 : jobRun.jobState) !== 'RUNNING' && skipCheck === false) {
+                    if ((jobRun === null || jobRun === void 0 ? void 0 : jobRun.jobState) === 'FAILED') {
+                        throw new Error(`Synchronization FAILED.`);
+                    }
+                    else if (currentTime > maxQueueTime && (jobRun === null || jobRun === void 0 ? void 0 : jobRun.jobState) === 'QUEUED') {
+                        throw new Error(`Synchronization is in state QUEUED for more than 5 minutes.`);
+                    }
+                    else if ((jobRun === null || jobRun === void 0 ? void 0 : jobRun.jobState) === 'STARTING' ||
+                        (((jobRun === null || jobRun === void 0 ? void 0 : jobRun.jobState) === 'SCHEDULED' || (jobRun === null || jobRun === void 0 ? void 0 : jobRun.jobState) === 'FINISHED') && !newSyncRunning)) {
+                        await new Promise((resolve) => setTimeout(resolve, 100));
+                        continue;
+                    }
+                }
+                if ((jobRun === null || jobRun === void 0 ? void 0 : jobRun.running) === false && (jobRun === null || jobRun === void 0 ? void 0 : jobRun.jobState) !== 'QUEUED') {
                     break;
                 }
-                await new Promise((resolve) => setTimeout(resolve, 5000));
             }
-            else {
+            else if (i > 2) {
                 throw new Error(`No jobRuns found.`);
             }
+            await new Promise((resolve) => setTimeout(resolve, 5000));
         }
         if (jobRun.lastRunSuccess === false || jobRun.lastRunException) {
             if (jobRun.lastRunException) {
@@ -148,40 +160,35 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} integrationName - Name of integration
      * @param {string} synchronizationType - Set type of syncronization full/incremental
      */
-    async runSynchronization({ authInstance, microappsAdminUrl, integrationName, synchronizationType, }) {
+    async runSynchronization({ authInstance, microappsAdminUrl, integrationName, synchronizationType, maxMinutesToWait = 9, }) {
         const integrationId = await this.getIntegrationId({
             authInstance,
             microappsAdminUrl,
             integrationName,
         });
-        const integration = await this.getIntegration({
-            authInstance,
-            microappsAdminUrl,
-            integrationId,
-        });
+        const integration = await this.getIntegration({ authInstance, microappsAdminUrl, integrationId });
         const jobRuns = integration.data.jobRuns;
-        let getJobRunDetail;
-        try {
-            getJobRunDetail = jobRuns.find((job) => {
-                return job.synchronizationTypeId === synchronizationType;
+        const getJobRunDetail = jobRuns.find((job) => {
+            return job.synchronizationTypeId === synchronizationType;
+        });
+        if (getJobRunDetail === undefined) {
+            await this.startSynchronization({
+                authInstance,
+                microappsAdminUrl,
+                integrationId,
+                synchronizationType,
+            });
+            await this.waitForSync({
+                getIntegration: () => this.getIntegration({ authInstance, microappsAdminUrl, integrationId }),
+                synchronizationType,
+                maxMinutesToWait: maxMinutesToWait,
             });
         }
-        catch (error) {
-            console.log(error.stack);
-            throw new Error(await helpers_1.paramsCheck({
-                params: { integration, jobRuns, getJobRunDetail },
-                functionType: 'find',
-                source: 'jobRuns',
-            }));
-        }
-        if ((getJobRunDetail === null || getJobRunDetail === void 0 ? void 0 : getJobRunDetail.running) === true) {
+        else if (getJobRunDetail.running === true) {
             await this.waitForSync({
-                getIntegration: () => this.getIntegration({
-                    authInstance,
-                    microappsAdminUrl,
-                    integrationId,
-                }),
+                getIntegration: () => this.getIntegration({ authInstance, microappsAdminUrl, integrationId }),
                 synchronizationType,
+                maxMinutesToWait: maxMinutesToWait,
             });
         }
         else {
@@ -192,12 +199,9 @@ class MicroappsAdmin extends api_1.API {
                 synchronizationType,
             });
             await this.waitForSync({
-                getIntegration: () => this.getIntegration({
-                    authInstance,
-                    microappsAdminUrl,
-                    integrationId,
-                }),
+                getIntegration: () => this.getIntegration({ authInstance, microappsAdminUrl, integrationId }),
                 synchronizationType,
+                maxMinutesToWait: maxMinutesToWait,
             });
         }
     }
