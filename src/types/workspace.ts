@@ -31,7 +31,7 @@ export type WaitForFeedCardId = {
     repeatMax?: number;
     waitTime?: number;
     recordId: string;
-    notificationId: string;
+    notificationId?: string;
 };
 
 export type GetFeedCardButton = {

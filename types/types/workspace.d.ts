@@ -25,7 +25,7 @@ export declare type WaitForFeedCardId = {
     repeatMax?: number;
     waitTime?: number;
     recordId: string;
-    notificationId: string;
+    notificationId?: string;
 };
 export declare type GetFeedCardButton = {
     page: Page;
