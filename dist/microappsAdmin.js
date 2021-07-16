@@ -100,6 +100,8 @@ class MicroappsAdmin extends api_1.API {
      * Wait for syncronization and check the result of sync
      * @param {Function} getIntegration - Fetch status of integration
      * @param {string} synchronizationType - Set type of syncronization full/incremental
+     * @param {string} skipCheck - If running on newly created integration set this as true
+     * @param {number} maxMinutesToWait - Maxim time to wait in minutes
      */
     async waitForSync({ getIntegration, synchronizationType, integrationName = '', skipCheck = false, maxMinutesToWait = 9, }) {
         let jobRun;

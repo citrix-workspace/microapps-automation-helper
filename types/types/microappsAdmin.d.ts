@@ -24,7 +24,7 @@ export declare type WaitForSync = {
     synchronizationType: string;
     integrationName?: string;
     skipCheck?: boolean;
-    maxMinutesToWait: number;
+    maxMinutesToWait?: number;
 };
 export declare type RunSynchronization = {
     authInstance: AxiosInstance;
