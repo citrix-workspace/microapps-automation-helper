@@ -28,7 +28,7 @@ export type WaitForSync = {
     synchronizationType: string;
     integrationName?: string;
     skipCheck?: boolean,
-    maxMinutesToWait: number,
+    maxMinutesToWait?: number,
 };
 
 export type RunSynchronization = {
