@@ -2,35 +2,7 @@ import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
 import { errorHandle } from './helpers';
-import type {
-    AddApp,
-    AddSecrets,
-    CreateEntity,
-    DeleteIntegration,
-    ExportIntegration,
-    FinalizeConfig,
-    GetAppInfo,
-    GetApps,
-    GetBundleCatalogue,
-    GetCitrixCloudTokens,
-    GetDomain,
-    GetEntities,
-    GetIntegration,
-    GetIntegrationLog,
-    GetIntegrations,
-    GetNotifications,
-    GetProcessStatus,
-    GetSubscribers,
-    GetUsers,
-    IntegrationLogout,
-    IntegrityCheck,
-    RunNotificationEvent,
-    StartSynchronization,
-    UpdateBundleCatalogue,
-    UpdateintegrationConfiguration,
-    UpdateSubscribers,
-    ValidateConfiguration,
-} from './types/api';
+import * as types from './types/api';
 
 /** Class representing a Citrix Cloud. */
 export class API {
@@ -49,7 +21,7 @@ export class API {
         citrixCloudCustomerId,
         citrixCloudClientId,
         citrixCloudClientSecret,
-    }: GetCitrixCloudTokens) {
+    }: types.GetCitrixCloudTokens) {
         try {
             return await axios({
                 timeout: 180000,
@@ -75,7 +47,7 @@ export class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      */
 
-    async getIntegrations({ authInstance, microappsAdminUrl }: GetIntegrations) {
+    async getIntegrations({ authInstance, microappsAdminUrl }: types.GetIntegrations) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/service`,
@@ -96,7 +68,7 @@ export class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      */
 
-    async getBundleCatalogue({ authInstance, microappsAdminUrl }: GetBundleCatalogue) {
+    async getBundleCatalogue({ authInstance, microappsAdminUrl }: types.GetBundleCatalogue) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/bundleCatalogue`,
@@ -117,7 +89,7 @@ export class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      * @param {string} catalogueId - Catalogue Id
      */
-    async updateBundleCatalogue({ authInstance, microappsAdminUrl, catalogueId }: UpdateBundleCatalogue) {
+    async updateBundleCatalogue({ authInstance, microappsAdminUrl, catalogueId }: types.UpdateBundleCatalogue) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/bundleCatalogue/import/${catalogueId}`,
@@ -144,7 +116,7 @@ export class API {
         microappsAdminUrl,
         integrationId,
         integrationConfiguration,
-    }: UpdateintegrationConfiguration) {
+    }: types.UpdateintegrationConfiguration) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/service/${integrationId}`,
@@ -166,7 +138,7 @@ export class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      * @param {string} integrationId - Integration Id
      */
-    async getIntegration({ authInstance, microappsAdminUrl, integrationId }: GetIntegration) {
+    async getIntegration({ authInstance, microappsAdminUrl, integrationId }: types.GetIntegration) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/service/${integrationId}`,
@@ -187,7 +159,7 @@ export class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      * @param {string} integrationId - Integration Id
      */
-    async integrationLogout({ authInstance, microappsAdminUrl, integrationId }: IntegrationLogout) {
+    async integrationLogout({ authInstance, microappsAdminUrl, integrationId }: types.IntegrationLogout) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/auth/serviceAction/logout/${integrationId}`,
@@ -209,7 +181,12 @@ export class API {
      * @param {string} serviceKey - ServiceKey of Integration
      * @param {string} configuration - Configuration parameters of Integration
      */
-    async validateConfiguration({ authInstance, microappsAdminUrl, serviceKey, configuration }: ValidateConfiguration) {
+    async validateConfiguration({
+        authInstance,
+        microappsAdminUrl,
+        serviceKey,
+        configuration,
+    }: types.ValidateConfiguration) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/external-services/${serviceKey}/validate-configuration`,
@@ -237,7 +214,7 @@ export class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      * @param {string} data - Data of the MicroApp
      */
-    async addApp({ authInstance, microappsAdminUrl, data }: AddApp) {
+    async addApp({ authInstance, microappsAdminUrl, data }: types.AddApp) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/app`,
@@ -259,7 +236,7 @@ export class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      * @param {string} processId - Id of the process
      */
-    async getProcessStatus({ authInstance, microappsAdminUrl, processId }: GetProcessStatus) {
+    async getProcessStatus({ authInstance, microappsAdminUrl, processId }: types.GetProcessStatus) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/process/${processId}`,
@@ -280,7 +257,7 @@ export class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      * @param {string} integrationId - Integration Id
      */
-    async getEntities({ authInstance, microappsAdminUrl, integrationId }: GetEntities) {
+    async getEntities({ authInstance, microappsAdminUrl, integrationId }: types.GetEntities) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/service/${integrationId}/entities`,
@@ -302,7 +279,7 @@ export class API {
      * @param {string} integrationId - Integration Id
      * @param {string} entityData - Data of the Entity
      */
-    async createEntity({ authInstance, microappsAdminUrl, integrationId, entityData }: CreateEntity) {
+    async createEntity({ authInstance, microappsAdminUrl, integrationId, entityData }: types.CreateEntity) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/service/${integrationId}/entities`,
@@ -324,7 +301,7 @@ export class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      * @param {string} integrationId - Integration Id
      */
-    async finalizeConfig({ authInstance, microappsAdminUrl, integrationId }: FinalizeConfig) {
+    async finalizeConfig({ authInstance, microappsAdminUrl, integrationId }: types.FinalizeConfig) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/service/${integrationId}/finalize-config`,
@@ -345,7 +322,7 @@ export class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
 
      */
-    async getApps({ authInstance, microappsAdminUrl }: GetApps) {
+    async getApps({ authInstance, microappsAdminUrl }: types.GetApps) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/app`,
@@ -366,7 +343,7 @@ export class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      * @param {string} appId - Id of the MicroApp
      */
-    async getNotifications({ authInstance, microappsAdminUrl, appId }: GetNotifications) {
+    async getNotifications({ authInstance, microappsAdminUrl, appId }: types.GetNotifications) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/notifications/app/${appId}`,
@@ -386,7 +363,7 @@ export class API {
      * @param {object} authInstance - Axios instance
      * @param {string} microappsAdminUrl - Microapps Admin Url
      */
-    async runNotificationEvent({ authInstance, microappsAdminUrl, notificationId }: RunNotificationEvent) {
+    async runNotificationEvent({ authInstance, microappsAdminUrl, notificationId }: types.RunNotificationEvent) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/notification/${notificationId}/run`,
@@ -412,7 +389,7 @@ export class API {
         microappsAdminUrl,
         integrationId,
         synchronizationType,
-    }: StartSynchronization) {
+    }: types.StartSynchronization) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/service/${integrationId}/run/${synchronizationType}`,
@@ -432,7 +409,7 @@ export class API {
      * @param {object} authInstance - Axios instance
      * @param {string} microappsAdminUrl - Microapps Admin Url
      */
-    async integrityCheck({ authInstance, microappsAdminUrl }: IntegrityCheck) {
+    async integrityCheck({ authInstance, microappsAdminUrl }: types.IntegrityCheck) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/app/integrity-check`,
@@ -453,7 +430,7 @@ export class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      * @param {string} integrationId - Integration Id
      */
-    async deleteIntegration({ authInstance, microappsAdminUrl, integrationId }: DeleteIntegration) {
+    async deleteIntegration({ authInstance, microappsAdminUrl, integrationId }: types.DeleteIntegration) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/service/${integrationId}`,
@@ -475,7 +452,7 @@ export class API {
      * @param {string} citrixCloudCustomerId - Customer Id
      * @param {string} workspaceIdentityProvider - Identity Provider of Workspace
      */
-    async getDomain({ authInstance, cwaAPI, citrixCloudCustomerId, workspaceIdentityProvider }: GetDomain) {
+    async getDomain({ authInstance, cwaAPI, citrixCloudCustomerId, workspaceIdentityProvider }: types.GetDomain) {
         try {
             switch (workspaceIdentityProvider) {
                 case 'ad':
@@ -534,7 +511,7 @@ export class API {
         query,
         citrixCloudCustomerId,
         idpType,
-    }: GetUsers) {
+    }: types.GetUsers) {
         try {
             return await authInstance({
                 url: `https://cws.${cwaAPI}.net/${citrixCloudCustomerId}/users/query`,
@@ -589,7 +566,7 @@ export class API {
         domainName,
         forestName,
         workspaceIdentityProvider,
-    }: UpdateSubscribers) {
+    }: types.UpdateSubscribers) {
         const { accountName, displayName, universalClaims, identityInformation, isGroup } = userDetail[0];
 
         const getOID = universalClaims.filter((value: string) => {
@@ -663,7 +640,7 @@ export class API {
      * @param {string} microappsAdminUrl - Microapps Admin Url
      * @param {string} appId - Id of the MicroApp
      */
-    async getSubscribers({ authInstance, microappsAdminUrl, appId }: GetSubscribers) {
+    async getSubscribers({ authInstance, microappsAdminUrl, appId }: types.GetSubscribers) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/security/app-user/selected-groups/${appId}`,
@@ -687,7 +664,13 @@ export class API {
      * @param {string} params -  Mandatadory params are vendor, appId (which apps will be  exported) and optional param description.
      * Example: vendor=Citrix&appId=myAppId1&appId=myAppId2&description=
      */
-    async exportIntegration({ authInstance, microappsAdminUrl, integrationId, filePath, params }: ExportIntegration) {
+    async exportIntegration({
+        authInstance,
+        microappsAdminUrl,
+        integrationId,
+        filePath,
+        params,
+    }: types.ExportIntegration) {
         let response;
         try {
             response = await authInstance({
@@ -713,7 +696,12 @@ export class API {
      * @param {string} integrationName - Name of Integration
      * @param {string} integrationType - Type of Integration
      */
-    async getIntegrationLog({ authInstance, microappsAdminUrl, integrationId, integrationType }: GetIntegrationLog) {
+    async getIntegrationLog({
+        authInstance,
+        microappsAdminUrl,
+        integrationId,
+        integrationType,
+    }: types.GetIntegrationLog) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/event-log?entityRef=${integrationId}&type=${integrationType}&subType=JOB&offset=0&limit=20`,
@@ -734,7 +722,7 @@ export class API {
      * @param {string} integrationId - Id of Integration
      * @param {string} data - Secrest which should be add to the integration
      */
-    async addSecrets({ authInstance, microappsAdminUrl, integrationId, data }: AddSecrets) {
+    async addSecrets({ authInstance, microappsAdminUrl, integrationId, data }: types.AddSecrets) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/service/${integrationId}/secrets`,
@@ -755,7 +743,7 @@ export class API {
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} appId - Id of microapp
      */
-    async getAppInfo({ authInstance, microappsAdminUrl, appId }: GetAppInfo) {
+    async getAppInfo({ authInstance, microappsAdminUrl, appId }: types.GetAppInfo) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/app/${appId}`,

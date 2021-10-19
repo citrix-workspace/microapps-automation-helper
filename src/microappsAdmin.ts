@@ -6,36 +6,7 @@ import { CitrixCloud } from './citrixCloud';
 import { API } from './api';
 import { paramsCheck } from './helpers';
 import { AxiosResponse } from 'axios';
-import type {
-    AddSubscriber,
-    AddSubscribers,
-    CheckAppMissconfigurations,
-    CheckIntegrationMissConfiguration,
-    CreateHTTPIntegration,
-    CreateJavaIntegration,
-    ExportApp,
-    ExportIntegrationUI,
-    ExportMicroAppUI,
-    GetComponentId,
-    GetIntegrationId,
-    GetIntegrationType,
-    GetLastSyncTime,
-    GetMicroAppId,
-    GetNotificationId,
-    GetStatusIntegration,
-    ImportIntegration,
-    ImportIntegrationUI,
-    ImportMicroAppUI,
-    MicroappsAdminLogin,
-    OauthLogout,
-    RenameIntegration,
-    RunEvent,
-    RunSynchronization,
-    Subscribe,
-    WaitForAllSync,
-    WaitForProcessStatus,
-    WaitForSync,
-} from './types/microappsAdmin';
+import * as types from './types/microappsAdmin';
 
 const citrixCloud = new CitrixCloud();
 
@@ -51,7 +22,7 @@ export class MicroappsAdmin extends API {
      * @param {string} - Username
      * @param {string} - Password
      */
-    async login({ page, url, username, password, mfa = null, secretKey }: MicroappsAdminLogin) {
+    async login({ page, url, username, password, mfa = null, secretKey }: types.MicroappsAdminLogin) {
         await page.goto(url, { waitUntil: 'domcontentloaded' });
         await page.waitForSelector('#username');
         await page.type('#username', username);
@@ -87,7 +58,11 @@ export class MicroappsAdmin extends API {
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} integrationName - Name of integration
      */
-    async getIntegrationId({ authInstance, microappsAdminUrl, integrationName }: GetIntegrationId): Promise<string> {
+    async getIntegrationId({
+        authInstance,
+        microappsAdminUrl,
+        integrationName,
+    }: types.GetIntegrationId): Promise<string> {
         let integrationId;
         let integration;
 
@@ -117,7 +92,7 @@ export class MicroappsAdmin extends API {
      * @param {number} repeatCount - Set count for retries
      */
 
-    async oauthLogout({ authInstance, microappsAdminUrl, integrationName, repeatCount = 1 }: OauthLogout) {
+    async oauthLogout({ authInstance, microappsAdminUrl, integrationName, repeatCount = 1 }: types.OauthLogout) {
         const integrationId = await this.getIntegrationId({
             authInstance,
             microappsAdminUrl,
@@ -140,13 +115,13 @@ export class MicroappsAdmin extends API {
      * @param {number} maxMinutesToWait - Maxim time to wait in minutes
      */
 
-     async waitForSync({
+    async waitForSync({
         getIntegration,
         synchronizationType,
         integrationName = '',
         skipCheck = false,
         maxMinutesToWait = 9,
-    }: WaitForSync) {
+    }: types.WaitForSync) {
         let jobRun: {
             jobState: string;
             running: boolean;
@@ -219,13 +194,13 @@ export class MicroappsAdmin extends API {
      * @param {string} synchronizationType - Set type of syncronization full/incremental
      */
 
-     async runSynchronization({
+    async runSynchronization({
         authInstance,
         microappsAdminUrl,
         integrationName,
         synchronizationType,
         maxMinutesToWait = 9,
-    }: RunSynchronization) {
+    }: types.RunSynchronization) {
         const integrationId = await this.getIntegrationId({
             authInstance,
             microappsAdminUrl,
@@ -288,7 +263,7 @@ export class MicroappsAdmin extends API {
         microappsAdminUrl,
         integrationName,
         integrationConfiguration,
-    }: CreateHTTPIntegration): Promise<string> {
+    }: types.CreateHTTPIntegration): Promise<string> {
         const bundleCatalogue = await this.getBundleCatalogue({
             authInstance,
             microappsAdminUrl,
@@ -336,7 +311,7 @@ export class MicroappsAdmin extends API {
      * @param {string} processId - Id of process
      */
 
-    async waitForProcessStatus({ authInstance, status, microappsAdminUrl, processId }: WaitForProcessStatus) {
+    async waitForProcessStatus({ authInstance, status, microappsAdminUrl, processId }: types.WaitForProcessStatus) {
         let processStatus;
         for (let i = 0; i < 35; i++) {
             processStatus = await this.getProcessStatus({
@@ -375,7 +350,7 @@ export class MicroappsAdmin extends API {
         serviceType = null,
         serviceKey,
         name = '',
-    }: CreateJavaIntegration) {
+    }: types.CreateJavaIntegration) {
         let processId: string;
 
         let configurationParameters: any;
@@ -507,7 +482,7 @@ export class MicroappsAdmin extends API {
         authInstance,
         microappsAdminUrl,
         integrationName,
-    }: GetIntegrationType): Promise<string> {
+    }: types.GetIntegrationType): Promise<string> {
         const integrations = await this.getIntegrations({
             authInstance,
             microappsAdminUrl,
@@ -543,7 +518,7 @@ export class MicroappsAdmin extends API {
      * @param {string} integrationName - Name of integration
      */
 
-    async getStatusIntegration({ authInstance, microappsAdminUrl, integrationName }: GetStatusIntegration) {
+    async getStatusIntegration({ authInstance, microappsAdminUrl, integrationName }: types.GetStatusIntegration) {
         try {
             const serviceId = await this.getIntegrationId({
                 authInstance,
@@ -563,7 +538,7 @@ export class MicroappsAdmin extends API {
      * @param {string} pathToFile - path to file.mapp which should be imported
      */
 
-    async importIntegration({ authInstance, microappsAdminUrl, pathToFile }: ImportIntegration) {
+    async importIntegration({ authInstance, microappsAdminUrl, pathToFile }: types.ImportIntegration) {
         const form: any = new FormData();
         let response: AxiosResponse;
 
@@ -605,7 +580,7 @@ export class MicroappsAdmin extends API {
         integrationName,
         newIntegrationName,
         integrationConfiguration,
-    }: RenameIntegration) {
+    }: types.RenameIntegration) {
         const integrationId = await this.getStatusIntegration({
             authInstance,
             microappsAdminUrl,
@@ -653,7 +628,7 @@ export class MicroappsAdmin extends API {
      * @param {string} pathToFile - path where file should be saved
      */
 
-    async exportApp({ authInstance, microappsAdminUrl, appId, pathToFile }: ExportApp) {
+    async exportApp({ authInstance, microappsAdminUrl, appId, pathToFile }: types.ExportApp) {
         let response;
         try {
             response = await authInstance({
@@ -675,7 +650,12 @@ export class MicroappsAdmin extends API {
      * @param {string} appName - Name Application
      */
 
-    async getMicroAppId({ authInstance, microappsAdminUrl, integrationId, appName }: GetMicroAppId): Promise<string> {
+    async getMicroAppId({
+        authInstance,
+        microappsAdminUrl,
+        integrationId,
+        appName,
+    }: types.GetMicroAppId): Promise<string> {
         let apps;
         try {
             apps = await this.getApps({ authInstance, microappsAdminUrl });
@@ -705,7 +685,7 @@ export class MicroappsAdmin extends API {
         microappsAdminUrl,
         appId,
         notificationName,
-    }: GetNotificationId): Promise<string> {
+    }: types.GetNotificationId): Promise<string> {
         const notifications = await this.getNotifications({
             authInstance,
             microappsAdminUrl,
@@ -745,7 +725,7 @@ export class MicroappsAdmin extends API {
      * @param {string} notificationName - Name of Notification
      */
 
-    async runEvent({ authInstance, microappsAdminUrl, integrationName, appName, notificationName }: RunEvent) {
+    async runEvent({ authInstance, microappsAdminUrl, integrationName, appName, notificationName }: types.RunEvent) {
         let notifications;
         const integrationId = await this.getIntegrationId({
             authInstance,
@@ -794,7 +774,7 @@ export class MicroappsAdmin extends API {
         }
     }
 
-    async checkAppMissconfigurations({ authInstance, microappsAdminUrl, appId }: CheckAppMissconfigurations) {
+    async checkAppMissconfigurations({ authInstance, microappsAdminUrl, appId }: types.CheckAppMissconfigurations) {
         const response = await this.integrityCheck({
             authInstance,
             microappsAdminUrl,
@@ -822,7 +802,7 @@ export class MicroappsAdmin extends API {
         console.log('missconfigurations: ', missconfigurations);
     }
 
-    async addSubscriber({ authInstance, appId, user, config }: AddSubscriber) {
+    async addSubscriber({ authInstance, appId, user, config }: types.AddSubscriber) {
         const { microappsAdminUrl, citrixCloudCustomerId, cwaAPI, workspaceIdentityProvider } = config;
         // Get Domains
         const domains = await this.getDomain({
@@ -927,14 +907,20 @@ export class MicroappsAdmin extends API {
             appId,
         });
     }
-    async addSubscribers({ authInstance, integrationName, microapps, microappsAdminUrl, config }: AddSubscribers) {
+    async addSubscribers({
+        authInstance,
+        integrationName,
+        microapps,
+        microappsAdminUrl,
+        config,
+    }: types.AddSubscribers) {
         const integrationId = await this.getIntegrationId({
             authInstance,
             microappsAdminUrl,
             integrationName,
         });
 
-        const subscribe = async ({ microapps, microapp, authInstance, integrationId }: Subscribe) => {
+        const subscribe = async ({ microapps, microapp, authInstance, integrationId }: types.Subscribe) => {
             console.log(`[${integrationName}] - Adding subscribers for: ${microapp}`);
             const subscribers = microapps[microapp].subscribers;
             const microappId = await this.getMicroAppId({
@@ -967,7 +953,7 @@ export class MicroappsAdmin extends API {
      * @param {Page} page - Methods to interact with a single tab or extension background page in Browser
      * @param {string} filePath - Path to the exported Integration file that will be imported
      */
-    async importIntegrationUI({ page, microappsAdminUrl, filePath }: ImportIntegrationUI) {
+    async importIntegrationUI({ page, microappsAdminUrl, filePath }: types.ImportIntegrationUI) {
         await page.waitForSelector('[data-testid="add-integration-button"]');
         await page.click('[data-testid="add-integration-button"]');
 
@@ -994,7 +980,7 @@ export class MicroappsAdmin extends API {
      * @param {string} filePath - Path to the exported MicroApp file that will be imported
      * @param {string} integrationName - Name of Integration in which the MicroApp will be imported
      */
-    async importMicroAppUI({ page, microappsAdminUrl, filePath, integrationName }: ImportMicroAppUI) {
+    async importMicroAppUI({ page, microappsAdminUrl, filePath, integrationName }: types.ImportMicroAppUI) {
         await page.waitForSelector(
             `//div[@data-testid="integration-name-${integrationName}"] //button[@data-testid="toggle-integration-options-dropdown"]`
         );
@@ -1026,7 +1012,7 @@ export class MicroappsAdmin extends API {
      * @param {Page} page - Methods to interact with a single tab or extension background page in Browser
      * @param {string} integrationName - Name of Integration which will be exported
      */
-    async exportIntegrationUI({ page, integrationName }: ExportIntegrationUI) {
+    async exportIntegrationUI({ page, integrationName }: types.ExportIntegrationUI) {
         await page.waitForSelector(
             `//div[@data-testid="integration-name-${integrationName}"] //button[@data-testid="toggle-integration-options-dropdown"]`
         );
@@ -1059,7 +1045,7 @@ export class MicroappsAdmin extends API {
      * @param {string} integrationName - Name of Integration in which the MicroApp will be imported
      * @param {string} appName - Name of MicroApp that will be exported
      */
-    async exportMicroAppsUI({ page, integrationName, appName }: ExportMicroAppUI) {
+    async exportMicroAppsUI({ page, integrationName, appName }: types.ExportMicroAppUI) {
         await page.waitForSelector(
             `//div[@data-testid="integration-name-${integrationName}"] //tr[descendant::a[contains(text(), "${appName}")]] //button[starts-with(@class, "PlainButton")]`
         );
@@ -1086,7 +1072,7 @@ export class MicroappsAdmin extends API {
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} integrationName - Name of Integration
      */
-    async getLastTimeSync({ authInstance, microappsAdminUrl, integrationName }: GetLastSyncTime) {
+    async getLastTimeSync({ authInstance, microappsAdminUrl, integrationName }: types.GetLastSyncTime) {
         const regex = new RegExp(/\d*:\d*:\d*.\d*/);
 
         const integrationId = await this.getIntegrationId({
@@ -1131,7 +1117,7 @@ export class MicroappsAdmin extends API {
         appName,
         pageName,
         componentLabel,
-    }: GetComponentId) {
+    }: types.GetComponentId) {
         const integrationId = await this.getIntegrationId({
             authInstance,
             microappsAdminUrl,
@@ -1196,7 +1182,7 @@ export class MicroappsAdmin extends API {
         timeToRepeat = 45,
         authInstance,
         microappsAdminUrl,
-    }: WaitForAllSync): Promise<void> {
+    }: types.WaitForAllSync): Promise<void> {
         for (let i = 0; i < timeToRepeat; i++) {
             const integrations = await this.getIntegrations({
                 authInstance,
@@ -1235,7 +1221,7 @@ export class MicroappsAdmin extends API {
         authInstance,
         microappsAdminUrl,
         integrationId,
-    }: CheckIntegrationMissConfiguration) {
+    }: types.CheckIntegrationMissConfiguration) {
         const response = await this.integrityCheck({ authInstance, microappsAdminUrl });
         const missconfigured = response.data;
 

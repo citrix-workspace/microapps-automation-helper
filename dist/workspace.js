@@ -359,5 +359,68 @@ class Workspace {
         }
         return token;
     }
+    async iwsSearchBar({ page, text, tab = 'All' }) {
+        await page.waitForSelector('//span[contains(text(),"Search Workspace")]');
+        await page.click('//span[contains(text(),"Search Workspace")]');
+        await page.waitForSelector('#downshift-0-input');
+        await page.type('#downshift-0-input', `"${text}"`);
+        await page.waitForSelector('//*[@id="downshift-0-menu"]/parent::div');
+        await page.click('//*[@id="downshift-0-menu"]/parent::div', { position: { x: 0, y: 0 } }); // selector speficied by position due to different version on stage and prod envs
+        await page.waitForSelector(`//*[@role="tablist"]//span[contains(text(),"${tab}")]`);
+        await page.click(`//*[@role="tablist"]//span[contains(text(),"${tab}")]`);
+        switch (tab) {
+            case 'All':
+                await Promise.race([
+                    page.waitForSelector(`//div[@role="listitem"]`),
+                    page.waitForSelector(`//div[contains(text(), 'No files found')]`),
+                    page.waitForSelector(`//td[@data-label='Title']`),
+                ]);
+                break;
+            case 'Feed':
+                await Promise.race([
+                    page.waitForSelector(`//div[@role="listitem"]`),
+                    page.waitForSelector(`#search-results-title`),
+                ]);
+                break;
+            case 'OneDrive':
+                await Promise.race([
+                    page.waitForSelector(`//div[contains(text(), 'No files found')]`),
+                    page.waitForSelector(`//td[@data-label='Title']`),
+                ]);
+                break;
+            case 'Google drive':
+                await Promise.race([
+                    page.waitForSelector(`//div[contains(text(), 'No files found')]`),
+                    page.waitForSelector(`//td[@data-label='Title']`),
+                ]);
+                break;
+        }
+    }
+    async waitForFeedElement({ page, elementPromise, repeatMax = 10, waitTime = 7000 }) {
+        for (let i = 0; i < repeatMax; i++) {
+            if (i === repeatMax - 1) {
+                throw 'Have not found element even after reload of the page.';
+            }
+            const element = await elementPromise();
+            await page.waitForTimeout(waitTime);
+            if (element) {
+                break;
+            }
+            console.log('reloading page');
+            await page.reload();
+            await page.waitForTimeout(waitTime);
+        }
+    }
+    async waitForSharedFile({ page, fullFileName }) {
+        const testFileXPath = `//span[contains(text(),"${fullFileName}")]`;
+        const noFilesFoundXpath = '//div[contains(text(), "No files found")]';
+        await Promise.race([page.waitForSelector(testFileXPath), page.waitForSelector(noFilesFoundXpath)]);
+        await this.waitForFeedElement({
+            page,
+            elementPromise: () => page.$(testFileXPath),
+            repeatMax: 5,
+            waitTime: 15000,
+        });
+    }
 }
 exports.Workspace = Workspace;

@@ -1,21 +1,7 @@
 import axios from 'axios';
+import { TypeAssertion } from 'typescript';
 import { getCookie, paramsCheck } from './helpers';
-import type {
-    Login,
-    CreateDsAuthInstance,
-    GoToActions,
-    StartAction,
-    SkipTour,
-    GetDsauthTokens,
-    GetFeedCardButton,
-    GetFeedNotifications,
-    GetOneTimeToken,
-    GetTokens,
-    GetUserData,
-    WaitForFeedCardId,
-    WaitForPopUp,
-    SetFilterOnFeed,
-} from './types/workspace';
+import * as types from './types/workspace';
 
 /** Class representing a Workspace. */
 export class Workspace {
@@ -28,7 +14,7 @@ export class Workspace {
      * @param {string} workspacePassword - Workspace Password
      * @param {string} workspaceIdentityProvider - Identity provider (ad | netscaler | aad)
      */
-    async login({ page, workspaceUrl, workspaceUsername, workspacePassword, workspaceIdentityProvider }: Login) {
+    async login({ page, workspaceUrl, workspaceUsername, workspacePassword, workspaceIdentityProvider }: types.Login) {
         console.log('Login to Workspace', new Date());
         await page.goto(workspaceUrl, { waitUntil: 'domcontentloaded' });
         switch (workspaceIdentityProvider) {
@@ -80,7 +66,7 @@ export class Workspace {
      * @param {Object} page - Methods to interact with a single tab or extension background page in Browser
      */
 
-    async skipTour({ page }: SkipTour) {
+    async skipTour({ page }: types.SkipTour) {
         try {
             await page.waitForSelector('.cta-link a', { timeout: 5000 });
             const link = await page.$('.cta-link a');
@@ -96,7 +82,7 @@ export class Workspace {
      * @param {Object} page - Methods to interact with a single tab or extension background page in Browser
      */
 
-    async goToActions({ page }: GoToActions) {
+    async goToActions({ page }: types.GoToActions) {
         await page.waitForSelector('span >> text=Actions');
         await page.click('span >> text=Actions');
         await page.waitForLoadState('networkidle');
@@ -109,28 +95,26 @@ export class Workspace {
      * @param {string} integrationName - name of Integration the action belongs to
      */
 
-    async startAction({ page, actionName, integrationName }: StartAction) {
+    async startAction({ page, actionName, integrationName }: types.StartAction) {
         console.log(`Choosing action ${actionName}`, new Date());
         await page.click(
             `//button[descendant::div[@title="${integrationName}"]] //div[contains(text(), "${actionName}")]`
         );
     }
 
-    
-    async setFilterOnFeed({ page, option = 'CREATED_AT' }: SetFilterOnFeed) {
+    async setFilterOnFeed({ page, option = 'CREATED_AT' }: types.SetFilterOnFeed) {
         const menuItemTitle = option === 'CREATED_AT' ? 'Most Recent' : 'Recommended';
-        
+
         const elementSelect = await page.$('select');
         const elementFilter = await page.$('#ws-sortby-label');
-        
+
         const elementSelectState = await Promise.all([elementSelect, elementFilter])
-            .then((value) => {            
+            .then((value) => {
                 return value[0];
             })
             .catch((error) => {
                 throw new Error(`${error}`);
             });
-
 
         if (elementSelectState) {
             await page.waitForSelector('select');
@@ -146,19 +130,16 @@ export class Workspace {
             await page.waitForSelector(`[role="menuitem"] :text("${menuItemTitle}")`);
             await page.click(`[role="menuitem"] :text("${menuItemTitle}")`);
         }
-        
-        await page.waitForSelector('[role="region"][aria-busy="false"]')
 
+        await page.waitForSelector('[role="region"][aria-busy="false"]');
     }
-    
-    
-    
+
     /**
      * Get Feed Notifications
      * @param {Object} page - Methods to interact with a single tab or extension background page in Browser
      */
 
-     async getFeedNotifications({ page }: GetFeedNotifications) {
+    async getFeedNotifications({ page }: types.GetFeedNotifications) {
         const notificationsResponse = page.waitForResponse(
             (response) => response.url().match(new RegExp('notification'))! && response.status() === 200
         );
@@ -179,13 +160,13 @@ export class Workspace {
      * @param {number} repeatMax - Max number of tries to find the FeedCard
      * @param {number} waitTime - Time in miliseconds to wait after each try
      */
-     async waitForFeedCardId({
+    async waitForFeedCardId({
         page,
         repeatMax = 50,
         waitTime = 5000,
         recordId,
         notificationId = '',
-    }: WaitForFeedCardId) {
+    }: types.WaitForFeedCardId) {
         let feedCardId;
         for (let i = 0; i < repeatMax; i += 1) {
             if (i === repeatMax - 1) {
@@ -222,7 +203,7 @@ export class Workspace {
      * @param {string} feedCardId - Id of the FeedCard
      * @param {string} buttonName - Text on the Button
      */
-    async getFeedCardButton({ page, feedCardId, buttonName }: GetFeedCardButton) {
+    async getFeedCardButton({ page, feedCardId, buttonName }: types.GetFeedCardButton) {
         return page.$$(
             `xpath=//*[@id="feed-card-body-${feedCardId}"]/ancestor::div[@role="listitem"]//button//div[contains(text(), '${buttonName}')]`
         );
@@ -234,7 +215,7 @@ export class Workspace {
      * @param {Object} page - Methods to interact with a single tab or extension background page in Browser
      * @param {string} text - Text that should be in success message
      */
-    async waitForPopUp({ page, text }: WaitForPopUp) {
+    async waitForPopUp({ page, text }: types.WaitForPopUp) {
         await Promise.race([
             page.waitForSelector(`xpath=//div[contains(text(), "We're unable to process your request")]`),
             page.waitForSelector(`xpath=//div[contains(text(), '${text}')]`),
@@ -262,7 +243,7 @@ export class Workspace {
         sessionId,
         ctxsAuthId,
         authDomain,
-    }: GetOneTimeToken): Promise<string> {
+    }: types.GetOneTimeToken): Promise<string> {
         const response = await axios({
             url: `${workspaceUrl}/Citrix/StoreWeb/Sso/Proxy`,
             method: 'POST',
@@ -299,7 +280,7 @@ export class Workspace {
      * @param {string} authDomain - Auth Domain
      * @param {string} oneTimeToken - One time token
      */
-    async getTokens({ builderDomain, authDomain, oneTimeToken }: GetTokens): Promise<{
+    async getTokens({ builderDomain, authDomain, oneTimeToken }: types.GetTokens): Promise<{
         citrixToken: string;
         jSessionId: string;
     }> {
@@ -345,7 +326,7 @@ export class Workspace {
         workspaceIdentityProvider,
         builderDomain,
         authDomain,
-    }: GetDsauthTokens) {
+    }: types.GetDsauthTokens) {
         await this.login({
             page,
             workspaceUrl,
@@ -414,7 +395,7 @@ export class Workspace {
         return { citrixToken, jSessionId };
     }
 
-    async createDsAuthInstance({ citrixToken, jSessionId }: CreateDsAuthInstance) {
+    async createDsAuthInstance({ citrixToken, jSessionId }: types.CreateDsAuthInstance) {
         const dSauthInstance = axios.create({});
         dSauthInstance.defaults.headers.common['citrix-csrf-token'] = `${citrixToken}`;
         dSauthInstance.defaults.headers.common['cookie'] = `JSESSIONID=${jSessionId}`;
@@ -432,7 +413,7 @@ export class Workspace {
         initiatorData,
         pageId,
         authDomain,
-    }: GetUserData) {
+    }: types.GetUserData) {
         const response = await dSauthInstance({
             url: `${microappsAdminUrl}/app/api/app/${appId}/component/${componentId}/data`,
             method: 'GET',
@@ -461,5 +442,71 @@ export class Workspace {
             );
         }
         return token;
+    }
+
+    async iwsSearchBar({ page, text, tab = 'All' }: types.IwsSearchBar) {
+        await page.waitForSelector('//span[contains(text(),"Search Workspace")]');
+        await page.click('//span[contains(text(),"Search Workspace")]');
+        await page.waitForSelector('#downshift-0-input');
+        await page.type('#downshift-0-input', `"${text}"`);
+        await page.waitForSelector('//*[@id="downshift-0-menu"]/parent::div');
+        await page.click('//*[@id="downshift-0-menu"]/parent::div', { position: { x: 0, y: 0 } }); // selector speficied by position due to different version on stage and prod envs
+        await page.waitForSelector(`//*[@role="tablist"]//span[contains(text(),"${tab}")]`);
+        await page.click(`//*[@role="tablist"]//span[contains(text(),"${tab}")]`);
+        switch (tab) {
+            case 'All':
+                await Promise.race([
+                    page.waitForSelector(`//div[@role="listitem"]`),
+                    page.waitForSelector(`//div[contains(text(), 'No files found')]`),
+                    page.waitForSelector(`//td[@data-label='Title']`),
+                ]);
+                break;
+            case 'Feed':
+                await Promise.race([
+                    page.waitForSelector(`//div[@role="listitem"]`),
+                    page.waitForSelector(`#search-results-title`),
+                ]);
+                break;
+            case 'OneDrive':
+                await Promise.race([
+                    page.waitForSelector(`//div[contains(text(), 'No files found')]`),
+                    page.waitForSelector(`//td[@data-label='Title']`),
+                ]);
+                break;
+            case 'Google drive':
+                await Promise.race([
+                    page.waitForSelector(`//div[contains(text(), 'No files found')]`),
+                    page.waitForSelector(`//td[@data-label='Title']`),
+                ]);
+                break;
+        }
+    }
+
+    async waitForFeedElement({ page, elementPromise, repeatMax = 10, waitTime = 7000 }: types.WaitForFeedElement) {
+        for (let i = 0; i < repeatMax; i++) {
+            if (i === repeatMax - 1) {
+                throw 'Have not found element even after reload of the page.';
+            }
+            const element = await elementPromise();
+            await page.waitForTimeout(waitTime);
+            if (element) {
+                break;
+            }
+            console.log('reloading page');
+            await page.reload();
+            await page.waitForTimeout(waitTime);
+        }
+    }
+
+    async waitForSharedFile({ page, fullFileName }: types.WaitForSharedFile) {
+        const testFileXPath = `//span[contains(text(),"${fullFileName}")]`;
+        const noFilesFoundXpath = '//div[contains(text(), "No files found")]';
+        await Promise.race([page.waitForSelector(testFileXPath), page.waitForSelector(noFilesFoundXpath)]);
+        await this.waitForFeedElement({
+            page,
+            elementPromise: () => page.$(testFileXPath),
+            repeatMax: 5,
+            waitTime: 15000,
+        });
     }
 }

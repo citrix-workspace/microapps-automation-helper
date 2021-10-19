@@ -88,8 +88,24 @@ export type GetUserData = {
     authDomain: string;
 };
 
-
 export type SetFilterOnFeed = {
     page: Page;
-    option?: 'CREATED_AT' | 'RELEVANCE_DESKTOP';   
+    option?: 'CREATED_AT' | 'RELEVANCE_DESKTOP';
+};
+export type IwsSearchBar = {
+    page: Page;
+    text: string;
+    tab?: 'All' | 'Feed' | 'OneDrive' | 'Google drive';
+};
+
+export type WaitForFeedElement = {
+    page: Page;
+    elementPromise: any;
+    repeatMax?: number;
+    waitTime?: number;
+};
+
+export type WaitForSharedFile = {
+    page: Page;
+    fullFileName: string;
 };

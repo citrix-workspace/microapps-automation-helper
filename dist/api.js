@@ -172,7 +172,7 @@ class API {
      * @param {string} serviceKey - ServiceKey of Integration
      * @param {string} configuration - Configuration parameters of Integration
      */
-    async validateConfiguration({ authInstance, microappsAdminUrl, serviceKey, configuration }) {
+    async validateConfiguration({ authInstance, microappsAdminUrl, serviceKey, configuration, }) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/external-services/${serviceKey}/validate-configuration`,
@@ -623,7 +623,7 @@ class API {
      * @param {string} params -  Mandatadory params are vendor, appId (which apps will be  exported) and optional param description.
      * Example: vendor=Citrix&appId=myAppId1&appId=myAppId2&description=
      */
-    async exportIntegration({ authInstance, microappsAdminUrl, integrationId, filePath, params }) {
+    async exportIntegration({ authInstance, microappsAdminUrl, integrationId, filePath, params, }) {
         let response;
         try {
             response = await authInstance({
@@ -648,7 +648,7 @@ class API {
      * @param {string} integrationName - Name of Integration
      * @param {string} integrationType - Type of Integration
      */
-    async getIntegrationLog({ authInstance, microappsAdminUrl, integrationId, integrationType }) {
+    async getIntegrationLog({ authInstance, microappsAdminUrl, integrationId, integrationType, }) {
         try {
             return await authInstance({
                 url: `${microappsAdminUrl}/api/event-log?entityRef=${integrationId}&type=${integrationType}&subType=JOB&offset=0&limit=20`,

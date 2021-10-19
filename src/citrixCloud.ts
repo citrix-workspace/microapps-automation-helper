@@ -2,7 +2,7 @@ import axios, { AxiosInstance } from 'axios';
 import { authenticator } from 'otplib';
 import { API } from './api';
 import { paramsCheck } from './helpers';
-import type { GetAuthenticatorCode, GetCCBearerToken, CreateAuthInstance } from './types/citrixCloud';
+import * as types from './types/citrixCloud';
 authenticator.options = { digits: 6 };
 
 /** Class representing a Citrix Cloud. */
@@ -16,7 +16,7 @@ export class CitrixCloud extends API {
      *
      * @param {string} secretKey - SecretKey for generating the code
      */
-    async getAuthenticatorCode({ secretKey }: GetAuthenticatorCode) {
+    async getAuthenticatorCode({ secretKey }: types.GetAuthenticatorCode) {
         return authenticator.generate(secretKey);
     }
 
@@ -33,7 +33,7 @@ export class CitrixCloud extends API {
         citrixCloudCustomerId,
         citrixCloudClientId,
         citrixCloudClientSecret,
-    }: GetCCBearerToken): Promise<string> {
+    }: types.GetCCBearerToken): Promise<string> {
         const response = await this.getCitrixCloudTokens({
             cwaAPI,
             citrixCloudCustomerId,
@@ -61,7 +61,7 @@ export class CitrixCloud extends API {
      * @param {string} bearerToken - Access token
      */
 
-    async createAuthInstance({ bearerToken }: CreateAuthInstance) {
+    async createAuthInstance({ bearerToken }: types.CreateAuthInstance) {
         const authInstance = axios.create({});
         authInstance.defaults.headers.common['Authorization'] = `CWSAuth bearer=${bearerToken}`;
         authInstance.defaults.timeout = 90000;
