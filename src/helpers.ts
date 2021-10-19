@@ -1,6 +1,6 @@
-import type { GetCookie, ErrorHandle, ParamsCheck } from './types/helpers';
+import * as types from './types/helpers';
 
-export const getCookie = ({ cookies, cookieName }: GetCookie): string => {
+export const getCookie = ({ cookies, cookieName }: types.GetCookie): string => {
     const regexp = new RegExp(`^${cookieName}=([^;]+);`);
     const cookie = cookies.find(
         (cookieString: { match: (arg0: RegExp) => null }) => cookieString.match(regexp) !== null
@@ -13,7 +13,7 @@ export const getCookie = ({ cookies, cookieName }: GetCookie): string => {
     return cookie.match(regexp)[1];
 };
 
-export const errorHandle = async ({ error, args }: ErrorHandle) => {
+export const errorHandle = async ({ error, args }: types.ErrorHandle) => {
     let errorReport: any = {
         ErrorReport: {
             invalidValues: [],
@@ -123,7 +123,7 @@ export const errorHandle = async ({ error, args }: ErrorHandle) => {
     throw new Error('Request failed. Please review the Error Report above.');
 };
 
-export const paramsCheck = async ({ params, functionType, source }: ParamsCheck) => {
+export const paramsCheck = async ({ params, functionType, source }: types.ParamsCheck) => {
     let invalidValues: any = { InvalidValues: [] };
     let invalidKey;
     for (const [key, value] of Object.entries(params)) {

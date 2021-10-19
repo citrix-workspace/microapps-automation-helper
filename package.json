@@ -11,7 +11,7 @@
     "typescript": "^4.0.5"
   },
   "devDependencies": {
-    "playwright": "^1.8.1"
+    "playwright": "^1.15.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

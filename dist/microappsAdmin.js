@@ -57,7 +57,7 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} microappsAdminUrl - Microapps admin url
      * @param {string} integrationName - Name of integration
      */
-    async getIntegrationId({ authInstance, microappsAdminUrl, integrationName }) {
+    async getIntegrationId({ authInstance, microappsAdminUrl, integrationName, }) {
         let integrationId;
         let integration;
         const integrations = await this.getIntegrations({ authInstance, microappsAdminUrl });
@@ -527,7 +527,7 @@ class MicroappsAdmin extends api_1.API {
      * @param {string} integrationId - Name of integration
      * @param {string} appName - Name Application
      */
-    async getMicroAppId({ authInstance, microappsAdminUrl, integrationId, appName }) {
+    async getMicroAppId({ authInstance, microappsAdminUrl, integrationId, appName, }) {
         let apps;
         try {
             apps = await this.getApps({ authInstance, microappsAdminUrl });
@@ -739,7 +739,7 @@ class MicroappsAdmin extends api_1.API {
             appId,
         });
     }
-    async addSubscribers({ authInstance, integrationName, microapps, microappsAdminUrl, config }) {
+    async addSubscribers({ authInstance, integrationName, microapps, microappsAdminUrl, config, }) {
         const integrationId = await this.getIntegrationId({
             authInstance,
             microappsAdminUrl,
